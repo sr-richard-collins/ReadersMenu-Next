@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import { SOCIAL_FB, SOCIAL_INSTA, SOCIAL_TWITTER } from '../config/constant';
+import { faFacebookF, faTwitter, faInstagram, faLinkedin, faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
   const { setting } = useSelector((state) => state.setting);
@@ -95,17 +96,17 @@ const Footer = () => {
                     <ul className='list-wrap d-flex' style={{ gap: '20px' }}>
                       <li>
                         <Link to={setting.social_fb ? setting.social_fb : SOCIAL_FB}>
-                          <FontAwesomeIcon icon='fa-brands fa-facebook-f' fontSize={'30px'} />
+                          <FontAwesomeIcon icon={faFacebookF} fontSize={'30px'} />
                         </Link>
                       </li>
                       <li>
                         <Link to={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER}>
-                          <FontAwesomeIcon icon='fa-brands fa-x-twitter' fontSize={'30px'} />
+                          <FontAwesomeIcon icon={faTwitter} fontSize={'30px'} />
                         </Link>
                       </li>
                       <li>
                         <Link to={setting.social_insta ? setting.social_insta : SOCIAL_INSTA}>
-                          <FontAwesomeIcon icon='fa-brands fa-instagram' fontSize={'30px'} />
+                          <FontAwesomeIcon icon={faInstagram} fontSize={'30px'} />
                         </Link>
                       </li>
                     </ul>

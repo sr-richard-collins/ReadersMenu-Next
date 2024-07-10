@@ -3,7 +3,9 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSelectCategory } from '../actions/categoryAction';
 import { fetchCategories } from '../actions/categoryAction';
-
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IMAGE_BASE_URL } from '../config';
 import { SOCIAL_FB, SOCIAL_TWITTER, SOCIAL_INSTA, SOCIAL_LINKEDIN, DEFAULT_LOGO } from '../config/constant';
@@ -161,14 +163,14 @@ const Header = () => {
                   </nav>
                   <div className='mobile-nav-toggler'>
                     <Link to='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link'>
-                      <FontAwesomeIcon icon='fas fa-bars' />
+                    <FontAwesomeIcon icon={faBars} />
                     </Link>
                     {showToggleMenu && (
                       <div className='mobile-menu' onMouseLeave={handleMenuToggleCloseClick}>
                         <nav className='menu-box'>
                           <div className='close-btn'>
                             <Link to='#' onClick={handleMenuToggleCloseClick} className='nav-bar-link'>
-                              <FontAwesomeIcon icon='fas fa-times' />
+                            <FontAwesomeIcon icon={faTimes} />
                             </Link>
                           </div>
                           <div className='nav-logo'>
@@ -197,7 +199,7 @@ const Header = () => {
                               ))}
                               <li className='active menu-item-has-children nav-bar-link'>
                                 <Link onClick={handleShowToggleSubMenu} className='nav-bar-link'>
-                                  View More <FontAwesomeIcon icon='fa-solid fa-chevron-down' />
+                                  View More <FontAwesomeIcon icon={faChevronDown} />
                                 </Link>
                                 <ul className='sub-menu' style={{ display: 'block' }}>
                                   {showToggleSubMenu &&

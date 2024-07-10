@@ -6,7 +6,9 @@ import { fetchSelectCategory } from '../actions/categoryAction';
 import { fetchCategories } from '../actions/categoryAction';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faTwitter, faInstagram, faLinkedin, faYoutube } from '@fortawesome/free-brands-svg-icons';
-
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { IMAGE_BASE_URL } from '../config';
 import googleplayimg from '../assets/img/icon/googleplay.png';
 import { AuthContext } from '../provider/AuthContext';
@@ -106,7 +108,6 @@ const Header = () => {
                 <li className='social-icons'>
                   <span>
                     <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
-                      {/* <FontAwesomeIcon icon='fa-brands fa-facebook-f' /> */}
                       <FontAwesomeIcon icon={faFacebookF} />
                     </Link>
                   </span>
@@ -114,7 +115,6 @@ const Header = () => {
                 <li className='social-icons'>
                   <span>
                     <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
-                      {/* <FontAwesomeIcon icon='fa-brands fa-twitter' /> */}
                       <FontAwesomeIcon icon={faTwitter} />
                     </Link>
                   </span>
@@ -122,7 +122,6 @@ const Header = () => {
                 <li className='social-icons'>
                   <span>
                     <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
-                      {/* <FontAwesomeIcon icon='fa-brands fa-instagram' /> */}
                       <FontAwesomeIcon icon={faInstagram} />
                     </Link>
                   </span>
@@ -130,7 +129,6 @@ const Header = () => {
                 <li className='social-icons'>
                   <span>
                     <Link href={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
-                      {/* <FontAwesomeIcon icon='fa-brands fa-linkedin' /> */}
                       <FontAwesomeIcon icon={faLinkedin} />
                     </Link>
                   </span>
@@ -138,7 +136,6 @@ const Header = () => {
                 <li className='social-icons'>
                   <span>
                     <Link href={setting.social_youtube ? setting.social_youtube : SOCIAL_YOUTUBE} target='blank'>
-                      {/* <FontAwesomeIcon icon='fa-brands fa-youtube' /> */}
                       <FontAwesomeIcon icon={faYoutube} />
                     </Link>
                   </span>
@@ -182,7 +179,7 @@ const Header = () => {
                 </>
               )}
               <Link href='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link mx-1' id='mobileMenuToggleBtn'>
-                <FontAwesomeIcon icon='fas fa-bars' />
+                <FontAwesomeIcon icon={faBars} />
               </Link>
             </div>
             {showToggleMenu && (
@@ -192,7 +189,7 @@ const Header = () => {
                     <ul className='navigation'>
                       <li>
                         <div className='close-btn' onClick={handleMenuToggleCloseClick}>
-                          <FontAwesomeIcon icon='fas fa-times' />
+                          <FontAwesomeIcon icon={faTimes} />
                         </div>
                         <Link href='/'>
                           <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' style={{ width: '70%' }} />
@@ -217,7 +214,7 @@ const Header = () => {
                             </Link>
                           ) : (
                             <>
-                              <a
+                              <Link
                                 onClick={() => {
                                   setActiveCategory((prevActiveCategory) => ({
                                     category: category.name,
@@ -229,10 +226,10 @@ const Header = () => {
                                 <div className='d-flex mx-3'>
                                   <div className='col-95'>{category.name}</div>
                                   <div className='col-05'>
-                                    <FontAwesomeIcon icon='fa-solid fa-chevron-down' />
+                                    <FontAwesomeIcon icon={faChevronDown} />
                                   </div>
                                 </div>
-                              </a>
+                              </Link>
                               {activeCategory.category === category.name && (
                                 <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
                                   {category.child.map((subCategory) => (
@@ -255,12 +252,14 @@ const Header = () => {
                       ))}
                       <li>
                         <a onClick={handleShowToggleSubMenu} className='nav-bar-link'>
-                          <div className='mx-3  d-flex'>
-                            <div className='col-95'>View More</div>
-                            <div className='col-05'>
-                              <FontAwesomeIcon icon='fa-solid fa-chevron-down' />
+                          <a onClick={handleShowToggleSubMenu} className='nav-bar-link'>
+                            <div className='mx-3  d-flex'>
+                              <div className='col-95'>View More</div>
+                              <div className='col-05'>
+                                <FontAwesomeIcon icon={faChevronDown} />
+                              </div>
                             </div>
-                          </div>
+                          </a>
                         </a>
                         <ul className='sub-menu' style={{ display: 'block' }}>
                           {showToggleSubMenu &&
@@ -277,7 +276,7 @@ const Header = () => {
                                   </Link>
                                 ) : (
                                   <>
-                                    <a
+                                    <Link
                                       onClick={() => {
                                         setActiveCategory((prevActiveCategory) => ({
                                           category: category.name,
@@ -290,11 +289,14 @@ const Header = () => {
                                         <div className='col-95' style={{ fontSize: '12px' }}>
                                           {category.name}
                                         </div>
+                                        <div className='col-95' style={{ fontSize: '12px' }}>
+                                          {category.name}
+                                        </div>
                                         <div className='col-05'>
-                                          <FontAwesomeIcon icon='fa-solid fa-chevron-down' />
+                                          <FontAwesomeIcon icon={faChevronDown} />
                                         </div>
                                       </div>
-                                    </a>
+                                    </Link>
                                     {activeCategory.category === category.name && (
                                       <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
                                         {category.child.map((subCategory) => (
@@ -325,35 +327,35 @@ const Header = () => {
                         <li className='social-icons col'>
                           <span>
                             <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
-                              <FontAwesomeIcon icon='fa-brands fa-facebook-f' />
+                              <FontAwesomeIcon icon={faFacebookF} />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
                             <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
-                              <FontAwesomeIcon icon='fa-brands fa-twitter' />
+                              <FontAwesomeIcon icon={faTwitter} />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
                             <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
-                              <FontAwesomeIcon icon='fa-brands fa-instagram' />
+                              <FontAwesomeIcon icon={faInstagram} />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
                             <Link href={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
-                              <FontAwesomeIcon icon='fa-brands fa-linkedin' />
+                              <FontAwesomeIcon icon={faLinkedin} />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
                             <Link href={setting.social_youtube ? setting.social_youtube : SOCIAL_YOUTUBE} target='blank'>
-                              <FontAwesomeIcon icon='fa-brands fa-youtube' />
+                              <FontAwesomeIcon icon={faYoutube} />
                             </Link>
                           </span>
                         </li>

@@ -7,6 +7,7 @@ import { IMAGE_BASE_URL, DEFAULT_POST } from '../../config';
 import { fetchSelectCategory } from '../../actions/categoryAction';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faPhone, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import 'bootstrap'; // Import Bootstrap JavaScript
 import Link from 'next/link';
@@ -174,7 +175,7 @@ const SpotLightSection = () => {
                           onClick={() => handleBlogArticleHeartClick(item.id)}
                           className={clickedBlogArticleIconId.includes(item.id) ? 'blog-article-icon-heart-clicked' : ''}
                         >
-                          <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(item.id) ? faHeart : ['far', 'heart']} className='blog-article-icon-heart' />
+                          <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(item.id) ? faHeart : farHeart} className='blog-article-icon-heart' />
                         </Link>
                       </div>
                     </li>

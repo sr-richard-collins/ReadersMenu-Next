@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faPhone, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { IMAGE_BASE_URL, DEFAULT_POST } from '../config/index';
 import { fetchSelectCategory } from '../actions/categoryAction';
@@ -186,7 +187,7 @@ const HomeBlog = ({ title }) => {
                                   className={clickedBlogArticleIconId.includes(post.id) ? 'blog-article-icon-heart-clicked' : ''}
                                 >
                                   <FontAwesomeIcon
-                                    icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : ['far', 'heart']}
+                                    icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart}
                                     className='blog-article-icon-heart'
                                   />
                                 </Link>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchSelectCategory } from '../actions/categoryAction';
 import { fetchCategories } from '../actions/categoryAction';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes, faBars } from '@fortawesome/free-solid-svg-icons';
 import { IMAGE_BASE_URL } from '../config';
 import { SOCIAL_FB, SOCIAL_TWITTER, SOCIAL_INSTA, SOCIAL_LINKEDIN, SOCIAL_YOUTUBE, DEFAULT_LOGO } from '../config/constant';
 import googleplayimg from '../assets/img/icon/googleplay.png';
@@ -80,7 +81,7 @@ const HeaderLogin = () => {
             </div>
             <div className='mobile-nav-toggler'>
               <Link to='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link'>
-                <FontAwesomeIcon icon='fas fa-bars' />
+                <FontAwesomeIcon icon={faBars} />
               </Link>
             </div>
             {showToggleMenu && (
@@ -90,7 +91,7 @@ const HeaderLogin = () => {
                     <ul className='navigation'>
                       <li>
                         <div className='close-btn' onClick={handleMenuToggleCloseClick}>
-                          <FontAwesomeIcon icon='fas fa-times' />
+                          <FontAwesomeIcon icon={faTimes} />
                         </div>
                         <Link to='/'>
                           <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' />

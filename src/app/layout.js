@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import { AuthProvider } from '../provider/AuthContext';
 import Menu from '@/layouts/Menu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { Outlet } from 'react-router-dom';
 import Header from '@/layouts/Header';
 
@@ -51,7 +52,7 @@ const RootLayout = ({ children }) => {
         <AuthProvider>
           <ReduxProvider>
             <button className='scroll-top scroll-to-target' onClick={() => handleTopScreen()}>
-              <FontAwesomeIcon icon='fa-solid fa-angle-up' />
+              <FontAwesomeIcon icon={faAngleUp} />
             </button>
             <Header />
             <section className='pt-70 pb-60 '>
