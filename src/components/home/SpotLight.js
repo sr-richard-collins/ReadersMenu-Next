@@ -101,7 +101,7 @@ const SpotLightSection = () => {
               <div className='section-title-line-three'></div>
             </div>
             <div className='view-all-btn mb-4'>
-              <Link href={`/${spotlight[0].category_type}/${spotlight[0].category_data_query}`} className='link-btn'>
+              <Link to={`/${spotlight[0].category_type}/${spotlight[0].category_data_query}`} className='link-btn'>
                 View All
                 <span className='svg-icon'>
                   <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>
@@ -116,11 +116,11 @@ const SpotLightSection = () => {
             <div className='row' key={index}>
               <div className='spotlight-post big-post'>
                 <div className='spotlight-post-thumb'>
-                  <Link href={`/${item.category_type === 'news' ? 'news_detail' : 'article_detail'}/${item.seo_slug}`}>
+                  <Link to={`/${item.category_type === 'news' ? 'news_detail' : 'article_detail'}/${item.seo_slug}`}>
                     <img src={item.img ? IMAGE_BASE_URL + item.img : IMAGE_BASE_URL + DEFAULT_POST} alt={item.title} />
                   </Link>
                   <Link
-                    href={`/${item.category_type}/${item.category_data_query}`}
+                    to={`/${item.category_type}/${item.category_data_query}`}
                     className='post-tag'
                     onClick={() => handleViewClick(item.category_name)}
                     style={{ fontWeight: 'bold', marginTop: '20px' }}
@@ -131,7 +131,7 @@ const SpotLightSection = () => {
               </div>
               <div className='weekly-post-content mb-4' style={{ borderBottom: '1px solid #e4e4e4' }}>
                 <h2 className='post-title'>
-                  <Link href={`/${item.category_type === 'news' ? 'news_detail' : 'article_detail'}/${item.seo_slug}`}>{item.title}</Link>
+                  <Link to={`/${item.category_type === 'news' ? 'news_detail' : 'article_detail'}/${item.seo_slug}`}>{item.title}</Link>
                 </h2>
                 <p>{item.sub_title.length > 250 ? `${item.sub_title.slice(0, 250)}...` : item.sub_title}</p>
                 <div className='blog-post-meta'>
@@ -159,7 +159,7 @@ const SpotLightSection = () => {
                     </li>
                     <li className='col-6'>
                       <div className='view-all-btn col-80'>
-                        <Link href={`/${item.category_type === 'news' ? 'news_detail' : 'article_detail'}/${item.seo_slug}`} className='homeblog-link-btn'>
+                        <Link to={`/${item.category_type === 'news' ? 'news_detail' : 'article_detail'}/${item.seo_slug}`} className='homeblog-link-btn'>
                           Read More
                           <span className='svg-icon'>
                             <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>
@@ -171,7 +171,7 @@ const SpotLightSection = () => {
                       </div>
                       <div className='col-20'>
                         <Link
-                          href={'/'}
+                          to={'/'}
                           onClick={() => handleBlogArticleHeartClick(item.id)}
                           className={clickedBlogArticleIconId.includes(item.id) ? 'blog-article-icon-heart-clicked' : ''}
                         >
@@ -185,7 +185,7 @@ const SpotLightSection = () => {
             </div>
           ))}
           <div className='view-all-btn my-2 d-flex justify-content-center'>
-            <Link href={`/${spotlight[0].category_type}/${spotlight[0].category_data_query}`} className='link-btn'>
+            <Link to={`/${spotlight[0].category_type}/${spotlight[0].category_data_query}`} className='link-btn'>
               View All
               <span className='svg-icon'>
                 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>

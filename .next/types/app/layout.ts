@@ -1,4 +1,4 @@
-// File: E:\Freelancer\Inertia_React_Magazine\IMAG\Next-User panel\readersmenu\src\app\layout.js
+// File: D:\working\Freelancer\20240609_TodayTalks\ReadersMenu-Next\src\app\layout.js
 import * as entry from '../../../src/app/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
