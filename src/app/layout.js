@@ -2,16 +2,16 @@ import ReduxProvider from '../redux/ReduxProvider';
 import { Inter } from 'next/font/google';
 import { AuthProvider } from '../provider/AuthContext';
 import Menu from '@/layouts/Menu';
-import '../assets/css/mystyle.css';
-import '../assets/css/animate.min.css';
-import '../assets/css/bootstrap.min.css';
-import '../assets/css/default.css';
-import '../assets/css/fontawesome-all.min.css';
-import '../assets/css/magnific-popup.css';
-import '../assets/css/responsive.css';
-import '../assets/css/slick.css';
-import '../assets/css/style.css';
-import '../assets/css/swiper-bundle.css';
+// import '../assets/css/mystyle.css';
+// import '../assets/css/animate.min.css';
+// import '../assets/css/bootstrap.min.css';
+// import '../assets/css/default.css';
+// import '../assets/css/fontawesome-all.min.css';
+// import '../assets/css/magnific-popup.css';
+// import '../assets/css/responsive.css';
+// import '../assets/css/slick.css';
+// import '../assets/css/style.css';
+// import '../assets/css/swiper-bundle.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -27,7 +27,9 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <ReduxProvider>
             <Menu />
+            <main className='fix' style={{ marginLeft: '285px' }}>
             {children}
+            </main>
           </ReduxProvider>
         </AuthProvider>
       </body>
