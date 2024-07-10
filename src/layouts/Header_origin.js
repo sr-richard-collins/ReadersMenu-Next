@@ -82,22 +82,22 @@ const Header = () => {
                 <h5 className='title'>Follow Us:</h5>
                 <ul className='list-wrap'>
                   <li>
-                    <Link to={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
+                    <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
                       <FontAwesomeIcon icon='fa-brands fa-facebook-f' />
                     </Link>
                   </li>
                   <li>
-                    <Link to={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
+                    <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
                       <FontAwesomeIcon icon='fa-brands fa-x-twitter' />
                     </Link>
                   </li>
                   <li>
-                    <Link to={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
+                    <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
                       <FontAwesomeIcon icon='fa-brands fa-instagram' />
                     </Link>
                   </li>
                   <li>
-                    <Link to={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
+                    <Link href={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
                       <FontAwesomeIcon icon='fa-brands fa-linkedin' />
                     </Link>
                   </li>
@@ -111,7 +111,7 @@ const Header = () => {
         <div className='container'>
           <div className='row'>
             <div className='col-lg-2 col-md-3 col-3'>
-              <Link to='/'>
+              <Link href='/'>
                 <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='logo-style' />
               </Link>
             </div>
@@ -122,14 +122,14 @@ const Header = () => {
                     <div className='navbar-wrap main-menu d-none d-lg-flex'>
                       <ul className='navigation'>
                         <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
-                          <Link to='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
+                          <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
                             Home
                           </Link>
                         </li>
                         {categories.length > 8 &&
                           categories.slice(0, 7).map((category) => (
                             <li key={category.id} className={(selectCategory ? selectCategory : activeLink) === category.name ? 'active' : ''}>
-                              <Link to={`/${category.type2}/${category.data_query}`} onClick={() => handleLinkClick(category.name)} className='nav-bar-link'>
+                              <Link href={`/${category.type2}/${category.data_query}`} onClick={() => handleLinkClick(category.name)} className='nav-bar-link'>
                                 {category.name}
                               </Link>
                             </li>
@@ -162,26 +162,26 @@ const Header = () => {
                     </div>
                   </nav>
                   <div className='mobile-nav-toggler'>
-                    <Link to='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link'>
+                    <Link href='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link'>
                     <FontAwesomeIcon icon={faBars} />
                     </Link>
                     {showToggleMenu && (
                       <div className='mobile-menu' onMouseLeave={handleMenuToggleCloseClick}>
                         <nav className='menu-box'>
                           <div className='close-btn'>
-                            <Link to='#' onClick={handleMenuToggleCloseClick} className='nav-bar-link'>
+                            <Link href='#' onClick={handleMenuToggleCloseClick} className='nav-bar-link'>
                             <FontAwesomeIcon icon={faTimes} />
                             </Link>
                           </div>
                           <div className='nav-logo'>
-                            <Link to='/'>
+                            <Link href='/'>
                               <img src={IMAGE_BASE_URL + setting.site_logo} alt='logo' />
                             </Link>
                           </div>
                           <div className='menu-outer'>
                             <ul className='navigation'>
                               <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
-                                <Link to='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
+                                <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
                                   Home
                                 </Link>
                               </li>
@@ -223,22 +223,22 @@ const Header = () => {
                           <div className='social-links'>
                             <ul className='clearfix list-wrap'>
                               <li>
-                                <Link to={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
+                                <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
                                   <FontAwesomeIcon icon='fa-brands fa-facebook-f' />
                                 </Link>
                               </li>
                               <li>
-                                <Link to={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
+                                <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
                                   <FontAwesomeIcon icon='fa-brands fa-x-twitter' />
                                 </Link>
                               </li>
                               <li>
-                                <Link to={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
+                                <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
                                   <FontAwesomeIcon icon='fa-brands fa-instagram' />
                                 </Link>
                               </li>
                               <li>
-                                <Link to={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
+                                <Link href={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
                                   <FontAwesomeIcon icon='fa-brands fa-linkedin' />
                                 </Link>
                               </li>

@@ -108,7 +108,7 @@ const HomeBlog = ({ title }) => {
                 </div>
                 <div className='view-all-btn mb-4'>
                   <Link
-                    to={`/${posts[0].category_type === 'news' ? 'news' : 'article'}/${posts[0].category.data_query}`}
+                    href={`/${posts[0].category_type === 'news' ? 'news' : 'article'}/${posts[0].category.data_query}`}
                     className='link-btn'
                     onClick={() => handleViewClick('spotlight')}
                   >
@@ -131,13 +131,13 @@ const HomeBlog = ({ title }) => {
                   <div className='col-lg-12 mb-4' key={post.id}>
                     <div className='editor-post-item'>
                       <div className='editor-post-thumb'>
-                        <Link to={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>
+                        <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>
                           <img src={post.img ? IMAGE_BASE_URL + post.img : IMAGE_BASE_URL + DEFAULT_POST} alt={post.title} />
                         </Link>
                       </div>
                       <div className='editor-post-content' style={{ borderBottom: '1px solid #e4e4e4' }}>
                         <h2 className='post-title mt-3'>
-                          <Link to={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>{post.title}</Link>
+                          <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>{post.title}</Link>
                         </h2>
                         <p>{post.sub_title.length > 250 ? `${post.sub_title.slice(0, 250)}...` : post.sub_title}</p>
                         <div className='blog-post-meta '>
@@ -167,7 +167,7 @@ const HomeBlog = ({ title }) => {
                               <div className='col-80'>
                                 <div className='view-all-btn'>
                                   <Link
-                                    to={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}
+                                    href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}
                                     className='homeblog-link-btn'
                                   >
                                     Read More
@@ -203,7 +203,7 @@ const HomeBlog = ({ title }) => {
             </div>
           ))}
           <div className='view-all-btn my-2 d-flex justify-content-center'>
-            <Link to={`/${posts[0].category_type === 'news' ? 'news' : 'article'}/${posts[0].category.data_query}`} className='link-btn'>
+            <Link href={`/${posts[0].category_type === 'news' ? 'news' : 'article'}/${posts[0].category.data_query}`} className='link-btn'>
               View All
               <span className='svg-icon'>
                 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>

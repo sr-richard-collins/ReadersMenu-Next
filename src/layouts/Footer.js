@@ -95,17 +95,17 @@ const Footer = () => {
                   <div className='footer-link-wrap mt-20'>
                     <ul className='list-wrap d-flex' style={{ gap: '20px' }}>
                       <li>
-                        <Link to={setting.social_fb ? setting.social_fb : SOCIAL_FB}>
+                        <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB}>
                           <FontAwesomeIcon icon={faFacebookF} fontSize={'30px'} />
                         </Link>
                       </li>
                       <li>
-                        <Link to={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER}>
+                        <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER}>
                           <FontAwesomeIcon icon={faTwitter} fontSize={'30px'} />
                         </Link>
                       </li>
                       <li>
-                        <Link to={setting.social_insta ? setting.social_insta : SOCIAL_INSTA}>
+                        <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA}>
                           <FontAwesomeIcon icon={faInstagram} fontSize={'30px'} />
                         </Link>
                       </li>
@@ -122,22 +122,22 @@ const Footer = () => {
             <div className='footer-bottom-menu'>
               <ul className='list-wrap'>
                 <li>
-                  <Link to='/contact'>About Us |</Link>
+                  <Link href='/contact'>About Us |</Link>
                 </li>
                 <li>
-                  <Link to='/contact'>Contact Us |</Link>
+                  <Link href='/contact'>Contact Us |</Link>
                 </li>
                 <li>
-                  <Link to='/contact'>Cookie Policy |</Link>
+                  <Link href='/contact'>Cookie Policy |</Link>
                 </li>
                 <li>
-                  <Link to='/contact'>Code of Business |</Link>
+                  <Link href='/contact'>Code of Business |</Link>
                 </li>
                 <li>
-                  <Link to='/contact'>Conduct |</Link>
+                  <Link href='/contact'>Conduct |</Link>
                 </li>
                 <li>
-                  <Link to='/contact'>Grievance</Link>
+                  <Link href='/contact'>Grievance</Link>
                 </li>
               </ul>
               <div className='mt-20'>

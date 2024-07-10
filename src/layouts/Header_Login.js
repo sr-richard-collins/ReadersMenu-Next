@@ -58,7 +58,7 @@ const HeaderLogin = () => {
               <div className='swiper-container ta-trending-slider'>
                 <div className='swiper-wrapper'>
                   <div className='swiper-slide'>
-                    <Link to='/'>
+                    <Link href='/'>
                       <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='logo-style' />
                     </Link>
                   </div>
@@ -72,7 +72,7 @@ const HeaderLogin = () => {
               <ul className='list-wrap'>
                 <li>
                   <span>
-                    <Link to='/'>
+                    <Link href='/'>
                       <FontAwesomeIcon icon='fa-solid fa-house' className='img-icon-left-menu rounded-circle mx-2' />
                     </Link>
                   </span>
@@ -80,7 +80,7 @@ const HeaderLogin = () => {
               </ul>
             </div>
             <div className='mobile-nav-toggler'>
-              <Link to='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link'>
+              <Link href='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link'>
                 <FontAwesomeIcon icon={faBars} />
               </Link>
             </div>
@@ -93,12 +93,12 @@ const HeaderLogin = () => {
                         <div className='close-btn' onClick={handleMenuToggleCloseClick}>
                           <FontAwesomeIcon icon={faTimes} />
                         </div>
-                        <Link to='/'>
+                        <Link href='/'>
                           <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' />
                         </Link>
                       </li>
                       <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
-                        <Link to='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
+                        <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
                           Home
                         </Link>
                       </li>
@@ -165,7 +165,7 @@ const HeaderLogin = () => {
                     </ul>
                   </div>
                   <div className='row left-menu-store'>
-                    <Link to='https://play.google.com/store/' className='my-2'>
+                    <Link href='https://play.google.com/store/' className='my-2'>
                       {' '}
                       <img src={googleplayimg} />{' '}
                     </Link>
@@ -173,35 +173,35 @@ const HeaderLogin = () => {
                       <ul className='list-wrap row justify-content-center'>
                         <li className='social-icons col'>
                           <span>
-                            <Link to={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
+                            <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
                               <FontAwesomeIcon icon='fa-brands fa-facebook-f' />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
-                            <Link to={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
+                            <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
                               <FontAwesomeIcon icon='fa-brands fa-twitter' />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
-                            <Link to={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
+                            <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
                               <FontAwesomeIcon icon='fa-brands fa-instagram' />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
-                            <Link to={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
+                            <Link href={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
                               <FontAwesomeIcon icon='fa-brands fa-linkedin' />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
-                            <Link to={setting.social_youtube ? setting.social_youtube : SOCIAL_YOUTUBE} target='blank'>
+                            <Link href={setting.social_youtube ? setting.social_youtube : SOCIAL_YOUTUBE} target='blank'>
                               <FontAwesomeIcon icon='fa-brands fa-youtube' />
                             </Link>
                           </span>
@@ -212,8 +212,8 @@ const HeaderLogin = () => {
                   <div className='row'>
                     <span className='mt-2 left-menu-footer mb-10'>
                       {' '}
-                      <Link to={'/about'}>About Us &middot; </Link>
-                      <Link to={'/about'}>Privacy Policy</Link>
+                      <Link href={'/about'}>About Us &middot; </Link>
+                      <Link href={'/about'}>Privacy Policy</Link>
                     </span>
                   </div>
                 </nav>
