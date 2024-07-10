@@ -1,7 +1,5 @@
 'use client';
-'use client';
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import Link from 'next/link';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSelectCategory } from '../actions/categoryAction';
