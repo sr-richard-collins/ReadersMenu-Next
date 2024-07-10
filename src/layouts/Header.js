@@ -1,5 +1,7 @@
 'use client';
+'use client';
 import React, { useState, useEffect, useRef, useContext } from 'react';
+import Link from 'next/link';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSelectCategory } from '../actions/categoryAction';
@@ -94,6 +96,7 @@ const Header = () => {
                 <div className='myswiper-wrapper'>
                   <div className='swiper-slide'>
                     <Link href='/'>
+                    <Link href='/'>
                       <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='mylogo-style' />
                     </Link>
                   </div>
@@ -156,8 +159,10 @@ const Header = () => {
                 ) : (
                   <>
                     <Link href='/login' className='btn'>
+                    <Link href='/login' className='btn'>
                       Log In
                     </Link>
+                    <Link href='/register' className='btn'>
                     <Link href='/register' className='btn'>
                       Register
                     </Link>
@@ -176,8 +181,10 @@ const Header = () => {
               ) : (
                 <>
                   <Link href='/login' className='btn mx-1'>
+                  <Link href='/login' className='btn mx-1'>
                     Log In
                   </Link>
+                  <Link href='/register' className='btn mx-1'>
                   <Link href='/register' className='btn mx-1'>
                     Register
                   </Link>
@@ -197,10 +204,12 @@ const Header = () => {
                           <FontAwesomeIcon icon={faTimes} />
                         </div>
                         <Link href='/'>
+                        <Link href='/'>
                           <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' style={{ width: '70%' }} />
                         </Link>
                       </li>
                       <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
+                        <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link mx-3'>
                         <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link mx-3'>
                           Home
                         </Link>
@@ -215,10 +224,17 @@ const Header = () => {
                               className='nav-bar-link'
                               key={category.id}
                             >
+                            <Link
+                              href={`/news/${category.data_query}`}
+                              onClick={() => handleLinkClick(category.name)}
+                              className='nav-bar-link'
+                              key={category.id}
+                            >
                               {category.name}
                             </Link>
                           ) : (
                             <>
+                              <a
                               <a
                                 onClick={() => {
                                   setActiveCategory((prevActiveCategory) => ({
@@ -235,12 +251,14 @@ const Header = () => {
                                   </div>
                                 </div>
                               </a>
+                              </a>
                               {activeCategory.category === category.name && (
                                 <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
                                   {category.child.map((subCategory) => (
                                     <li key={subCategory.id} className={activeLink === subCategory.name ? 'active' : ''}>
                                       <Link
                                         key={subCategory.id}
+                                        href={`/news/${subCategory.data_query}`}
                                         href={`/news/${subCategory.data_query}`}
                                         onClick={() => handleLinkClick(subCategory.name)}
                                         className='nav-bar-link ml-5'
@@ -257,6 +275,7 @@ const Header = () => {
                       ))}
                       <li>
                         <a onClick={handleShowToggleSubMenu} className='nav-bar-link'>
+                        <a onClick={handleShowToggleSubMenu} className='nav-bar-link'>
                           <div className='mx-3  d-flex'>
                             <div className='col-95'>View More</div>
                             <div className='col-05'>
@@ -264,11 +283,19 @@ const Header = () => {
                             </div>
                           </div>
                         </a>
+                        </a>
                         <ul className='sub-menu' style={{ display: 'block' }}>
                           {showToggleSubMenu &&
                             moreCategories.map((category, index) => (
                               <li className={`${(selectCategory ? selectCategory : activeLink) === category.name ? 'active ' : ''} mx-3`} key={index}>
+                              <li className={`${(selectCategory ? selectCategory : activeLink) === category.name ? 'active ' : ''} mx-3`} key={index}>
                                 {!category.child ? (
+                                  <Link
+                                    href={`/news/${category.data_query}`}
+                                    onClick={() => handleLinkClick(category.name)}
+                                    className='nav-bar-link'
+                                    key={category.id}
+                                  >
                                   <Link
                                     href={`/news/${category.data_query}`}
                                     onClick={() => handleLinkClick(category.name)}
@@ -279,6 +306,7 @@ const Header = () => {
                                   </Link>
                                 ) : (
                                   <>
+                                    <a
                                     <a
                                       onClick={() => {
                                         setActiveCategory((prevActiveCategory) => ({
@@ -292,10 +320,14 @@ const Header = () => {
                                         <div className='col-95' style={{ fontSize: '12px' }}>
                                           {category.name}
                                         </div>
+                                        <div className='col-95' style={{ fontSize: '12px' }}>
+                                          {category.name}
+                                        </div>
                                         <div className='col-05'>
                                           <FontAwesomeIcon icon={faChevronDown} />
                                         </div>
                                       </div>
+                                    </a>
                                     </a>
                                     {activeCategory.category === category.name && (
                                       <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
@@ -303,6 +335,7 @@ const Header = () => {
                                           <li key={subCategory.id} className={activeLink === subCategory.name ? 'active' : ''}>
                                             <Link
                                               key={subCategory.id}
+                                              href={`/news/${subCategory.data_query}`}
                                               href={`/news/${subCategory.data_query}`}
                                               onClick={() => handleLinkClick(subCategory.name)}
                                               className='nav-bar-link ml-5'
