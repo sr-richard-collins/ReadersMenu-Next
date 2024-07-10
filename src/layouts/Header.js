@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchSelectCategory } from '../actions/categoryAction';
 import { fetchCategories } from '../actions/categoryAction';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebookF, faTwitter, faInstagram, faLinkedin, faYoutube } from '@fortawesome/free-brands-svg-icons';
+
 import { IMAGE_BASE_URL } from '../config';
 import googleplayimg from '../assets/img/icon/googleplay.png';
 import { AuthContext } from '../provider/AuthContext';
@@ -104,35 +106,40 @@ const Header = () => {
                 <li className='social-icons'>
                   <span>
                     <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
-                      <FontAwesomeIcon icon='fa-brands fa-facebook-f' />
+                      {/* <FontAwesomeIcon icon='fa-brands fa-facebook-f' /> */}
+                      <FontAwesomeIcon icon={faFacebookF} />
                     </Link>
                   </span>
                 </li>
                 <li className='social-icons'>
                   <span>
                     <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
-                      <FontAwesomeIcon icon='fa-brands fa-twitter' />
+                      {/* <FontAwesomeIcon icon='fa-brands fa-twitter' /> */}
+                      <FontAwesomeIcon icon={faTwitter} />
                     </Link>
                   </span>
                 </li>
                 <li className='social-icons'>
                   <span>
                     <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
-                      <FontAwesomeIcon icon='fa-brands fa-instagram' />
+                      {/* <FontAwesomeIcon icon='fa-brands fa-instagram' /> */}
+                      <FontAwesomeIcon icon={faInstagram} />
                     </Link>
                   </span>
                 </li>
                 <li className='social-icons'>
                   <span>
                     <Link href={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
-                      <FontAwesomeIcon icon='fa-brands fa-linkedin' />
+                      {/* <FontAwesomeIcon icon='fa-brands fa-linkedin' /> */}
+                      <FontAwesomeIcon icon={faLinkedin} />
                     </Link>
                   </span>
                 </li>
                 <li className='social-icons'>
                   <span>
                     <Link href={setting.social_youtube ? setting.social_youtube : SOCIAL_YOUTUBE} target='blank'>
-                      <FontAwesomeIcon icon='fa-brands fa-youtube' />
+                      {/* <FontAwesomeIcon icon='fa-brands fa-youtube' /> */}
+                      <FontAwesomeIcon icon={faYoutube} />
                     </Link>
                   </span>
                 </li>

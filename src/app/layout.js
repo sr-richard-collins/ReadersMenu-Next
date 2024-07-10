@@ -57,12 +57,10 @@ const RootLayout = ({ children }) => {
             <section className='pt-70 pb-60 '>
               <Menu />
               {isMobile ? (
-                <main className='fix'>
-                  <Outlet />
-                </main>
+                <main className='fix'>{children}</main>
               ) : (
                 <main className='fix' style={{ marginLeft: '285px' }}>
-                  <Outlet />
+                  {children}
                 </main>
               )}
             </section>
