@@ -7,7 +7,6 @@ import { AuthProvider } from '../provider/AuthContext';
 import Menu from '@/layouts/Menu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { Outlet } from 'react-router-dom';
 import Header from '@/layouts/Header';
 
 const inter = Inter({ subsets: ['latin'] });

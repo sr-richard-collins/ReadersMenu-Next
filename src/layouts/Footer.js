@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import { SOCIAL_FB, SOCIAL_INSTA, SOCIAL_TWITTER } from '../config/constant';
@@ -95,17 +95,17 @@ const Footer = () => {
                   <div className='footer-link-wrap mt-20'>
                     <ul className='list-wrap d-flex' style={{ gap: '20px' }}>
                       <li>
-                        <Link to={setting.social_fb ? setting.social_fb : SOCIAL_FB}>
+                        <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB}>
                           <FontAwesomeIcon icon={faFacebookF} fontSize={'30px'} />
                         </Link>
                       </li>
                       <li>
-                        <Link to={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER}>
+                        <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER}>
                           <FontAwesomeIcon icon={faTwitter} fontSize={'30px'} />
                         </Link>
                       </li>
                       <li>
-                        <Link to={setting.social_insta ? setting.social_insta : SOCIAL_INSTA}>
+                        <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA}>
                           <FontAwesomeIcon icon={faInstagram} fontSize={'30px'} />
                         </Link>
                       </li>
