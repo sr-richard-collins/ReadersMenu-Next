@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '@/provider/AuthContext';
 import { IMAGE_BASE_URL } from '@/config';
 import { DEFAULT_LOGO } from '@/config/constant';
@@ -48,7 +49,7 @@ const Login = () => {
             <div className='col-md-8 col-lg-6 col-xl-4 offset-xl-1'>
               <div className='justify-content-end d-flex mb-3'>
                 <Link href='/' className='nav-bar-link'>
-                  <FontAwesomeIcon icon='fa-solid fa-house' className='img-icon-left-menu rounded-circle mx-2' />
+                  <FontAwesomeIcon icon={faHome} className='img-icon-left-menu rounded-circle mx-2' />
                 </Link>
               </div>
               <div className='login-card'>

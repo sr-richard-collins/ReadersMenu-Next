@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faHome, faKey, faLock, faUser } from '@fortawesome/free-solid-svg-icons';
 import Loader from '@/components/Loader';
 import axios from 'axios';
 import { IMAGE_BASE_URL } from '@/config';
@@ -106,17 +107,17 @@ const Register = () => {
 
   return (
     <>
-      <section className='vh-100'>
+      <section c>
         {isLoading && <Loader />}
-        <div className='container pt-10 h-custom'>
-          <div className='row d-flex justify-content-center align-items-center h-100'>
+        <div className='container pt-10 '>
+          <div className='row d-flex justify-content-center align-items-center'>
             <div className='col-md-8 col-lg-6 col-xl-4'>
               <div className='justify-content-end d-flex mb-3'>
                 <Link href='/' className='nav-bar-link'>
-                  <FontAwesomeIcon icon='fa-solid fa-house' className='img-icon-left-menu' />
+                  <FontAwesomeIcon icon={faHome} className='img-icon-left-menu' />
                 </Link>
               </div>
-              <div className='login-card' style={{ height: '700px' }}>
+              <div className='login-card' style={{ height: '750px' }}>
                 {!isVerificationSent ? (
                   <form className='mx-1 mx-md-4' onSubmit={handleSubmit} encType='multipart/form-data'>
                     <div className='account-profile'>
@@ -131,21 +132,21 @@ const Register = () => {
                       </div>
                     </div>
                     <div className='d-flex flex-row align-items-center mb-2'>
-                      <FontAwesomeIcon icon='fa-solid fa-user' className='me-3 register-label-icon' />
+                      <FontAwesomeIcon icon={faUser} className='me-3 register-label-icon' />
                       <div className='flex-fill mb-0'>
                         <label className='form-label'>User Name</label>
                         <input type='text' id='form3Example1c' className='form-control' name='name' value={formData.name} onChange={handleChange} required />
                       </div>
                     </div>
                     <div className='d-flex flex-row align-items-center mb-2'>
-                      <FontAwesomeIcon icon='fa-solid fa-envelope' className='me-3 register-label-icon' />
+                      <FontAwesomeIcon icon={faEnvelope} className='me-3 register-label-icon' />
                       <div className='flex-fill mb-0'>
                         <label className='form-label'>Email</label>
                         <input type='email' id='form3Example3c' className='form-control' name='email' value={formData.email} onChange={handleChange} required />
                       </div>
                     </div>
                     <div className='d-flex flex-row align-items-center mb-2'>
-                      <FontAwesomeIcon icon='fa-solid fa-envelope' className='me-3 register-label-icon' />
+                      <FontAwesomeIcon icon={faEnvelope} className='me-3 register-label-icon' />
                       <div className='flex-fill mb-0'>
                         <label className='form-label'>Referral Code</label>
                         <input
@@ -159,7 +160,7 @@ const Register = () => {
                       </div>
                     </div>
                     <div className='d-flex flex-row align-items-center mb-2'>
-                      <FontAwesomeIcon icon='fa-solid fa-lock' className='me-3 register-label-icon' />
+                      <FontAwesomeIcon icon={faLock} className='me-3 register-label-icon' />
                       <div className='flex-fill mb-0'>
                         <label className='form-label'>Password</label>
                         <input
@@ -174,7 +175,7 @@ const Register = () => {
                       </div>
                     </div>
                     <div className='d-flex flex-row align-items-center mb-2'>
-                      <FontAwesomeIcon icon='fa-solid fa-key' className='me-3 register-label-icon' />
+                      <FontAwesomeIcon icon={faKey} className='me-3 register-label-icon' />
                       <div className='flex-fill mb-0'>
                         <label className='form-label'>Confirm Password</label>
                         <input
@@ -214,7 +215,7 @@ const Register = () => {
                 ) : (
                   <form onSubmit={handleVerificationSubmit}>
                     <div className='d-flex flex-row align-items-center mb-4'>
-                      <FontAwesomeIcon icon='fa-solid fa-envelope' className='me-3' />
+                      <FontAwesomeIcon icon={faEnvelope} className='me-3' />
                       <div className='flex-fill mb-0'>
                         <input
                           type='text'

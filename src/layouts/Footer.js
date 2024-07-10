@@ -122,22 +122,22 @@ const Footer = () => {
             <div className='footer-bottom-menu'>
               <ul className='list-wrap'>
                 <li>
-                  <Link to='/contact'>About Us |</Link>
+                  <Link href='/contact'>About Us |</Link>
                 </li>
                 <li>
-                  <Link to='/contact'>Contact Us |</Link>
+                  <Link href='/contact'>Contact Us |</Link>
                 </li>
                 <li>
-                  <Link to='/contact'>Cookie Policy |</Link>
+                  <Link href='/contact'>Cookie Policy |</Link>
                 </li>
                 <li>
-                  <Link to='/contact'>Code of Business |</Link>
+                  <Link href='/contact'>Code of Business |</Link>
                 </li>
                 <li>
-                  <Link to='/contact'>Conduct |</Link>
+                  <Link href='/contact'>Conduct |</Link>
                 </li>
                 <li>
-                  <Link to='/contact'>Grievance</Link>
+                  <Link href='/contact'>Grievance</Link>
                 </li>
               </ul>
               <div className='mt-20'>
