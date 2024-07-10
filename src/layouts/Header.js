@@ -1,5 +1,6 @@
+'use client';
 import React, { useState, useEffect, useRef, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSelectCategory } from '../actions/categoryAction';
 import { fetchCategories } from '../actions/categoryAction';
@@ -88,7 +89,7 @@ const Header = () => {
               <div className='swiper-container ta-trending-slider'>
                 <div className='myswiper-wrapper'>
                   <div className='swiper-slide'>
-                    <Link to='/'>
+                    <Link href='/'>
                       <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='mylogo-style' />
                     </Link>
                   </div>
@@ -102,35 +103,35 @@ const Header = () => {
               <ul className='list-wrap'>
                 <li className='social-icons'>
                   <span>
-                    <Link to={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
+                    <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
                       <FontAwesomeIcon icon='fa-brands fa-facebook-f' />
                     </Link>
                   </span>
                 </li>
                 <li className='social-icons'>
                   <span>
-                    <Link to={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
+                    <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
                       <FontAwesomeIcon icon='fa-brands fa-twitter' />
                     </Link>
                   </span>
                 </li>
                 <li className='social-icons'>
                   <span>
-                    <Link to={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
+                    <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
                       <FontAwesomeIcon icon='fa-brands fa-instagram' />
                     </Link>
                   </span>
                 </li>
                 <li className='social-icons'>
                   <span>
-                    <Link to={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
+                    <Link href={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
                       <FontAwesomeIcon icon='fa-brands fa-linkedin' />
                     </Link>
                   </span>
                 </li>
                 <li className='social-icons'>
                   <span>
-                    <Link to={setting.social_youtube ? setting.social_youtube : SOCIAL_YOUTUBE} target='blank'>
+                    <Link href={setting.social_youtube ? setting.social_youtube : SOCIAL_YOUTUBE} target='blank'>
                       <FontAwesomeIcon icon='fa-brands fa-youtube' />
                     </Link>
                   </span>
@@ -145,10 +146,10 @@ const Header = () => {
                   </>
                 ) : (
                   <>
-                    <Link to='/login' className='btn'>
+                    <Link href='/login' className='btn'>
                       Log In
                     </Link>
-                    <Link to='/register' className='btn'>
+                    <Link href='/register' className='btn'>
                       Register
                     </Link>
                   </>
@@ -165,15 +166,15 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                  <Link to='/login' className='btn mx-1'>
+                  <Link href='/login' className='btn mx-1'>
                     Log In
                   </Link>
-                  <Link to='/register' className='btn mx-1'>
+                  <Link href='/register' className='btn mx-1'>
                     Register
                   </Link>
                 </>
               )}
-              <Link to='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link mx-1' id='mobileMenuToggleBtn'>
+              <Link href='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link mx-1' id='mobileMenuToggleBtn'>
                 <FontAwesomeIcon icon='fas fa-bars' />
               </Link>
             </div>
@@ -186,12 +187,12 @@ const Header = () => {
                         <div className='close-btn' onClick={handleMenuToggleCloseClick}>
                           <FontAwesomeIcon icon='fas fa-times' />
                         </div>
-                        <Link to='/'>
+                        <Link href='/'>
                           <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' style={{ width: '70%' }} />
                         </Link>
                       </li>
                       <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
-                        <Link to='/' onClick={() => handleLinkClick('home')} className='nav-bar-link mx-3'>
+                        <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link mx-3'>
                           Home
                         </Link>
                       </li>
@@ -199,12 +200,17 @@ const Header = () => {
                       {mainCategories.map((category, index) => (
                         <li className={(selectCategory ? selectCategory : activeLink) === category.name ? 'active' : ''} key={index}>
                           {!category.child ? (
-                            <Link to={`/news/${category.data_query}`} onClick={() => handleLinkClick(category.name)} className='nav-bar-link' key={category.id}>
+                            <Link
+                              href={`/news/${category.data_query}`}
+                              onClick={() => handleLinkClick(category.name)}
+                              className='nav-bar-link'
+                              key={category.id}
+                            >
                               {category.name}
                             </Link>
                           ) : (
                             <>
-                              <Link
+                              <a
                                 onClick={() => {
                                   setActiveCategory((prevActiveCategory) => ({
                                     category: category.name,
@@ -219,14 +225,14 @@ const Header = () => {
                                     <FontAwesomeIcon icon='fa-solid fa-chevron-down' />
                                   </div>
                                 </div>
-                              </Link>
+                              </a>
                               {activeCategory.category === category.name && (
                                 <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
                                   {category.child.map((subCategory) => (
                                     <li key={subCategory.id} className={activeLink === subCategory.name ? 'active' : ''}>
                                       <Link
                                         key={subCategory.id}
-                                        to={`/news/${subCategory.data_query}`}
+                                        href={`/news/${subCategory.data_query}`}
                                         onClick={() => handleLinkClick(subCategory.name)}
                                         className='nav-bar-link ml-5'
                                       >
@@ -241,26 +247,30 @@ const Header = () => {
                         </li>
                       ))}
                       <li>
-                        <Link onClick={handleShowToggleSubMenu} className='nav-bar-link'>
+                        <a onClick={handleShowToggleSubMenu} className='nav-bar-link'>
                           <div className='mx-3  d-flex'>
                             <div className='col-95'>View More</div>
                             <div className='col-05'>
                               <FontAwesomeIcon icon='fa-solid fa-chevron-down' />
                             </div>
                           </div>
-                        </Link>
+                        </a>
                         <ul className='sub-menu' style={{ display: 'block' }}>
                           {showToggleSubMenu &&
                             moreCategories.map((category, index) => (
-                              <li className={`${(selectCategory ? selectCategory : activeLink) === category.name ? 'active ' : ''
-                                } mx-3`} key={index}>
+                              <li className={`${(selectCategory ? selectCategory : activeLink) === category.name ? 'active ' : ''} mx-3`} key={index}>
                                 {!category.child ? (
-                                  <Link to={`/news/${category.data_query}`} onClick={() => handleLinkClick(category.name)} className='nav-bar-link' key={category.id}>
+                                  <Link
+                                    href={`/news/${category.data_query}`}
+                                    onClick={() => handleLinkClick(category.name)}
+                                    className='nav-bar-link'
+                                    key={category.id}
+                                  >
                                     {category.name}
                                   </Link>
                                 ) : (
                                   <>
-                                    <Link
+                                    <a
                                       onClick={() => {
                                         setActiveCategory((prevActiveCategory) => ({
                                           category: category.name,
@@ -270,22 +280,23 @@ const Header = () => {
                                       className='nav-bar-link'
                                     >
                                       <div className='d-flex'>
-                                        <div className='col-95' style={{fontSize:'12px'}}>{category.name}</div>
+                                        <div className='col-95' style={{ fontSize: '12px' }}>
+                                          {category.name}
+                                        </div>
                                         <div className='col-05'>
                                           <FontAwesomeIcon icon='fa-solid fa-chevron-down' />
                                         </div>
                                       </div>
-                                    </Link>
+                                    </a>
                                     {activeCategory.category === category.name && (
                                       <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
                                         {category.child.map((subCategory) => (
                                           <li key={subCategory.id} className={activeLink === subCategory.name ? 'active' : ''}>
                                             <Link
                                               key={subCategory.id}
-                                              to={`/news/${subCategory.data_query}`}
+                                              href={`/news/${subCategory.data_query}`}
                                               onClick={() => handleLinkClick(subCategory.name)}
                                               className='nav-bar-link ml-5'
-                                              
                                             >
                                               {subCategory.name}
                                             </Link>
@@ -306,35 +317,35 @@ const Header = () => {
                       <ul className='list-wrap row justify-content-center'>
                         <li className='social-icons col'>
                           <span>
-                            <Link to={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
+                            <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB} target='blank'>
                               <FontAwesomeIcon icon='fa-brands fa-facebook-f' />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
-                            <Link to={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
+                            <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER} target='blank'>
                               <FontAwesomeIcon icon='fa-brands fa-twitter' />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
-                            <Link to={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
+                            <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA} target='blank'>
                               <FontAwesomeIcon icon='fa-brands fa-instagram' />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
-                            <Link to={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
+                            <Link href={setting.social_linkedin ? setting.social_linkedin : SOCIAL_LINKEDIN} target='blank'>
                               <FontAwesomeIcon icon='fa-brands fa-linkedin' />
                             </Link>
                           </span>
                         </li>
                         <li className='social-icons col'>
                           <span>
-                            <Link to={setting.social_youtube ? setting.social_youtube : SOCIAL_YOUTUBE} target='blank'>
+                            <Link href={setting.social_youtube ? setting.social_youtube : SOCIAL_YOUTUBE} target='blank'>
                               <FontAwesomeIcon icon='fa-brands fa-youtube' />
                             </Link>
                           </span>

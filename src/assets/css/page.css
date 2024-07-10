@@ -1,15 +1,6 @@
-@import 'all.min.css';
-@import 'animate.min.css';
-@import 'bootstrap.min.css';
-@import 'default.css';
-@import 'fontawesome-all.min.css';
-@import 'magnific-popup.css';
-@import 'style.css';
-@import 'responsive.css';
-@import 'slick.css';
-@import 'swiper-bundle.css';
-@import 'sb-admin-2.min.css';
-
+/*!************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[13].oneOf[12].use[3]!./src/assets/css/mystyle.css ***!
+  \************************************************************************************************************************************************************************************************************************************************************************/
 .dm-page {
   display: flex;
   justify-content: center;
@@ -184,3 +175,4 @@
     width: 235px;
   }
 }
+
