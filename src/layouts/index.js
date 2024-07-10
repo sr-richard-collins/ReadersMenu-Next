@@ -5,6 +5,7 @@ import Footer from './Footer';
 import Menu from './Menu';
 // import { Container } from "reactstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 
 const useMediaQuery = (query) => {
   const [matches, setMatches] = useState(false);
@@ -37,7 +38,7 @@ const FullLayout = () => {
   return (
     <>
       <button className='scroll-top scroll-to-target' onClick={() => handleTopScreen()}>
-        <FontAwesomeIcon icon='fa-solid fa-angle-up' />
+        <FontAwesomeIcon icon={faAngleUp} />
       </button>
       <div className='container'>
         <Header />
