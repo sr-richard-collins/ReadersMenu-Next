@@ -54,7 +54,7 @@ const Home = () => {
     <>
       {message && <div className='alert success-message'>{message}</div>}
       <Head>
-        <title>{metadata?.seo_title || 'Default Title'}</title>
+        <title>{metadata?.site_title || 'Default Title'}</title>
         <meta name='description' content={metadata?.seo_description || 'Default Description'} />
         <meta property='og:title' content={metadata?.seo_title || 'Default Title'} />
         <meta property='og:description' content={metadata?.seo_description || 'Default Description'} />

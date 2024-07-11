@@ -4,12 +4,13 @@ import { useParams } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import axios from '../../../config'; // Adjust the import path for axios as needed
 import Blog from '@/components/Blog';
+import Head from 'next/head';
 
 const Category = () => {
   const params = useParams();
   const { name } = params; // Assuming [category_type] and [name] are dynamic segments
   const { categories } = useSelector((state) => state.categories);
-  const [seo, setSeo] = useState([]);
+  const [metadata, setMetadata] = useState(null);
   const [selectCategory, setSelectCategory] = useState(null);
 
   useEffect(() => {
@@ -35,7 +36,8 @@ const Category = () => {
     const fetchSeoData = async () => {
       try {
         const response = await axios.get(`/api/user/seoCategory?id=${name}`);
-        setSeo(response.data);
+        setMetadata(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Error fetching SEO data:', error);
       }
@@ -50,7 +52,18 @@ const Category = () => {
     return <p>Loading...</p>; // Handle loading state while router.query.name is undefined
   }
 
-  return <>{selectCategory ? <Blog title={selectCategory.name} isHomepage={0} /> : <p>Category not found</p>}</>;
+  return (
+    <>
+      <Head>
+        <title>{metadata?.seo_title || 'Default Title'}</title>
+        <meta name='description' content={metadata?.seo_description || 'Default Description'} />
+        <meta property='og:title' content={metadata?.seo_title || 'Default Title'} />
+        <meta property='og:description' content={metadata?.seo_description || 'Default Description'} />
+        <meta property='og:keywords' content={metadata?.seo_keyword || 'Default Keywords'} />
+      </Head>
+      {selectCategory ? <Blog title={selectCategory.name} isHomepage={0} /> : <p>Category not found</p>}
+    </>
+  );
 };
 
 export default Category;
