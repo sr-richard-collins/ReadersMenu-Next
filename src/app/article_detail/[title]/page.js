@@ -12,7 +12,7 @@ export async function generateStaticParams() {
     const posts = await response.json();
 
     return posts.map((post) => {
-      // console.log(post.seo_slug);
+      console.log(post.seo_slug);
       return { title: post.seo_slug };
     });
   } catch (error) {
@@ -63,7 +63,7 @@ const fetchData = async (title) => {
     // Fetch SEO metadata
     // const metaResponse = await fetch(`http://tnreaders.in/api/user/seoPost?id=${post.id}`);
     // const metadata = await metaResponse.json();
-
+    console.log(relatedPosts);
     return { post, relatedPosts };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -73,7 +73,6 @@ const fetchData = async (title) => {
 
 export default async function BlogDetails({ params }) {
   const { title } = params;
-
   // Ensure data is fetched before rendering
   if (!title) {
     return <Loader />;

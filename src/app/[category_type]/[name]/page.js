@@ -1,6 +1,5 @@
 import Blog from '@/components/Blog';
-import { use } from 'react';
-import Head from 'next/head';
+import Loader from '@/components/Loader';
 
 export async function generateStaticParams() {
   try {
@@ -82,7 +81,7 @@ export default async function Category({ params }) {
   const selectCategory = findCategory(categories, name);
 
   if (!name) {
-    return <p>Loading...</p>;
+    return <Loader />;
   }
 
   return <>{selectCategory ? <Blog title={selectCategory.name} isHomepage={0} /> : <p>Category not found</p>}</>;
