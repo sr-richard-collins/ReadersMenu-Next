@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import axios from '../config';
 
 const Breadcrumb = ({ title }) => {
@@ -30,7 +31,7 @@ const Breadcrumb = ({ title }) => {
                       Home
                       <span>
                         {' '}
-                        <FontAwesomeIcon icon='fa-solid fa-angles-right' />
+                        <FontAwesomeIcon icon={faAngleRight} />
                       </span>
                     </Link>
                   </li>
@@ -39,13 +40,13 @@ const Breadcrumb = ({ title }) => {
                   </li>
                   {subCategoryName && (
                     <li className='breadcrumb-item active' aria-current='page'>
-                      <FontAwesomeIcon icon='fa-solid fa-angles-right' />
+                      <FontAwesomeIcon icon={faAngleRight} />
                       {subCategoryName}
                     </li>
                   )}
                   {postTitle && (
                     <li className='breadcrumb-item active' aria-current='page'>
-                      <FontAwesomeIcon icon='fa-solid fa-angles-right' />
+                      <FontAwesomeIcon icon={faAngleRight} />
                       {postTitle}
                     </li>
                   )}

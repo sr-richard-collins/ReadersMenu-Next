@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar, faPhone, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
+import { faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import Link from 'next/link';
 import { IMAGE_BASE_URL, DEFAULT_POST } from '../../config';
 import { AuthContext } from '../../provider/AuthContext';
@@ -76,23 +79,23 @@ const RelatedPostsComponent = ({ posts }) => {
                   <div className='blog-post-meta'>
                     <ul className='list-wrap my-3'>
                       <li className='col-3 '>
-                        <FontAwesomeIcon icon={['far', 'calendar']} />
+                        <FontAwesomeIcon icon={faCalendar} />
                         {new Date(post.created_at).toLocaleDateString()}
                       </li>
                       <li className='col-3'>
                         <span className='homeblog-link-icon-phone'>
                           <Link href='/'>
-                            <FontAwesomeIcon icon={['fas', 'phone']} />
+                            <FontAwesomeIcon icon={faPhone} />
                           </Link>
                         </span>
                         <span className='homeblog-link-icon-facebook'>
                           <Link href='/'>
-                            <FontAwesomeIcon icon={['fab', 'facebook-f']} />
+                            <FontAwesomeIcon icon={faFacebookF} />
                           </Link>
                         </span>
                         <span className='homeblog-link-icon-twitter'>
                           <Link href='/'>
-                            <FontAwesomeIcon icon={['fab', 'twitter']} />
+                            <FontAwesomeIcon icon={faTwitter} />
                           </Link>
                         </span>
                       </li>
@@ -117,7 +120,7 @@ const RelatedPostsComponent = ({ posts }) => {
                             style={{ background: 'none', border: 'none' }}
                           >
                             <FontAwesomeIcon
-                              icon={clickedBlogArticleIconId.includes(post.id) ? ['fas', 'heart'] : ['far', 'heart']}
+                              icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart}
                               className='blog-article-icon-heart'
                             />
                           </button>

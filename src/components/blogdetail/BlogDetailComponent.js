@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar, faPhone, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faFacebookF, faTelegram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { IMAGE_BASE_URL, DEFAULT_POST } from '../../config';
 import axios from '../../config';
 import { useSelector } from 'react-redux';
@@ -11,13 +13,13 @@ const BlogDetailComponent = ({ post }) => {
   const { setting } = useSelector((state) => state.setting);
   const [seo, setSeo] = useState([]);
 
-  // useEffect(() => {
-  //   const fetch = async () => {
-  //     const response = await axios.get(`/api/user/seoPost?id=${post.id}`);
-  //     setSeo(response.data);
-  //   };
-  //   fetch();
-  // }, [post]);
+  useEffect(() => {
+    const fetch = async () => {
+      const response = await axios.get(`/api/user/seoPost?id=${post.id}`);
+      setSeo(response.data);
+    };
+    fetch();
+  }, [post]);
 
   const handleFacebookShare = () => {
     const currentUrl = window.location.href;
@@ -55,7 +57,7 @@ const BlogDetailComponent = ({ post }) => {
                   <div className='blog-post-meta'>
                     <ul className='list-wrap'>
                       <li style={{ fontSize: '15px' }}>
-                        <FontAwesomeIcon icon='fa-regular fa-calendar' />
+                        <FontAwesomeIcon icon={faCalendar} />
                         {new Date(post.created_at).toLocaleDateString()}
                       </li>
                     </ul>
@@ -64,22 +66,22 @@ const BlogDetailComponent = ({ post }) => {
                     <ul className='list-wrap'>
                       <li>
                         <Link href='#' onClick={handleFacebookShare}>
-                          <FontAwesomeIcon icon='fa-brands fa-facebook-f' />
+                          <FontAwesomeIcon icon={faFacebookF} />
                         </Link>
                       </li>
                       <li>
                         <Link href='#' onClick={handleTwitterShare}>
-                          <FontAwesomeIcon icon='fa-brands fa-x-twitter' />
+                          <FontAwesomeIcon icon={faTwitter} />
                         </Link>
                       </li>
                       <li>
                         <Link href='#' onClick={handleTelegramShare}>
-                          <FontAwesomeIcon icon='fa-brands fa-telegram' />
+                          <FontAwesomeIcon icon={faTelegram} />
                         </Link>
                       </li>
                       <li>
                         <Link href='#' onClick={handleWhatsappShare}>
-                          <FontAwesomeIcon icon={['fas', 'phone']} />
+                          <FontAwesomeIcon icon={faPhone} />
                         </Link>
                       </li>
                     </ul>
