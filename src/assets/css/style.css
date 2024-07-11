@@ -7207,8 +7207,8 @@ label {
     margin-left: 55px;
 } */
 .footer-bottom {
-  border-top: 1px solid #202e3f;
-  padding: 35px 0;
+  border-top: 1px solid #e4e4e4;
+  padding: 20px 0;
 }
 
 .footer-bottom-menu {
@@ -8910,4 +8910,7 @@ label {
 .register-label-icon {
   margin-top: auto;
   font-size: 25px;
+}
+.footer-title{
+  text-align: center;
 }

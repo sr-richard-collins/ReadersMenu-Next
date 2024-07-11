@@ -3,147 +3,91 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import { SOCIAL_FB, SOCIAL_INSTA, SOCIAL_TWITTER } from '../config/constant';
-import { faFacebookF, faTwitter, faInstagram, faLinkedin, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faFacebookF, faTwitter, faTelegram, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
 
 const Footer = () => {
   const { setting } = useSelector((state) => state.setting);
+
+  const handleFacebookShare = () => {
+    const currentUrl = window.location.href;
+    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+    window.open(shareUrl, '_blank');
+  };
+
+  const handleTwitterShare = () => {
+    const currentUrl = window.location.href;
+    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}`;
+    window.open(shareUrl, '_blank');
+  };
+
+  const handleTelegramShare = () => {
+    const currentUrl = window.location.href;
+    const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(currentUrl)}`;
+    window.open(shareUrl, '_blank');
+  };
+
+  const handleWhatsappShare = () => {
+    const currentUrl = window.location.href;
+    const shareUrl = `https://wa.me/?text=${encodeURIComponent(currentUrl)}`;
+    window.open(shareUrl, '_blank');
+  };
+
   return (
     <footer>
       <div className='footer-area'>
         <div className='footer-top'>
           <div className='container'>
             <div className='row'>
-              <div className='col-4'>
+              <div className='col-12'>
                 <div className='footer-widget mb-30'>
+                  <div className='footer-title mb-30'>
+                    <h2 className='title text-lines-1' style={{ fontSize: '50px', fontFamily: 'cursive' }}>வாசகர்கள்</h2>
+                    <h3 className='title text-lines-1' style={{ fontWeight: '300', fontSize: '17px' }}>Powered by <b style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>Times Interest</b></h3>
+                  </div>
                   <div className='footer-title'>
-                    <h2 className='title text-lines-1'>TodayTalks in Other Languages</h2>
+                    <h4 className='title text-lines-1' style={{ fontSize: '15px', fontWeight: '300', color: 'var(--tg-paragraph-color)' }}>Follow Us On</h4>
                   </div>
-                  <div className='footer-title-line'></div>
-                  <div className='footer-link-wrap mt-20'>
-                    <ul className='list-wrap'>
-                      <li>
-                        <a href='about.html'>English</a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>বাংলা </a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>ગુજરાતી </a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>हिन्दी </a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>ಕನ್ನಡ </a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>മലയാളം </a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>తెలుగు </a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>ଓଡ଼ିଆ </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className='col-4'>
-                <div className='footer-widget mb-30'>
-                  <div className='footer-title'>
-                    <h2 className='title'>Get Help</h2>
-                  </div>
-                  <div className='footer-title-line'></div>
-                  <div className='footer-link-wrap mt-20 row'>
-                    <ul className='list-wrap col'>
-                      <li>
-                        <a href='about.html'>Contact & Faq</a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>Oders & Returns</a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>Gift Cards</a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>Register</a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>Catalog</a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>മലയാളം </a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>తెలుగు </a>
-                      </li>
-                      <li>
-                        <a href='contact.html'>ଓଡ଼ିଆ </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div className='col-4'>
-                <div className='footer-widget mb-30'>
-                  <div className='footer-title'>
-                    <h2 className='title text-lines-1'>Follow us On</h2>
-                  </div>
-                  <div className='footer-title-line'></div>
-                  <div className='footer-link-wrap mt-20'>
-                    <ul className='list-wrap d-flex' style={{ gap: '20px' }}>
-                      <li>
-                        <Link href={setting.social_fb ? setting.social_fb : SOCIAL_FB}>
-                          <FontAwesomeIcon icon={faFacebookF} fontSize={'30px'} />
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href={setting.social_twitter ? setting.social_twitter : SOCIAL_TWITTER}>
-                          <FontAwesomeIcon icon={faTwitter} fontSize={'30px'} />
-                        </Link>
-                      </li>
-                      <li>
-                        <Link href={setting.social_insta ? setting.social_insta : SOCIAL_INSTA}>
-                          <FontAwesomeIcon icon={faInstagram} fontSize={'30px'} />
-                        </Link>
-                      </li>
-                    </ul>
+                  <div className='footer-link-wrap d-flex justify-content-center'>
+                    <div className='blog-details-social'>
+                      <ul className='list-wrap'>
+                        <li>
+                          <Link href='#' onClick={handleFacebookShare}>
+                            <FontAwesomeIcon icon={faFacebookF} />
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href='#' onClick={handleTwitterShare}>
+                            <FontAwesomeIcon icon={faTwitter} />
+                          </Link>
+                        </li>
+                        <li>
+                          <Link href='#' onClick={handleTelegramShare}>
+                            <FontAwesomeIcon icon={faTelegram} />
+                          </Link>
+                        </li>
+                        <li style={{ marginBottom: '8px' }}>
+                          <Link href='#' onClick={handleWhatsappShare}>
+                            <FontAwesomeIcon icon={faPhone} />
+                          </Link>
+                        </li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <div className='footer-bottom'>
           <div className='container'>
             <div className='footer-bottom-menu'>
-              <ul className='list-wrap'>
-                <li>
-                  <Link href='/contact'>About Us |</Link>
-                </li>
-                <li>
-                  <Link href='/contact'>Contact Us |</Link>
-                </li>
-                <li>
-                  <Link href='/contact'>Cookie Policy |</Link>
-                </li>
-                <li>
-                  <Link href='/contact'>Code of Business |</Link>
-                </li>
-                <li>
-                  <Link href='/contact'>Conduct |</Link>
-                </li>
-                <li>
-                  <Link href='/contact'>Grievance</Link>
-                </li>
-              </ul>
-              <div className='mt-20'>
-                <p>© 2024 TodayTalks Digitech Media Pvt.Ltd. All Rights Reserved</p>
-                <p>The "TodayTalks" word mark and logo are owned by TodayTalks Digitech Media Pvt.Ltd.</p>
+              <div className=''>
+                <h4 style={{ fontSize: '15px' }}>This website follows DNPA's code of Conduct</h4>
               </div>
+              <div className=''>
+              <h3 style={{ fontWeight: '300', fontSize: '17px' }}>© 2024 TodayTalks Digitech Media Pvt.Ltd. All Rights Reserved</h3>
+            </div>
             </div>
           </div>
         </div>

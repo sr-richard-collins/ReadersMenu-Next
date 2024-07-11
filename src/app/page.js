@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchHomePosts } from '../actions/postAction';
 import Loader from '@/components/Loader';
 import Head from 'next/head';
+import Footer from '@/layouts/Footer';
 import axios from '../config';
 import { useRouter } from 'next/navigation';
 
@@ -67,6 +68,7 @@ const Home = () => {
               <div className='col-lg-9 col-md-12 col-12'>
                 <SpotLightSection />
                 <CategoriesWithBlogSection />
+                <Footer />
               </div>
               <div className='col-lg-3'></div>
             </div>
