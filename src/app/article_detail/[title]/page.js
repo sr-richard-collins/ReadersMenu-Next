@@ -1,58 +1,88 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import BlogDetailComponent from '@/components/blogdetail/BlogDetailComponent';
 import RelatedPostsComponent from '@/components/blogdetail/RelatedPostsComponent';
 import Breadcrumb from '@/components/Breadcrumb';
-import axios from '../../../config';
 import Loader from '@/components/Loader';
 import Head from 'next/head';
 import CommentComponent from '@/components/blogdetail/CommentComponent';
 
-const BlogDetails = () => {
-  const [post, setPost] = useState(null);
-  const [relatedPosts, setRelatedPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [metadata, setMetadata] = useState(null);
+export async function generateStaticParams() {
+  try {
+    // Fetch posts data
+    const response = await fetch(`http://tnreaders.in/api/user/allPostsSeo`);
+    const posts = await response.json();
 
-  const { title } = useParams();
+    return posts.map((post) => {
+      // console.log(post.seo_slug);
+      return { title: post.seo_slug };
+    });
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return [];
+  }
+}
 
-  useEffect(() => {
-    const fetch = async () => {
-      const response = await axios.get(`/api/user/findPost?id=${title}`);
-      const relatedRes = await axios.get(`/api/user/relatedPost?id=${title}`);
-      setPost(response.data);
-      setRelatedPosts(relatedRes.data);
-      setLoading(false);
+export async function generateMetadata({ params }) {
+  const { title } = params;
+  try {
+    const response = await fetch(`http://tnreaders.in/api/user/seoPost?id=${title.toString()}`);
+    const metadata = await response.json();
+    return {
+      title: metadata?.seo_title || 'Default Title',
+      description: metadata?.seo_description || 'Default Description',
+      openGraph: {
+        title: metadata?.seo_title || 'Default Title',
+        description: metadata?.seo_description || 'Default Description',
+        keywords: metadata?.seo_keyword || 'Default Keywords',
+      },
     };
-    if (title) fetch();
-
-    const fetchSeoData = async () => {
-      try {
-        const response = await axios.get(`/api/user/seoPost?id=${post.id}`);
-        setMetadata(response.data);
-      } catch (error) {
-        console.error('Error fetching SEO data:', error);
-      }
+  } catch (error) {
+    console.error('Error fetching SEO data:', error);
+    return {
+      title: 'Default Title',
+      description: 'Default Description',
+      openGraph: {
+        title: 'Default Title',
+        description: 'Default Description',
+        keywords: 'Default Keywords',
+      },
     };
+  }
+}
 
-    if (title) {
-      fetchSeoData();
-    }
-    window.scrollTo(0, 0);
-  }, [title]);
+const fetchData = async (title) => {
+  try {
+    // Fetch post data
+    const postResponse = await fetch(`http://tnreaders.in/api/user/findPost?id=${title}`);
+    const post = await postResponse.json();
 
-  if (loading) return <Loader />;
+    // Fetch related posts
+    const relatedRes = await fetch(`http://tnreaders.in/api/user/relatedPost?id=${title}`);
+    const relatedPosts = await relatedRes.json();
+    // console.log(relatedPosts.length);
+
+    // Fetch SEO metadata
+    // const metaResponse = await fetch(`http://tnreaders.in/api/user/seoPost?id=${post.id}`);
+    // const metadata = await metaResponse.json();
+
+    return { post, relatedPosts };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return { post: null, relatedPosts: [] };
+  }
+};
+
+export default async function BlogDetails({ params }) {
+  const { title } = params;
+
+  // Ensure data is fetched before rendering
+  if (!title) {
+    return <Loader />;
+  }
+
+  const { post, relatedPosts } = await fetchData(title);
+
   return (
     <>
-      <Head>
-        <title>{metadata?.seo_title || 'Default Title'}</title>
-        <meta name='description' content={metadata?.seo_description || 'Default Description'} />
-        <meta property='og:title' content={metadata?.seo_title || 'Default Title'} />
-        <meta property='og:description' content={metadata?.seo_description || 'Default Description'} />
-        <meta property='og:keywords' content={metadata?.seo_keyword || 'Default Keywords'} />
-      </Head>
       <div className='spotlight-post-area pb-60'>
         <Breadcrumb title={decodeURIComponent(title)} />
         <div className='spotlight-post-inner-wrap'>
@@ -66,6 +96,4 @@ const BlogDetails = () => {
       </div>
     </>
   );
-};
-
-export default BlogDetails;
+}
