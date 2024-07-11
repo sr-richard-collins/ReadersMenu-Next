@@ -8,6 +8,7 @@ import Menu from '@/layouts/Menu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import Header from '@/layouts/Header';
+import axios from '../config';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -39,6 +40,7 @@ const useMediaQuery = (query) => {
 };
 
 const RootLayout = ({ children }) => {
+  // const { setting } = useSelector((state) => state.setting);
   const isMobile = useMediaQuery('(max-width: 767.98px)');
 
   const handleTopScreen = () => {
