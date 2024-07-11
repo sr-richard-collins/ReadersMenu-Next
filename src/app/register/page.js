@@ -1,6 +1,6 @@
 import RegisterComponent from '@/components/register/registerComponent';
 
-const Lgoin = () => {
+const Register = () => {
 
   return (
     <html lang='en'>
@@ -13,4 +13,4 @@ const Lgoin = () => {
   );
 };
 
-export default Lgoin;
+export default Register;
