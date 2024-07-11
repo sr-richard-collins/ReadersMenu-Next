@@ -6,7 +6,7 @@ import axios from '../config';
 import { IMAGE_BASE_URL, DEFAULT_POST } from '../config';
 import CustomPagination from '../components/CustomPagination';
 import Breadcrumb from '../components/Breadcrumb';
-import SubCategoryBreadcrumb from '../components/SubCategoryBreadcrumb';
+import SubCategoryBreadcrumb from './SubCategoryBreadCrumb';
 import Loader from '../components/Loader';
 import { fetchSelectCategory } from '../actions/categoryAction';
 import { useDispatch, useSelector } from 'react-redux';

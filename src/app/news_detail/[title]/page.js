@@ -8,7 +8,7 @@ import CommentComponent from '@/components/blogdetail/CommentComponent';
 export async function generateStaticParams() {
   try {
     // Fetch posts data
-    const response = await fetch(`http://tnreaders.in/api/user/allPosts`);
+    const response = await fetch(`http://tnreaders.in/api/user/allPostsSeo`);
     const posts = await response.json();
 
     return posts.map((post) => {
@@ -20,6 +20,37 @@ export async function generateStaticParams() {
     return [];
   }
 }
+
+export async function generateMetadata({ params }) {
+  const { title } = params;
+  try {
+    console.log(title);
+    const response = await fetch(`http://tnreaders.in/api/user/seoPost?id=${title.toString()}`);
+    const metadata = await response.json();
+    console.log(response);
+    return {
+      title: metadata?.seo_title || 'Default Title',
+      description: metadata?.seo_description || 'Default Description',
+      openGraph: {
+        title: metadata?.seo_title || 'Default Title',
+        description: metadata?.seo_description || 'Default Description',
+        keywords: metadata?.seo_keyword || 'Default Keywords',
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching SEO data:', error);
+    return {
+      title: 'Default Title',
+      description: 'Default Description',
+      openGraph: {
+        title: 'Default Title',
+        description: 'Default Description',
+        keywords: 'Default Keywords',
+      },
+    };
+  }
+}
+
 const fetchData = async (title) => {
   try {
     // Fetch post data
@@ -32,13 +63,13 @@ const fetchData = async (title) => {
     // console.log(relatedPosts.length);
 
     // Fetch SEO metadata
-    const metaResponse = await fetch(`http://tnreaders.in/api/user/seoPost?id=${post.id}`);
-    const metadata = await metaResponse.json();
+    // const metaResponse = await fetch(`http://tnreaders.in/api/user/seoPost?id=${post.id}`);
+    // const metadata = await metaResponse.json();
 
-    return { post, relatedPosts, metadata };
+    return { post, relatedPosts };
   } catch (error) {
     console.error('Error fetching data:', error);
-    return { post: null, relatedPosts: [], metadata: null };
+    return { post: null, relatedPosts: [] };
   }
 };
 
@@ -50,17 +81,10 @@ export default async function BlogDetails({ params }) {
     return <Loader />;
   }
 
-  const { post, relatedPosts, metadata } = await fetchData(title);
+  const { post, relatedPosts } = await fetchData(title);
 
   return (
     <>
-      <Head>
-        <title>{metadata?.seo_title || 'Default Title'}</title>
-        <meta name='description' content={metadata?.seo_description || 'Default Description'} />
-        <meta property='og:title' content={metadata?.seo_title || 'Default Title'} />
-        <meta property='og:description' content={metadata?.seo_description || 'Default Description'} />
-        <meta property='og:keywords' content={metadata?.seo_keyword || 'Default Keywords'} />
-      </Head>
       <div className='spotlight-post-area pb-60'>
         <Breadcrumb title={decodeURIComponent(title)} />
         <div className='spotlight-post-inner-wrap'>

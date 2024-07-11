@@ -11,13 +11,13 @@ const BlogDetailComponent = ({ post }) => {
   const { setting } = useSelector((state) => state.setting);
   const [seo, setSeo] = useState([]);
 
-  useEffect(() => {
-    const fetch = async () => {
-      const response = await axios.get(`/api/user/seoPost?id=${post.id}`);
-      setSeo(response.data);
-    };
-    fetch();
-  }, [post]);
+  // useEffect(() => {
+  //   const fetch = async () => {
+  //     const response = await axios.get(`/api/user/seoPost?id=${post.id}`);
+  //     setSeo(response.data);
+  //   };
+  //   fetch();
+  // }, [post]);
 
   const handleFacebookShare = () => {
     const currentUrl = window.location.href;
