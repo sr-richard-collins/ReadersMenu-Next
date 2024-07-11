@@ -1,7 +1,0 @@
-{
-  "/_not-found/page": "app/_not-found/page.js",
-  "/page": "app/page.js",
-  "/[category_type]/[name]/page": "app/[category_type]/[name]/page.js",
-  "/news_detail/[title]/page": "app/news_detail/[title]/page.js",
-  "/article_detail/[title]/page": "app/article_detail/[title]/page.js"
-}
