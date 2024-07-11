@@ -1,49 +1,57 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import BlogDetailComponent from '@/components/blogdetail/BlogDetailComponent';
 import RelatedPostsComponent from '@/components/blogdetail/RelatedPostsComponent';
 import Breadcrumb from '@/components/Breadcrumb';
-import axios from '../../../config';
 import Loader from '@/components/Loader';
 import Head from 'next/head';
 import CommentComponent from '@/components/blogdetail/CommentComponent';
 
-const BlogDetails = () => {
-  const [post, setPost] = useState(null);
-  const [relatedPosts, setRelatedPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [metadata, setMetadata] = useState(null);
+export async function generateStaticParams() {
+  try {
+    // Fetch posts data
+    const response = await fetch(`http://tnreaders.in/api/user/allPosts`);
+    const posts = await response.json();
 
-  const { title } = useParams();
+    return posts.map((post) => {
+      // console.log(post.seo_slug);
+      return { title: post.seo_slug };
+    });
+  } catch (error) {
+    console.error('Error fetching posts:', error);
+    return [];
+  }
+}
+const fetchData = async (title) => {
+  try {
+    // Fetch post data
+    const postResponse = await fetch(`http://tnreaders.in/api/user/findPost?id=${title}`);
+    const post = await postResponse.json();
 
-  useEffect(() => {
-    const fetch = async () => {
-      const response = await axios.get(`/api/user/findPost?id=${title}`);
-      const relatedRes = await axios.get(`/api/user/relatedPost?id=${title}`);
-      setPost(response.data);
-      setRelatedPosts(relatedRes.data);
-      setLoading(false);
-    };
-    if (title) fetch();
+    // Fetch related posts
+    const relatedRes = await fetch(`http://tnreaders.in/api/user/relatedPost?id=${title}`);
+    const relatedPosts = await relatedRes.json();
+    // console.log(relatedPosts.length);
 
-    const fetchSeoData = async () => {
-      try {
-        const response = await axios.get(`/api/user/seoPost?id=${post.id}`);
-        setMetadata(response.data);
-      } catch (error) {
-        console.error('Error fetching SEO data:', error);
-      }
-    };
+    // Fetch SEO metadata
+    const metaResponse = await fetch(`http://tnreaders.in/api/user/seoPost?id=${post.id}`);
+    const metadata = await metaResponse.json();
 
-    if (title) {
-      fetchSeoData();
-    }
-    window.scrollTo(0, 0);
-  }, [title]);
+    return { post, relatedPosts, metadata };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return { post: null, relatedPosts: [], metadata: null };
+  }
+};
 
-  if (loading) return <Loader />;
+export default async function BlogDetails({ params }) {
+  const { title } = params;
+
+  // Ensure data is fetched before rendering
+  if (!title) {
+    return <Loader />;
+  }
+
+  const { post, relatedPosts, metadata } = await fetchData(title);
+
   return (
     <>
       <Head>
@@ -66,6 +74,4 @@ const BlogDetails = () => {
       </div>
     </>
   );
-};
-
-export default BlogDetails;
+}

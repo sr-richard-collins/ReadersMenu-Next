@@ -139,13 +139,15 @@ const Blog = ({ title, isHomepage }) => {
                     <div className='col-md-12' key={post.id}>
                       <div className='weekly-post-three'>
                         <div className='weekly-post-thumb'>
-                          <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>
-                            <img src={post.img ? IMAGE_BASE_URL + post.img : IMAGE_BASE_URL + DEFAULT_POST} alt={post.seo_slug} />
+                          <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${decodeURIComponent(post.seo_slug)}`}>
+                            <img src={post.img ? IMAGE_BASE_URL + post.img : IMAGE_BASE_URL + DEFAULT_POST} alt={decodeURIComponent(post.seo_slug)} />
                           </Link>
                         </div>
                         <div className='weekly-post-content' style={{ borderBottom: '1px solid #e4e4e4' }}>
                           <h2 className='post-title'>
-                            <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>{post.title}</Link>
+                            <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${decodeURIComponent(post.seo_slug)}`}>
+                              {post.title}
+                            </Link>
                           </h2>
                           <p>{post.sub_title.length > 250 ? `${post.sub_title.slice(0, 250)}...` : post.sub_title}</p>
                           <div className='blog-post-meta'>
@@ -156,17 +158,17 @@ const Blog = ({ title, isHomepage }) => {
                               </li>
                               <li className='col-3'>
                                 <span className='homeblog-link-icon-phone'>
-                                  <a href='#' onClick={() => handleWhatsAppShare(post.seo_slug)}>
+                                  <a href='#' onClick={() => handleWhatsAppShare(decodeURIComponent(post.seo_slug))}>
                                     <FontAwesomeIcon icon={['fas', 'phone']} />
                                   </a>
                                 </span>
                                 <span className='homeblog-link-icon-facebook'>
-                                  <a href='#' onClick={() => handleFacebookShare(post.seo_slug)}>
+                                  <a href='#' onClick={() => handleFacebookShare(decodeURIComponent(post.seo_slug))}>
                                     <FontAwesomeIcon icon={['fab', 'facebook-f']} />
                                   </a>
                                 </span>
                                 <span className='homeblog-link-icon-twitter'>
-                                  <a href='#' onClick={() => handleTwitterShare(post.seo_slug)}>
+                                  <a href='#' onClick={() => handleTwitterShare(decodeURIComponent(post.seo_slug))}>
                                     <FontAwesomeIcon icon={['fab', 'twitter']} />
                                   </a>
                                 </span>
