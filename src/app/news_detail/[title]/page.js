@@ -24,10 +24,8 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { title } = params;
   try {
-    console.log(title);
     const response = await fetch(`http://tnreaders.in/api/user/seoPost?id=${title.toString()}`);
     const metadata = await response.json();
-    console.log(response);
     return {
       title: metadata?.seo_title || 'Default Title',
       description: metadata?.seo_description || 'Default Description',
