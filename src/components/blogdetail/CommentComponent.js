@@ -77,7 +77,7 @@ const CommentComponent = ({ post }) => {
         user_id: user.id,
         comment: textareaRef.current.value,
       });
-      console.log(response.data); // Handle success response
+      // console.log(response.data); // Handle success response
       window.location.reload();
       // Optionally, clear the textarea or perform any other action upon success
     } catch (error) {

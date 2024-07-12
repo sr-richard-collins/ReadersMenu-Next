@@ -15,7 +15,6 @@ import { AuthContext } from '../../provider/AuthContext';
 
 const SpotLightSection = () => {
   const dispatch = useDispatch();
-  const { setting } = useSelector((state) => state.setting);
   const { user } = useContext(AuthContext);
 
   const [spotlight, setSpotlight] = useState([]);
