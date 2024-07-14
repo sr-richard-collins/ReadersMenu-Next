@@ -12,7 +12,6 @@ export async function generateStaticParams() {
     const posts = await response.json();
 
     return posts.map((post) => {
-      console.log(post.seo_slug);
       return { title: post.seo_slug };
     });
   } catch (error) {
@@ -21,33 +20,33 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata({ params }) {
-  const { title } = params;
-  try {
-    const response = await fetch(`http://tnreaders.in/api/user/seoPost?id=${title.toString()}`);
-    const metadata = await response.json();
-    return {
-      title: metadata?.seo_title || 'Default Title',
-      description: metadata?.seo_description || 'Default Description',
-      openGraph: {
-        title: metadata?.seo_title || 'Default Title',
-        description: metadata?.seo_description || 'Default Description',
-        keywords: metadata?.seo_keyword || 'Default Keywords',
-      },
-    };
-  } catch (error) {
-    console.error('Error fetching SEO data:', error);
-    return {
-      title: 'Default Title',
-      description: 'Default Description',
-      openGraph: {
-        title: 'Default Title',
-        description: 'Default Description',
-        keywords: 'Default Keywords',
-      },
-    };
-  }
-}
+// export async function generateMetadata({ params }) {
+//   const { title } = params;
+//   try {
+//     const response = await fetch(`http://tnreaders.in/api/user/seoPost?id=${title}`);
+//     const metadata = await response.json();
+//     return {
+//       title: metadata?.seo_title || 'Default Title',
+//       description: metadata?.seo_description || 'Default Description',
+//       openGraph: {
+//         title: metadata?.seo_title || 'Default Title',
+//         description: metadata?.seo_description || 'Default Description',
+//         keywords: metadata?.seo_keyword || 'Default Keywords',
+//       },
+//     };
+//   } catch (error) {
+//     console.error('Error fetching SEO data:', error);
+//     return {
+//       title: 'Default Title',
+//       description: 'Default Description',
+//       openGraph: {
+//         title: 'Default Title',
+//         description: 'Default Description',
+//         keywords: 'Default Keywords',
+//       },
+//     };
+//   }
+// }
 
 const fetchData = async (title) => {
   try {
@@ -58,12 +57,7 @@ const fetchData = async (title) => {
     // Fetch related posts
     const relatedRes = await fetch(`http://tnreaders.in/api/user/relatedPost?id=${title}`);
     const relatedPosts = await relatedRes.json();
-    // console.log(relatedPosts.length);
 
-    // Fetch SEO metadata
-    // const metaResponse = await fetch(`http://tnreaders.in/api/user/seoPost?id=${post.id}`);
-    // const metadata = await metaResponse.json();
-    console.log(relatedPosts);
     return { post, relatedPosts };
   } catch (error) {
     console.error('Error fetching data:', error);

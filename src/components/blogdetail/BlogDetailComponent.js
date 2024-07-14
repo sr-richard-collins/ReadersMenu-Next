@@ -1,48 +1,55 @@
 'use client';
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar, faPhone, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faCalendar, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faTelegram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { IMAGE_BASE_URL, DEFAULT_POST } from '../../config';
-import axios from '../../config';
-import { useSelector } from 'react-redux';
 
 const BlogDetailComponent = ({ post }) => {
-  const { setting } = useSelector((state) => state.setting);
-  const [seo, setSeo] = useState([]);
+  const renderMetaInfo = () => {
+    if (!post) return null;
 
-  useEffect(() => {
-    const fetch = async () => {
-      const response = await axios.get(`/api/user/seoPost?id=${post.id}`);
-      setSeo(response.data);
-    };
-    fetch();
-  }, [post]);
+    return (
+      <ul className='list-wrap'>
+        <li style={{ fontSize: '15px' }}>
+          <FontAwesomeIcon icon={faCalendar} />
+          {new Date(post.created_at).toLocaleDateString()}
+        </li>
+      </ul>
+    );
+  };
 
   const handleFacebookShare = () => {
-    const currentUrl = window.location.href;
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const currentUrl = window.location.href;
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleTwitterShare = () => {
-    const currentUrl = window.location.href;
-    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const currentUrl = window.location.href;
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleTelegramShare = () => {
-    const currentUrl = window.location.href;
-    const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(currentUrl)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const currentUrl = window.location.href;
+      const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(currentUrl)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleWhatsappShare = () => {
-    const currentUrl = window.location.href;
-    const shareUrl = `https://wa.me/?text=${encodeURIComponent(currentUrl)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const currentUrl = window.location.href;
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(currentUrl)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   return (
@@ -54,14 +61,7 @@ const BlogDetailComponent = ({ post }) => {
               <div className='blog-details-content-top'>
                 <h2 className='title'>{post.title}</h2>
                 <div className='bd-content-inner'>
-                  <div className='blog-post-meta'>
-                    <ul className='list-wrap'>
-                      <li style={{ fontSize: '15px' }}>
-                        <FontAwesomeIcon icon={faCalendar} />
-                        {new Date(post.created_at).toLocaleDateString()}
-                      </li>
-                    </ul>
-                  </div>
+                  <div className='blog-post-meta'>{renderMetaInfo()}</div>
                   <div className='blog-details-social'>
                     <ul className='list-wrap'>
                       <li>

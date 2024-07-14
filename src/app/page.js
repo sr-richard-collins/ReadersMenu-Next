@@ -53,13 +53,6 @@ const Home = () => {
   return (
     <>
       {message && <div className='alert success-message'>{message}</div>}
-      <Head>
-        <title>{metadata?.site_title || 'Default Title'}</title>
-        <meta name='description' content={metadata?.seo_description || 'Default Description'} />
-        <meta property='og:title' content={metadata?.seo_title || 'Default Title'} />
-        <meta property='og:description' content={metadata?.seo_description || 'Default Description'} />
-        <meta property='og:keywords' content={metadata?.seo_keyword || 'Default Keywords'} />
-      </Head>
       <div>
         <section className='spotlight-post-area pt-20 pb-60'>
           <div className='spotlight-post-inner-wrap'>

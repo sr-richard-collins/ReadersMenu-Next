@@ -1,11 +1,10 @@
 import RegisterComponent from "@/components/register/registerComponent";
 const Register = () => {
-
   return (
     <html lang='en'>
-      <body >
+      <body>
         <section className='pt-70 pb-60 '>
-          <RegisterComponent/>
+          <RegisterComponent />
         </section>
       </body>
     </html>
