@@ -9,9 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faPhone, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import 'bootstrap'; // Import Bootstrap JavaScript
+// import 'bootstrap'; // Import Bootstrap JavaScript
 import Link from 'next/link';
 import { AuthContext } from '../../provider/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const SpotLightSection = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const SpotLightSection = () => {
   const [spotlight, setSpotlight] = useState([]);
   const [clickedBlogArticleIconId, setClickedBlogArticleIconId] = useState([]);
   const [noPost, setNoPost] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTrendingPosts = async () => {
@@ -48,22 +50,28 @@ const SpotLightSection = () => {
   };
 
   const handleFacebookShare = (slug) => {
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleTwitterShare = (slug) => {
-    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleWhatsAppShare = (slug) => {
-    const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleBlogArticleHeartClick = (linkId) => {
-    if (!user) window.location.href = '/login';
+    if (!user) router.push('/login');
     else {
       const fetchLikes = async () => {
         const response = await axios.post('/api/user/updateLikes', {

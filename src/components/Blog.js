@@ -12,11 +12,11 @@ import { fetchSelectCategory } from '../actions/categoryAction';
 import { useDispatch, useSelector } from 'react-redux';
 import NoPost from '../views/error/No_post';
 import { AuthContext } from '@/provider/AuthContext';
-import Menu from '../layouts/Menu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faPhone, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { useRouter } from 'next/navigation';
 
 const Blog = ({ title, isHomepage }) => {
   const dispatch = useDispatch();
@@ -31,32 +31,46 @@ const Blog = ({ title, isHomepage }) => {
   const [clickedBlogArticleIconId, setClickedBlogArticleIconId] = useState([]);
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchPosts = async () => {
       setLoading(true);
-      let response;
-      if (isHomepage === 1) {
-        response = homePosts.find((post) => post.category === title);
-        if (response) setPosts(response.posts);
-      } else {
-        const response = await axios.get(`/api/user/pagenationPosts`, {
-          params: {
-            category: title,
-            currentPage: currentPage,
-            postsPerPage,
-          },
-        });
-        if (postsPerPage === 'all') {
-          setPosts(response.data);
-          setTotalPosts(response.data.length);
+
+      try {
+        let response;
+        if (isHomepage === 1) {
+          response = homePosts.find((post) => post.category === title);
+          if (response) {
+            setPosts(response.posts);
+          } else {
+            setPosts([]);
+          }
+          setTotalPosts(response ? response.posts.length : 0);
         } else {
-          setPosts(response.data.data);
-          setTotalPosts(response.data.total);
+          response = await axios.get(`/api/user/pagenationPosts`, {
+            params: {
+              category: title,
+              currentPage,
+              postsPerPage,
+            },
+          });
+          if (postsPerPage === 'all') {
+            setPosts(response.data);
+            setTotalPosts(response.data.length);
+          } else {
+            setPosts(response.data.data);
+            setTotalPosts(response.data.total);
+          }
         }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
+
+      // Smooth scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-    fetch();
-    window.scrollTo(0, 0);
+
+    fetchPosts();
   }, [title, currentPage, postsPerPage]);
 
   useEffect(() => {
@@ -86,7 +100,8 @@ const Blog = ({ title, isHomepage }) => {
   };
 
   const handleBlogArticleHeartClick = (linkId) => {
-    if (!user) window.location.href = '/login';
+    const router = useRouter();
+    if (!user) router.push('/login');
     else {
       const fetchLikes = async () => {
         await axios.post('/api/user/updateLikes', {
@@ -104,18 +119,24 @@ const Blog = ({ title, isHomepage }) => {
   };
 
   const handleFacebookShare = (slug) => {
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleTwitterShare = (slug) => {
-    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleWhatsAppShare = (slug) => {
-    const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleViewClick = (name) => {

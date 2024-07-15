@@ -30,7 +30,7 @@ const RelatedPostsComponent = ({ posts }) => {
   }, [user]);
 
   const handleBlogArticleHeartClick = async (linkId) => {
-    if (!user) window.location.href = '/login';
+    if (!user) router.push('/login');
     else {
       try {
         await axios.post('/api/user/updateLikes', {
@@ -119,10 +119,7 @@ const RelatedPostsComponent = ({ posts }) => {
                             className={clickedBlogArticleIconId.includes(post.id) ? 'blog-article-icon-heart-clicked' : ''}
                             style={{ background: 'none', border: 'none' }}
                           >
-                            <FontAwesomeIcon
-                              icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart}
-                              className='blog-article-icon-heart'
-                            />
+                            <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart} className='blog-article-icon-heart' />
                           </button>
                         </div>
                       </li>

@@ -2,7 +2,6 @@ import BlogDetailComponent from '@/components/blogdetail/BlogDetailComponent';
 import RelatedPostsComponent from '@/components/blogdetail/RelatedPostsComponent';
 import Breadcrumb from '@/components/Breadcrumb';
 import Loader from '@/components/Loader';
-import Head from 'next/head';
 import CommentComponent from '@/components/blogdetail/CommentComponent';
 
 export async function generateStaticParams() {
@@ -19,33 +18,33 @@ export async function generateStaticParams() {
   }
 }
 
-// export async function generateMetadata({ params }) {
-//   const { title } = params;
-//   try {
-//     const response = await fetch(`http://tnreaders.in/api/user/seoPost?id=${title}`);
-//     const metadata = await response.json();
-//     return {
-//       title: metadata?.seo_title || 'Default Title',
-//       description: metadata?.seo_description || 'Default Description',
-//       openGraph: {
-//         title: metadata?.seo_title || 'Default Title',
-//         description: metadata?.seo_description || 'Default Description',
-//         keywords: metadata?.seo_keyword || 'Default Keywords',
-//       },
-//     };
-//   } catch (error) {
-//     console.error('Error fetching SEO data:', error);
-//     return {
-//       title: 'Default Title',
-//       description: 'Default Description',
-//       openGraph: {
-//         title: 'Default Title',
-//         description: 'Default Description',
-//         keywords: 'Default Keywords',
-//       },
-//     };
-//   }
-// }
+export async function generateMetadata({ params }) {
+  const { title } = params;
+  try {
+    const response = await fetch(`http://tnreaders.in/api/user/seoPost?id=${title}`);
+    const metadata = await response.json();
+    return {
+      title: metadata?.seo_title || 'Default Title',
+      description: metadata?.seo_description || 'Default Description',
+      openGraph: {
+        title: metadata?.seo_title || 'Default Title',
+        description: metadata?.seo_description || 'Default Description',
+        keywords: metadata?.seo_keyword || 'Default Keywords',
+      },
+    };
+  } catch (error) {
+    console.error('Error fetching SEO data:', error);
+    return {
+      title: 'Default Title',
+      description: 'Default Description',
+      openGraph: {
+        title: 'Default Title',
+        description: 'Default Description',
+        keywords: 'Default Keywords',
+      },
+    };
+  }
+}
 
 const fetchData = async (title) => {
   try {

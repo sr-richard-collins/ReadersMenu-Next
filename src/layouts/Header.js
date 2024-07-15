@@ -77,10 +77,22 @@ const Header = () => {
       }
     };
 
-    document.addEventListener('click', handleOutsideClick);
+    const addOutsideClickListener = () => {
+      document.addEventListener('click', handleOutsideClick);
+    };
+
+    const removeOutsideClickListener = () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+
+    if (typeof document !== 'undefined') {
+      addOutsideClickListener();
+    }
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      if (typeof document !== 'undefined') {
+        removeOutsideClickListener();
+      }
     };
   }, []);
 

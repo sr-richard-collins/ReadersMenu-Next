@@ -8,6 +8,7 @@ import { IMAGE_BASE_URL, DEFAULT_POST } from '../config/index';
 import { fetchSelectCategory } from '../actions/categoryAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthContext } from '../provider/AuthContext';
+import { useRouter } from 'next/navigation';
 import axios from '../config';
 import Link from 'next/link';
 
@@ -19,6 +20,7 @@ const HomeBlog = ({ title }) => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const { setting } = useSelector((state) => state.setting);
+  const router = useRouter();
   const [clickedBlogArticleIconId, setClickedBlogArticleIconId] = useState([]);
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const HomeBlog = ({ title }) => {
   };
 
   const handleBlogArticleHeartClick = (linkId) => {
-    if (!user) window.location.href = '/login';
+    if (!user) router.push('/login');
     else {
       const fetchLikes = async () => {
         const response = await axios.post('/api/user/updateLikes', {
@@ -71,18 +73,24 @@ const HomeBlog = ({ title }) => {
   };
 
   const handleFacebookShare = (slug) => {
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleTwitterShare = (slug) => {
-    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleWhatsAppShare = (slug) => {
-    const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   return (
@@ -186,10 +194,7 @@ const HomeBlog = ({ title }) => {
                                   onClick={() => handleBlogArticleHeartClick(post.id)}
                                   className={clickedBlogArticleIconId.includes(post.id) ? 'blog-article-icon-heart-clicked' : ''}
                                 >
-                                  <FontAwesomeIcon
-                                    icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart}
-                                    className='blog-article-icon-heart'
-                                  />
+                                  <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart} className='blog-article-icon-heart' />
                                 </Link>
                               </div>
                             </li>
