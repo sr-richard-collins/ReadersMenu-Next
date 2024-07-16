@@ -1,9 +1,9 @@
 import Blog from '@/components/Blog';
 import Loader from '@/components/Loader';
+import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
   try {
-    // Fetch categories data
     const response = await fetch('http://tnreaders.in/api/user/allCategories');
     const categories = await response.json();
 
@@ -76,13 +76,23 @@ function findCategory(categories, name) {
 export default async function Category({ params }) {
   const { name } = params;
 
-  // Fetch categories and metadata
-  const categories = await fetchCategories();
-  const selectCategory = findCategory(categories, name);
-
   if (!name) {
     return <Loader />;
   }
 
-  return <>{selectCategory ? <Blog title={selectCategory.name} isHomepage={0} /> : <p>Category not found</p>}</>;
+  const categories = await fetchCategories();
+  const selectCategory = findCategory(categories, name);
+
+  if (!selectCategory) {
+    return notFound(); // Automatically handle 404 for not found pages
+  }
+
+  return (
+    <>
+      <Blog title={selectCategory.name} isHomepage={0} />
+    </>
+  );
 }
+
+// Use ISR to revalidate the page every 60 seconds
+export const revalidate = 60;

@@ -3,16 +3,16 @@ import RelatedPostsComponent from '@/components/blogdetail/RelatedPostsComponent
 import Breadcrumb from '@/components/Breadcrumb';
 import Loader from '@/components/Loader';
 import CommentComponent from '@/components/blogdetail/CommentComponent';
+import { notFound } from 'next/navigation';
 
 export async function generateStaticParams() {
   try {
-    // Fetch posts data
-    const response = await fetch(`http://tnreaders.in/api/user/allPostsSeo`);
+    const response = await fetch('http://tnreaders.in/api/user/allArticlePostsSeo');
     const posts = await response.json();
 
-    return posts.map((post) => {
-      return { title: post.seo_slug };
-    });
+    return posts.map((post) => ({
+      title: post.seo_slug,
+    }));
   } catch (error) {
     console.error('Error fetching posts:', error);
     return [];
@@ -21,9 +21,11 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { title } = params;
+
   try {
     const response = await fetch(`http://tnreaders.in/api/user/seoPost?id=${title}`);
     const metadata = await response.json();
+
     return {
       title: metadata?.seo_title || 'Default Title',
       description: metadata?.seo_description || 'Default Description',
@@ -49,11 +51,9 @@ export async function generateMetadata({ params }) {
 
 const fetchData = async (title) => {
   try {
-    // Fetch post data
     const postResponse = await fetch(`http://tnreaders.in/api/user/findPost?id=${title}`);
     const post = await postResponse.json();
 
-    // Fetch related posts
     const relatedRes = await fetch(`http://tnreaders.in/api/user/relatedPost?id=${title}`);
     const relatedPosts = await relatedRes.json();
 
@@ -66,12 +66,16 @@ const fetchData = async (title) => {
 
 export default async function BlogDetails({ params }) {
   const { title } = params;
-  // Ensure data is fetched before rendering
+
   if (!title) {
     return <Loader />;
   }
 
   const { post, relatedPosts } = await fetchData(title);
+
+  if (!post) {
+    return notFound(); // Automatically handle 404 for not found pages
+  }
 
   return (
     <>
@@ -79,7 +83,7 @@ export default async function BlogDetails({ params }) {
         <Breadcrumb title={decodeURIComponent(title)} />
         <div className='spotlight-post-inner-wrap'>
           <div className='col-lg-9 col-md-12 mt-20'>
-            {post && <BlogDetailComponent post={post} />}
+            <BlogDetailComponent post={post} />
             <CommentComponent post={post} />
             {relatedPosts.length > 0 && <RelatedPostsComponent posts={relatedPosts} />}
           </div>
@@ -89,3 +93,6 @@ export default async function BlogDetails({ params }) {
     </>
   );
 }
+
+// Use ISR to revalidate the page every 60 seconds
+export const revalidate = 60;
