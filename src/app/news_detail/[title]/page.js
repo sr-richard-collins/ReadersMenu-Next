@@ -19,6 +19,10 @@ export async function generateStaticParams() {
   }
 }
 
+export const dynamicParams = {
+  fallback: 'blocking',
+};
+
 export async function generateMetadata({ params }) {
   const { title } = params;
 
