@@ -99,4 +99,4 @@ export default async function BlogDetails({ params }) {
 }
 
 // Use ISR to revalidate the page every 60 seconds
-export const revalidate = 60;
+export const revalidate = 0;
