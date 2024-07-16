@@ -64,6 +64,13 @@ const Header = () => {
     setActiveCategory({ category: null, show: false });
   };
 
+  const handleCategoryClick = () => {
+    setActiveCategory((prevActiveCategory) => ({
+      category: category.name,
+      show: prevActiveCategory.category !== category.name ? true : !prevActiveCategory.show,
+    }));
+  };
+
   const handleShowToggleSubMenu = () => {
     setShowToggleSubMenu(!showToggleSubMenu);
   };
@@ -190,7 +197,7 @@ const Header = () => {
                   </Link>
                 </>
               )}
-              <Link href='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link mx-1' id='mobileMenuToggleBtn'>
+              <Link href='/' onClick={handleMenuToggleOpenClick} className='nav-bar-link mx-1' id='mobileMenuToggleBtn'>
                 <FontAwesomeIcon icon={faBars} />
               </Link>
             </div>
@@ -226,7 +233,7 @@ const Header = () => {
                             </Link>
                           ) : (
                             <>
-                              <Link
+                              <a
                                 onClick={() => {
                                   setActiveCategory((prevActiveCategory) => ({
                                     category: category.name,
@@ -241,7 +248,7 @@ const Header = () => {
                                     <FontAwesomeIcon icon={faChevronDown} />
                                   </div>
                                 </div>
-                              </Link>
+                              </a>
                               {activeCategory.category === category.name && (
                                 <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
                                   {category.child.map((subCategory) => (
@@ -288,7 +295,7 @@ const Header = () => {
                                   </Link>
                                 ) : (
                                   <>
-                                    <Link
+                                    <a
                                       onClick={() => {
                                         setActiveCategory((prevActiveCategory) => ({
                                           category: category.name,
@@ -301,14 +308,11 @@ const Header = () => {
                                         <div className='col-95' style={{ fontSize: '12px' }}>
                                           {category.name}
                                         </div>
-                                        <div className='col-95' style={{ fontSize: '12px' }}>
-                                          {category.name}
-                                        </div>
                                         <div className='col-05'>
                                           <FontAwesomeIcon icon={faChevronDown} />
                                         </div>
                                       </div>
-                                    </Link>
+                                    </a>
                                     {activeCategory.category === category.name && (
                                       <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
                                         {category.child.map((subCategory) => (
