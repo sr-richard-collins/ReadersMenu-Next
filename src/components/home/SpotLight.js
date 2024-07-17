@@ -177,13 +177,12 @@ const SpotLightSection = () => {
                         </Link>
                       </div>
                       <div className='col-20'>
-                        <Link
-                          href={'/'}
+                        <a
                           onClick={() => handleBlogArticleHeartClick(item.id)}
                           className={clickedBlogArticleIconId.includes(item.id) ? 'blog-article-icon-heart-clicked' : ''}
                         >
                           <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(item.id) ? faHeart : farHeart} className='blog-article-icon-heart' />
-                        </Link>
+                        </a>
                       </div>
                     </li>
                   </ul>

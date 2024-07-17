@@ -111,9 +111,9 @@ const Header = () => {
         <div className='container'>
           <div className='row'>
             <div className='col-lg-2 col-md-3 col-3'>
-              <Link href='/'>
+              <a href='/'>
                 <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='logo-style' />
-              </Link>
+              </a>
             </div>
             <div className='col-lg-10 col-md-9 col-9'>
               <div>
@@ -122,16 +122,16 @@ const Header = () => {
                     <div className='navbar-wrap main-menu d-none d-lg-flex'>
                       <ul className='navigation'>
                         <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
-                          <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
+                          <a href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
                             Home
-                          </Link>
+                          </a>
                         </li>
                         {categories.length > 8 &&
                           categories.slice(0, 7).map((category) => (
                             <li key={category.id} className={(selectCategory ? selectCategory : activeLink) === category.name ? 'active' : ''}>
-                              <Link href={`/${category.type2}/${category.data_query}`} onClick={() => handleLinkClick(category.name)} className='nav-bar-link'>
+                              <a href={`/${category.type2}/${category.data_query}`} onClick={() => handleLinkClick(category.name)} className='nav-bar-link'>
                                 {category.name}
-                              </Link>
+                              </a>
                             </li>
                           ))}
                         <li>
@@ -163,27 +163,27 @@ const Header = () => {
                   </nav>
                   <div className='mobile-nav-toggler'>
                     <Link href='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link'>
-                    <FontAwesomeIcon icon={faBars} />
+                      <FontAwesomeIcon icon={faBars} />
                     </Link>
                     {showToggleMenu && (
                       <div className='mobile-menu' onMouseLeave={handleMenuToggleCloseClick}>
                         <nav className='menu-box'>
                           <div className='close-btn'>
                             <Link href='#' onClick={handleMenuToggleCloseClick} className='nav-bar-link'>
-                            <FontAwesomeIcon icon={faTimes} />
+                              <FontAwesomeIcon icon={faTimes} />
                             </Link>
                           </div>
                           <div className='nav-logo'>
-                            <Link href='/'>
+                            <a href='/'>
                               <img src={IMAGE_BASE_URL + setting.site_logo} alt='logo' />
-                            </Link>
+                            </a>
                           </div>
                           <div className='menu-outer'>
                             <ul className='navigation'>
                               <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
-                                <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
+                                <a href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
                                   Home
-                                </Link>
+                                </a>
                               </li>
                               {categories.slice(0, 7).map((category, index) => (
                                 <li className='active menu-item-has-children ' key={index}>

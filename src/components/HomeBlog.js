@@ -189,13 +189,12 @@ const HomeBlog = ({ title }) => {
                                 </div>
                               </div>
                               <div className='col-20'>
-                                <Link
-                                  href={'/'}
+                                <a
                                   onClick={() => handleBlogArticleHeartClick(post.id)}
                                   className={clickedBlogArticleIconId.includes(post.id) ? 'blog-article-icon-heart-clicked' : ''}
                                 >
                                   <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart} className='blog-article-icon-heart' />
-                                </Link>
+                                </a>
                               </div>
                             </li>
                           </ul>

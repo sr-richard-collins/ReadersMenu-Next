@@ -48,6 +48,27 @@ const RelatedPostsComponent = ({ posts }) => {
     }
   };
 
+  const handleWhatsAppShare = (slug) => {
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
+  };
+
+  const handleFacebookShare = (slug) => {
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
+  };
+
+  const handleTwitterShare = (slug) => {
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      window.open(shareUrl, '_blank');
+    }
+  };
+
   return (
     <section className='today-post-area pt-50'>
       <div className='section-title-wrap'>
@@ -84,19 +105,19 @@ const RelatedPostsComponent = ({ posts }) => {
                       </li>
                       <li className='col-3'>
                         <span className='homeblog-link-icon-phone'>
-                          <Link href='/'>
+                          <a onClick={() => handleWhatsAppShare(post.seo_slug)}>
                             <FontAwesomeIcon icon={faPhone} />
-                          </Link>
+                          </a>
                         </span>
                         <span className='homeblog-link-icon-facebook'>
-                          <Link href='/'>
+                          <a onClick={() => handleFacebookShare(post.seo_slug)}>
                             <FontAwesomeIcon icon={faFacebookF} />
-                          </Link>
+                          </a>
                         </span>
                         <span className='homeblog-link-icon-twitter'>
-                          <Link href='/'>
+                          <a onClick={() => handleTwitterShare(post.seo_slug)}>
                             <FontAwesomeIcon icon={faTwitter} />
-                          </Link>
+                          </a>
                         </span>
                       </li>
                       <li className='col-6 '>

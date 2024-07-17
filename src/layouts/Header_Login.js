@@ -58,9 +58,9 @@ const HeaderLogin = () => {
               <div className='swiper-container ta-trending-slider'>
                 <div className='swiper-wrapper'>
                   <div className='swiper-slide'>
-                    <Link href='/'>
+                    <a href='/'>
                       <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='logo-style' />
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -72,9 +72,9 @@ const HeaderLogin = () => {
               <ul className='list-wrap'>
                 <li>
                   <span>
-                    <Link href='/'>
+                    <a href='/'>
                       <FontAwesomeIcon icon='fa-solid fa-house' className='img-icon-left-menu rounded-circle mx-2' />
-                    </Link>
+                    </a>
                   </span>
                 </li>
               </ul>
@@ -93,14 +93,14 @@ const HeaderLogin = () => {
                         <div className='close-btn' onClick={handleMenuToggleCloseClick}>
                           <FontAwesomeIcon icon={faTimes} />
                         </div>
-                        <Link href='/'>
+                        <a href='/'>
                           <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' />
-                        </Link>
+                        </a>
                       </li>
                       <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
-                        <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
+                        <a href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
                           Home
-                        </Link>
+                        </a>
                       </li>
 
                       {mainCategories.map((category, index) => (

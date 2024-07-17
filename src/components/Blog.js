@@ -217,7 +217,6 @@ const Blog = ({ title, isHomepage }) => {
                                 </div>
                                 <div className='col-20'>
                                   <a
-                                    href='#'
                                     onClick={() => handleBlogArticleHeartClick(post.id)}
                                     className={clickedBlogArticleIconId.includes(post.id) ? 'blog-article-icon-heart-clicked' : ''}
                                   >

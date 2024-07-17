@@ -112,9 +112,9 @@ const Header = () => {
               <div className='swiper-container ta-trending-slider'>
                 <div className='myswiper-wrapper'>
                   <div className='swiper-slide'>
-                    <Link href='/'>
+                    <a href='/'>
                       <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='mylogo-style' />
-                    </Link>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -210,14 +210,14 @@ const Header = () => {
                         <div className='close-btn' onClick={handleMenuToggleCloseClick}>
                           <FontAwesomeIcon icon={faTimes} />
                         </div>
-                        <Link href='/'>
+                        <a href='/'>
                           <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' style={{ width: '70%' }} />
-                        </Link>
+                        </a>
                       </li>
                       <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
-                        <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link mx-3'>
+                        <a href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link mx-3'>
                           Home
-                        </Link>
+                        </a>
                       </li>
 
                       {mainCategories.map((category, index) => (
