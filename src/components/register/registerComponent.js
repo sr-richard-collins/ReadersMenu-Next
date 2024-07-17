@@ -113,9 +113,9 @@ const RegisterComponent = () => {
           <div className='row d-flex justify-content-center align-items-center'>
             <div className='col-md-8 col-lg-6 col-xl-4'>
               <div className='justify-content-end d-flex mb-3'>
-                <Link href='/' className='nav-bar-link'>
+                <a href='/' className='nav-bar-link'>
                   <FontAwesomeIcon icon={faHome} className='img-icon-left-menu' />
-                </Link>
+                </a>
               </div>
               <div className='login-card' style={{ height: '750px' }}>
                 {!isVerificationSent ? (
@@ -208,7 +208,7 @@ const RegisterComponent = () => {
                         Register
                       </button>
                       <p className='small fw-bold mt-2 pt-1 mb-0'>
-                        Return to <Link href='/'>Home</Link>
+                        Return to <a href='/'>Home</a>
                       </p>
                     </div>
                   </form>
