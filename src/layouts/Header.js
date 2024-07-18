@@ -160,7 +160,7 @@ const Header = () => {
                   </span>
                 </li>
 
-                {user ? (
+                {/* {user ? (
                   <>
                     <span>{user.name}</span>
                     <button onClick={logout} className='btn'>
@@ -176,11 +176,11 @@ const Header = () => {
                       Register
                     </Link>
                   </>
-                )}
+                )} */}
               </ul>
             </div>
             <div className='mobile-nav-toggler'>
-              {user ? (
+              {/* {user ? (
                 <>
                   <span>{user.name}</span>
                   <button onClick={logout} className='btn'>
@@ -196,7 +196,7 @@ const Header = () => {
                     Register
                   </Link>
                 </>
-              )}
+              )} */}
               <Link href='/' onClick={handleMenuToggleOpenClick} className='nav-bar-link mx-1' id='mobileMenuToggleBtn'>
                 <FontAwesomeIcon icon={faBars} />
               </Link>

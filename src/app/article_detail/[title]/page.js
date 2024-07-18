@@ -88,7 +88,7 @@ export default async function BlogDetails({ params }) {
         <div className='spotlight-post-inner-wrap'>
           <div className='col-lg-9 col-md-12 mt-20'>
             <BlogDetailComponent post={post} />
-            <CommentComponent post={post} />
+            {/* <CommentComponent post={post} /> */}
             {relatedPosts.length > 0 && <RelatedPostsComponent posts={relatedPosts} />}
           </div>
           <div className='col-lg-3'></div>

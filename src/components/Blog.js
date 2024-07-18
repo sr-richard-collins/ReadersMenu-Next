@@ -215,7 +215,7 @@ const Blog = ({ title, isHomepage }) => {
                                     </Link>
                                   </div>
                                 </div>
-                                <div className='col-20'>
+                                {/* <div className='col-20'>
                                   <a
                                     onClick={() => handleBlogArticleHeartClick(post.id)}
                                     className={clickedBlogArticleIconId.includes(post.id) ? 'blog-article-icon-heart-clicked' : ''}
@@ -225,7 +225,7 @@ const Blog = ({ title, isHomepage }) => {
                                       className='blog-article-icon-heart'
                                     />
                                   </a>
-                                </div>
+                                </div> */}
                               </li>
                             </ul>
                           </div>

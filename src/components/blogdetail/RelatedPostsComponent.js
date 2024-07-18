@@ -134,7 +134,7 @@ const RelatedPostsComponent = ({ posts }) => {
                             </Link>
                           </div>
                         </div>
-                        <div className='col-20'>
+                        {/* <div className='col-20'>
                           <button
                             onClick={() => handleBlogArticleHeartClick(post.id)}
                             className={clickedBlogArticleIconId.includes(post.id) ? 'blog-article-icon-heart-clicked' : ''}
@@ -142,7 +142,7 @@ const RelatedPostsComponent = ({ posts }) => {
                           >
                             <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart} className='blog-article-icon-heart' />
                           </button>
-                        </div>
+                        </div> */}
                       </li>
                     </ul>
                   </div>
