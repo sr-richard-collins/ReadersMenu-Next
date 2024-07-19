@@ -113,7 +113,11 @@ const Header = () => {
                 <div className='myswiper-wrapper'>
                   <div className='swiper-slide'>
                     <a href='/'>
-                      <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='mylogo-style' />
+                      <img
+                        src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : DEFAULT_LOGO}
+                        alt='logo'
+                        className='mylogo-style'
+                      />
                     </a>
                   </div>
                 </div>
@@ -211,7 +215,11 @@ const Header = () => {
                           <FontAwesomeIcon icon={faTimes} />
                         </div>
                         <a href='/'>
-                          <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' style={{ width: '70%' }} />
+                          <img
+                            src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : DEFAULT_LOGO}
+                            alt='logo'
+                            style={{ width: '70%' }}
+                          />
                         </a>
                       </li>
                       <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>

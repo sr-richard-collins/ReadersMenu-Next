@@ -72,23 +72,29 @@ const HomeBlog = ({ title }) => {
     }
   };
 
-  const handleFacebookShare = (slug) => {
+  const handleFacebookShare = (slug, type) => {
     if (typeof window !== 'undefined') {
-      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        window.location.origin + '/' + (type === 'news' ? 'news_detail' : 'article_detail') + '/' + slug
+      )}`;
       window.open(shareUrl, '_blank');
     }
   };
 
-  const handleTwitterShare = (slug) => {
+  const handleTwitterShare = (slug, type) => {
     if (typeof window !== 'undefined') {
-      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+        window.location.origin + '/' + (type === 'news' ? 'news_detail' : 'article_detail') + '/' + slug
+      )}`;
       window.open(shareUrl, '_blank');
     }
   };
 
-  const handleWhatsAppShare = (slug) => {
+  const handleWhatsAppShare = (slug, type) => {
     if (typeof window !== 'undefined') {
-      const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(
+        window.location.origin + '/' + (type === 'news' ? 'news_detail' : 'article_detail') + '/' + slug
+      )}`;
       window.open(shareUrl, '_blank');
     }
   };
@@ -140,7 +146,14 @@ const HomeBlog = ({ title }) => {
                     <div className='editor-post-item'>
                       <div className='editor-post-thumb'>
                         <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>
-                          <img src={post.img ? IMAGE_BASE_URL + post.img : IMAGE_BASE_URL + DEFAULT_POST} alt={post.title} />
+                          <img
+                            src={
+                              post.img
+                                ? IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + post.img
+                                : IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + DEFAULT_POST
+                            }
+                            alt={post.title}
+                          />
                         </Link>
                       </div>
                       <div className='editor-post-content' style={{ borderBottom: '1px solid #e4e4e4' }}>
@@ -156,17 +169,17 @@ const HomeBlog = ({ title }) => {
                             </li>
                             <li className='col-3'>
                               <span className='homeblog-link-icon-phone'>
-                                <a onClick={() => handleWhatsAppShare(post.seo_slug)}>
+                                <a onClick={() => handleWhatsAppShare(post.seo_slug, post.category.type2)}>
                                   <FontAwesomeIcon icon={faPhone} />
                                 </a>
                               </span>
                               <span className='homeblog-link-icon-facebook'>
-                                <a onClick={() => handleFacebookShare(post.seo_slug)}>
+                                <a onClick={() => handleFacebookShare(post.seo_slug, post.category.type2)}>
                                   <FontAwesomeIcon icon={faFacebookF} />
                                 </a>
                               </span>
                               <span className='homeblog-link-icon-twitter'>
-                                <a onClick={() => handleTwitterShare(post.seo_slug)}>
+                                <a onClick={() => handleTwitterShare(post.seo_slug, post.category.type2)}>
                                   <FontAwesomeIcon icon={faTwitter} />
                                 </a>
                               </span>

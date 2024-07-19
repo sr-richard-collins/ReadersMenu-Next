@@ -240,7 +240,7 @@ const RegisterComponent = () => {
             <div className='col-md-9 col-lg-6 col-xl-5 offset-xl-1'>
               <div className='brand_logo_container'>
                 <img
-                  src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO}
+                  src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting' + setting.site_logo : DEFAULT_LOGO}
                   alt='logo'
                   className='mb-4'
                   style={{ height: '3rem', width: '12rem', marginTop: '50px' }}

@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 // const IMAGE_BASE_URL = process.env.IMAGE_BASE_URL || 'https://tnreaders.in/images/';
-// const IMAGE_BASE_URL = 'http://localhost:8000/images/';
-const IMAGE_BASE_URL = 'https://tnreaders.in/images/';
+const IMAGE_BASE_URL = 'http://localhost:8000/images/';
+const BASE_URL = 'https://www.readersmenu.com';
+// const IMAGE_BASE_URL = 'https://tnreaders.in/images/';
 const DEFAULT_POST = 'default_post.png';
 const DEFAULT_CATEGORY = 'default_category.jpeg';
 
@@ -13,4 +14,4 @@ const axiosInstance = axios.create({
 
 export default axiosInstance;
 
-export { IMAGE_BASE_URL, DEFAULT_POST, DEFAULT_CATEGORY };
+export { IMAGE_BASE_URL, DEFAULT_POST, DEFAULT_CATEGORY, BASE_URL };

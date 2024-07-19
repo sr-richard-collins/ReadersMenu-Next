@@ -59,7 +59,11 @@ const HeaderLogin = () => {
                 <div className='swiper-wrapper'>
                   <div className='swiper-slide'>
                     <a href='/'>
-                      <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='logo-style' />
+                      <img
+                        src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : DEFAULT_LOGO}
+                        alt='logo'
+                        className='logo-style'
+                      />
                     </a>
                   </div>
                 </div>
@@ -94,7 +98,7 @@ const HeaderLogin = () => {
                           <FontAwesomeIcon icon={faTimes} />
                         </div>
                         <a href='/'>
-                          <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' />
+                          <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : DEFAULT_LOGO} alt='logo' />
                         </a>
                       </li>
                       <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>

@@ -33,6 +33,13 @@ export async function generateMetadata({ params }) {
     return {
       title: metadata?.seo_title || 'Default Title',
       description: metadata?.seo_description || 'Default Description',
+      alternates: {
+        canonical: `${BASE_URL}/news_detail/${title}`,
+        generator: 'ReadersMenu',
+        applicationName: 'ReadersMenu',
+        referrer: 'origin-when-cross-origin',
+        authors: [{ name: 'ReadersMenu', url: 'https://www.readersmenu.com/' }],
+      },
       openGraph: {
         title: metadata?.seo_title || 'Default Title',
         description: metadata?.seo_description || 'Default Description',

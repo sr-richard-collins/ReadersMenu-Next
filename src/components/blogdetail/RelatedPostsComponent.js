@@ -48,23 +48,27 @@ const RelatedPostsComponent = ({ posts }) => {
     }
   };
 
-  const handleWhatsAppShare = (slug) => {
+  const handleFacebookShare = (slug, title, img, subTitle) => {
     if (typeof window !== 'undefined') {
-      const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}&title=${encodeURIComponent(
+        title
+      )}&description=${encodeURIComponent(subTitle)}&picture=${encodeURIComponent(img)}`;
       window.open(shareUrl, '_blank');
     }
   };
 
-  const handleFacebookShare = (slug) => {
+  const handleTwitterShare = (slug, title, img, subTitle) => {
     if (typeof window !== 'undefined') {
-      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}&text=${encodeURIComponent(
+        title
+      )}&image=${encodeURIComponent(img)}&description=${encodeURIComponent(subTitle)}`;
       window.open(shareUrl, '_blank');
     }
   };
 
-  const handleTwitterShare = (slug) => {
+  const handleWhatsAppShare = (slug, title, img, subTitle) => {
     if (typeof window !== 'undefined') {
-      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(`${title}\n${subTitle}\n${window.location.origin}/${slug}\n${img}`)}`;
       window.open(shareUrl, '_blank');
     }
   };
@@ -85,7 +89,14 @@ const RelatedPostsComponent = ({ posts }) => {
                 <div className='banner-post-thumb-five'>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>
-                      <img src={post.img ? IMAGE_BASE_URL + post.img : IMAGE_BASE_URL + DEFAULT_POST} alt={post.title} />
+                      <img
+                        src={
+                          post.img
+                            ? IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + post.img
+                            : IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + DEFAULT_POST
+                        }
+                        alt={post.title}
+                      />
                     </Link>
                     <Link href={`/${post.category_type}/${post.category_data_query}`} className='post-tag my-3'>
                       {post.category_name}
@@ -105,17 +116,50 @@ const RelatedPostsComponent = ({ posts }) => {
                       </li>
                       <li className='col-3'>
                         <span className='homeblog-link-icon-phone'>
-                          <a onClick={() => handleWhatsAppShare(post.seo_slug)}>
+                          <a
+                            onClick={() =>
+                              handleWhatsAppShare(
+                                post.seo_slug,
+                                post.title,
+                                post.img
+                                  ? IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + post.img
+                                  : IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + DEFAULT_POST,
+                                post.sub_title
+                              )
+                            }
+                          >
                             <FontAwesomeIcon icon={faPhone} />
                           </a>
                         </span>
                         <span className='homeblog-link-icon-facebook'>
-                          <a onClick={() => handleFacebookShare(post.seo_slug)}>
+                          <a
+                            onClick={() =>
+                              handleFacebookShare(
+                                post.seo_slug,
+                                post.title,
+                                post.img
+                                  ? IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + post.img
+                                  : IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + DEFAULT_POST,
+                                post.sub_title
+                              )
+                            }
+                          >
                             <FontAwesomeIcon icon={faFacebookF} />
                           </a>
                         </span>
                         <span className='homeblog-link-icon-twitter'>
-                          <a onClick={() => handleTwitterShare(post.seo_slug)}>
+                          <a
+                            onClick={() =>
+                              handleTwitterShare(
+                                post.seo_slug,
+                                post.title,
+                                post.img
+                                  ? IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + post.img
+                                  : IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + DEFAULT_POST,
+                                post.sub_title
+                              )
+                            }
+                          >
                             <FontAwesomeIcon icon={faTwitter} />
                           </a>
                         </span>
@@ -134,7 +178,7 @@ const RelatedPostsComponent = ({ posts }) => {
                             </Link>
                           </div>
                         </div>
-                        {/* <div className='col-20'>
+                        <div className='col-20'>
                           <button
                             onClick={() => handleBlogArticleHeartClick(post.id)}
                             className={clickedBlogArticleIconId.includes(post.id) ? 'blog-article-icon-heart-clicked' : ''}
@@ -142,7 +186,7 @@ const RelatedPostsComponent = ({ posts }) => {
                           >
                             <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart} className='blog-article-icon-heart' />
                           </button>
-                        </div> */}
+                        </div>
                       </li>
                     </ul>
                   </div>

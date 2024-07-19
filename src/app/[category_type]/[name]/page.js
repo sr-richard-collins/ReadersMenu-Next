@@ -1,6 +1,7 @@
 import Blog from '@/components/Blog';
 import Loader from '@/components/Loader';
 import { notFound } from 'next/navigation';
+import { BASE_URL } from '@/config';
 
 export async function generateStaticParams() {
   try {
@@ -22,7 +23,7 @@ export const dynamicParams = {
 };
 
 export async function generateMetadata({ params }) {
-  const { name } = params;
+  const { category_type, name } = params;
   try {
     const response = await fetch(`http://tnreaders.in/api/user/seoCategory?id=${name}`);
     const metadata = await response.json();
@@ -30,6 +31,13 @@ export async function generateMetadata({ params }) {
     return {
       title: metadata?.seo_title || 'Default Title',
       description: metadata?.seo_description || 'Default Description',
+      alternates: {
+        canonical: `${BASE_URL}/${category_type}/${name}`,
+        generator: 'ReadersMenu',
+        applicationName: 'ReadersMenu',
+        referrer: 'origin-when-cross-origin',
+        authors: [{ name: 'ReadersMenu', url: 'https://www.readersmenu.com/' }],
+      },
       openGraph: {
         title: metadata?.seo_title || 'Default Title',
         description: metadata?.seo_description || 'Default Description',

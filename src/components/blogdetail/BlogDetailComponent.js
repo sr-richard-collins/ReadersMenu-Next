@@ -91,7 +91,14 @@ const BlogDetailComponent = ({ post }) => {
               <div className='blog-details-thumb'>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <Link href='#'>
-                    <img src={post.img ? IMAGE_BASE_URL + post.img : IMAGE_BASE_URL + DEFAULT_POST} alt={post.seo_slug} />
+                    <img
+                      src={
+                        post.img
+                          ? IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + post.img
+                          : IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + DEFAULT_POST
+                      }
+                      alt={post.seo_slug}
+                    />
                   </Link>
                   <Link href='#' className='post-tag mb-3' style={{ fontWeight: 'bold', marginTop: '20px' }}>
                     {post.category_name}

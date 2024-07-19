@@ -109,7 +109,7 @@ const CommentComponent = ({ post }) => {
             <li>
               <div className='comments-box'>
                 <div className='comments-avatar'>
-                  <img src={IMAGE_BASE_URL + comment.user.avatar} alt='img' />
+                  <img src={IMAGE_BASE_URL + 'profile/' + comment.user.avatar} alt='img' />
                 </div>
                 <div className='comments-text'>
                   <div className='avatar-name'>

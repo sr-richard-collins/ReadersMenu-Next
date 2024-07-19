@@ -49,23 +49,29 @@ const SpotLightSection = () => {
     dispatch(fetchSelectCategory(name));
   };
 
-  const handleFacebookShare = (slug) => {
+  const handleFacebookShare = (slug, type) => {
     if (typeof window !== 'undefined') {
-      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        window.location.origin + '/' + (type === 'news' ? 'news_detail' : 'article_detail') + '/' + slug
+      )}`;
       window.open(shareUrl, '_blank');
     }
   };
 
-  const handleTwitterShare = (slug) => {
+  const handleTwitterShare = (slug, type) => {
     if (typeof window !== 'undefined') {
-      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
+        window.location.origin + '/' + (type === 'news' ? 'news_detail' : 'article_detail') + '/' + slug
+      )}`;
       window.open(shareUrl, '_blank');
     }
   };
 
-  const handleWhatsAppShare = (slug) => {
+  const handleWhatsAppShare = (slug, type) => {
     if (typeof window !== 'undefined') {
-      const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(
+        window.location.origin + '/' + (type === 'news' ? 'news_detail' : 'article_detail') + '/' + slug
+      )}`;
       window.open(shareUrl, '_blank');
     }
   };
@@ -124,7 +130,14 @@ const SpotLightSection = () => {
               <div className='spotlight-post big-post'>
                 <div className='spotlight-post-thumb'>
                   <Link href={`/${item.category_type === 'news' ? 'news_detail' : 'article_detail'}/${item.seo_slug}`}>
-                    <img src={item.img ? IMAGE_BASE_URL + item.img : IMAGE_BASE_URL + DEFAULT_POST} alt={item.title} />
+                    <img
+                      src={
+                        item.img
+                          ? IMAGE_BASE_URL + 'post/' + (item.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + item.img
+                          : IMAGE_BASE_URL + 'post/' + (item.category.type2 === 'news' ? 'news_detail' : 'article_detail') + '/' + DEFAULT_POST
+                      }
+                      alt={item.title}
+                    />
                   </Link>
                   <Link
                     href={`/${item.category_type}/${item.category_data_query}`}
@@ -149,17 +162,17 @@ const SpotLightSection = () => {
                     </li>
                     <li className='col-3'>
                       <span className='homeblog-link-icon-phone'>
-                        <a onClick={() => handleWhatsAppShare(item.seo_slug)}>
+                        <a onClick={() => handleWhatsAppShare(item.seo_slug, item.category.type2)}>
                           <FontAwesomeIcon icon={faPhone} />
                         </a>
                       </span>
                       <span className='homeblog-link-icon-facebook'>
-                        <a onClick={() => handleFacebookShare(item.seo_slug)}>
+                        <a onClick={() => handleFacebookShare(item.seo_slug, item.category.type2)}>
                           <FontAwesomeIcon icon={faFacebookF} />
                         </a>
                       </span>
                       <span className='homeblog-link-icon-twitter'>
-                        <a onClick={() => handleTwitterShare(item.seo_slug)}>
+                        <a onClick={() => handleTwitterShare(item.seo_slug, item.category.type2)}>
                           <FontAwesomeIcon icon={faTwitter} />
                         </a>
                       </span>
