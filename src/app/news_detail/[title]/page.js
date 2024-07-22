@@ -4,6 +4,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 import Loader from '@/components/Loader';
 import CommentComponent from '@/components/blogdetail/CommentComponent';
 import { notFound } from 'next/navigation';
+import { BASE_URL } from '@/config';
 
 export async function generateStaticParams() {
   try {

@@ -1,24 +1,29 @@
 import { BASE_URL } from '@/config';
 
-export async function generateSitemaps() {
+async function fetchPosts() {
   try {
     const response = await fetch('http://tnreaders.in/api/user/allNewsPostsSeo');
-    const posts = await response.json();
-
-    return posts.map((post) => ({
-      title: post.seo_slug,
-    }));
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return await response.json();
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    console.error('Error fetching posts:', error);
     return [];
   }
 }
 
-export default async function sitemap({ title }) {
-  const response = await fetch('http://tnreaders.in/api/user/allNewsPostsSeo');
-  const posts = await response.json();
+// export async function generateSitemaps() {
+//   const posts = await fetchPosts();
+//   return posts.map((post) => ({
+//     title: post.seo_slug,
+//   }));
+// }
+
+export default async function sitemap() {
+  const posts = await fetchPosts();
   return posts.map((post) => ({
-    url: `${BASE_URL}/article_detail/${title}`,
+    url: `${BASE_URL}/news_detail/${post.seo_slug}`, // Ensure this matches your URL structure
     lastModified: post.updated_at,
   }));
 }
