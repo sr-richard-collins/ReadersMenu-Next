@@ -100,7 +100,11 @@ const BlogDetailComponent = ({ post }) => {
                       alt={post.seo_slug}
                     />
                   </Link>
-                  <Link href='#' className='post-tag mb-3' style={{ fontWeight: 'bold', marginTop: '20px' }}>
+                  <Link
+                    href={`/${post.category.type2}/${post.category.data_query}`}
+                    className='post-tag mb-3'
+                    style={{ fontWeight: 'bold', marginTop: '20px' }}
+                  >
                     {post.category_name}
                   </Link>
                 </div>
