@@ -1,7 +1,8 @@
 import Blog from '@/components/Blog';
 import Loader from '@/components/Loader';
 import { notFound } from 'next/navigation';
-import { BASE_URL } from '@/config';
+import { BASE_URL, IMAGE_BASE_URL } from '@/config';
+import { DEFAULT_FAVICON } from '@/config/constant';
 
 export async function generateStaticParams() {
   try {
@@ -9,8 +10,8 @@ export async function generateStaticParams() {
     const categories = await response.json();
 
     return categories.map((post) => ({
-      category_type: post.type2,
-      name: post.data_query,
+      category_type: post.type2 || 'defaultCategoryType', // Provide a default value
+      name: post.data_query || 'defaultName', // Provide a default value
     }));
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }) {
     const metadata = await response.json();
 
     return {
-      title: metadata?.seo_title || 'Default Title',
+      title: metadata?.seo_title || 'ReadersMenu',
       description: metadata?.seo_description || 'Default Description',
       alternates: {
         canonical: `${BASE_URL}/${category_type}/${name}`,
@@ -37,6 +38,9 @@ export async function generateMetadata({ params }) {
         applicationName: 'ReadersMenu',
         referrer: 'origin-when-cross-origin',
         authors: [{ name: 'ReadersMenu', url: 'https://www.readersmenu.com/' }],
+      },
+      icons: {
+        icon: `${IMAGE_BASE_URL}setting/${DEFAULT_FAVICON}`,
       },
       openGraph: {
         title: metadata?.seo_title || 'Default Title',
@@ -47,10 +51,10 @@ export async function generateMetadata({ params }) {
   } catch (error) {
     console.error('Error fetching SEO data:', error);
     return {
-      title: 'Default Title',
+      title: 'ReadersMenu',
       description: 'Default Description',
       openGraph: {
-        title: 'Default Title',
+        title: 'ReadersMenu',
         description: 'Default Description',
         keywords: 'Default Keywords',
       },
