@@ -204,7 +204,14 @@ const RegisterComponent = () => {
                       </label>
                     </div>
                     <div className='text-center mt-2 pt-2 mb-2'>
-                      <button type='submit' className='btn btn-primary' style={{ paddingLeft: '2.5rem', paddingRight: '2.5rem' }}>
+                      <button
+                        type='submit'
+                        className='btn btn-primary'
+                        style={{
+                          paddingLeft: '2.5rem',
+                          paddingRight: '2.5rem',
+                        }}
+                      >
                         Register
                       </button>
                       <p className='small fw-bold mt-2 pt-1 mb-0'>
@@ -240,7 +247,7 @@ const RegisterComponent = () => {
             <div className='col-md-9 col-lg-6 col-xl-5 offset-xl-1'>
               <div className='brand_logo_container'>
                 <img
-                  src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting' + setting.site_logo : DEFAULT_LOGO}
+                  src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
                   alt='logo'
                   className='mb-4'
                   style={{ height: '3rem', width: '12rem', marginTop: '50px' }}

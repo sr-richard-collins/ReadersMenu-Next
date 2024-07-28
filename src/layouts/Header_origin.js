@@ -112,7 +112,11 @@ const Header = () => {
           <div className='row'>
             <div className='col-lg-2 col-md-3 col-3'>
               <a href='/'>
-                <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : DEFAULT_LOGO} alt='logo' className='logo-style' />
+                <img
+                  src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
+                  alt='logo'
+                  className='logo-style'
+                />
               </a>
             </div>
             <div className='col-lg-10 col-md-9 col-9'>

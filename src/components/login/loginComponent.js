@@ -37,7 +37,7 @@ const LoginComponent = () => {
             <div className='col-md-9 col-lg-6 col-xl-5 mb-50'>
               <div className='brand_logo_container'>
                 <img
-                  src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : DEFAULT_LOGO}
+                  src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
                   alt='logo'
                   className='my-4'
                   style={{ height: '3rem', width: '12rem' }}

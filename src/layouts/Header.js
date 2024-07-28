@@ -26,7 +26,10 @@ const Header = () => {
   const [showToggleSubCategory, setShowToggleSubCategory] = useState(false);
   const [showToggleMenu, setShowToggleMenu] = useState(false);
   const mobileMenuRef = useRef(null);
-  const [activeCategory, setActiveCategory] = useState({ category: null, show: false });
+  const [activeCategory, setActiveCategory] = useState({
+    category: null,
+    show: false,
+  });
   const [mainCategories, setMainCategories] = useState([]);
   const [moreCategories, setMoreCategories] = useState([]);
 
@@ -114,7 +117,7 @@ const Header = () => {
                   <div className='swiper-slide'>
                     <a href='/'>
                       <img
-                        src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : DEFAULT_LOGO}
+                        src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
                         alt='logo'
                         className='mylogo-style'
                       />
@@ -201,9 +204,9 @@ const Header = () => {
                   </Link>
                 </>
               )} */}
-              <Link href='/' onClick={handleMenuToggleOpenClick} className='nav-bar-link mx-1' id='mobileMenuToggleBtn'>
+              <a onClick={handleMenuToggleOpenClick} className='nav-bar-link mx-1' id='mobileMenuToggleBtn'>
                 <FontAwesomeIcon icon={faBars} />
-              </Link>
+              </a>
             </div>
             {showToggleMenu && (
               <div ref={mobileMenuRef} className='mobile-menu' onMouseLeave={handleMenuToggleCloseClick}>
@@ -216,7 +219,7 @@ const Header = () => {
                         </div>
                         <a href='/'>
                           <img
-                            src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : DEFAULT_LOGO}
+                            src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
                             alt='logo'
                             style={{ width: '70%' }}
                           />
@@ -258,7 +261,12 @@ const Header = () => {
                                 </div>
                               </a>
                               {activeCategory.category === category.name && (
-                                <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
+                                <ul
+                                  className='sub-menu'
+                                  style={{
+                                    display: activeCategory.show ? 'block' : 'none',
+                                  }}
+                                >
                                   {category.child.map((subCategory) => (
                                     <li key={subCategory.id} className={activeLink === subCategory.name ? 'active' : ''}>
                                       <Link
@@ -322,7 +330,12 @@ const Header = () => {
                                       </div>
                                     </a>
                                     {activeCategory.category === category.name && (
-                                      <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
+                                      <ul
+                                        className='sub-menu'
+                                        style={{
+                                          display: activeCategory.show ? 'block' : 'none',
+                                        }}
+                                      >
                                         {category.child.map((subCategory) => (
                                           <li key={subCategory.id} className={activeLink === subCategory.name ? 'active' : ''}>
                                             <Link

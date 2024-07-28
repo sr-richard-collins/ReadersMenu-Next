@@ -22,7 +22,10 @@ const HeaderLogin = () => {
   const [showToggleSubCategory, setShowToggleSubCategory] = useState(false);
   const [showToggleMenu, setShowToggleMenu] = useState(false);
   // const [activeCategory, setActiveCategory] = useState([[null, false],]);
-  const [activeCategory, setActiveCategory] = useState({ category: null, show: false });
+  const [activeCategory, setActiveCategory] = useState({
+    category: null,
+    show: false,
+  });
   const moreCategories = categories.filter((category) => category.position === 'more');
   const mainCategories = categories.filter((category) => category.position === 'main');
 
@@ -60,7 +63,7 @@ const HeaderLogin = () => {
                   <div className='swiper-slide'>
                     <a href='/'>
                       <img
-                        src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : DEFAULT_LOGO}
+                        src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
                         alt='logo'
                         className='logo-style'
                       />
@@ -98,7 +101,10 @@ const HeaderLogin = () => {
                           <FontAwesomeIcon icon={faTimes} />
                         </div>
                         <a href='/'>
-                          <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : DEFAULT_LOGO} alt='logo' />
+                          <img
+                            src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
+                            alt='logo'
+                          />
                         </a>
                       </li>
                       <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
@@ -132,7 +138,12 @@ const HeaderLogin = () => {
                                 {category.name} <FontAwesomeIcon icon='fa-solid fa-chevron-down' />
                               </Link>
                               {activeCategory.category === category.name && (
-                                <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
+                                <ul
+                                  className='sub-menu'
+                                  style={{
+                                    display: activeCategory.show ? 'block' : 'none',
+                                  }}
+                                >
                                   {category.child.map((subCategory) => (
                                     <li key={subCategory.id} className={activeLink === subCategory.name ? 'active' : ''}>
                                       <Link
