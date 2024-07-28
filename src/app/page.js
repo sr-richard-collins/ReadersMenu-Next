@@ -9,6 +9,8 @@ import Loader from '@/components/Loader';
 import Head from 'next/head';
 import axios from '../config';
 import { useRouter } from 'next/navigation';
+import { IMAGE_BASE_URL } from '../config';
+import { DEFAULT_FAVICON } from '@/config/constant';
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -52,16 +54,17 @@ const Home = () => {
 
   return (
     <>
+      <Head>{<link rel='icon' href={`${IMAGE_BASE_URL}setting/${DEFAULT_FAVICON}`} type='image/png' />}</Head>
       {message && <div className='alert success-message'>{message}</div>}
-      <div>
+      <div className='col-lg-9 col-md-12 col-12'>
         <section className='spotlight-post-area pt-20 pb-60'>
           <div className='spotlight-post-inner-wrap'>
             <div className='row justify-content-center'>
-              <div className='col-lg-9 col-md-12 col-12'>
+              <div className='col-lg-12 col-md-12 col-12'>
                 <SpotLightSection />
                 <CategoriesWithBlogSection />
               </div>
-              <div className='col-lg-3'></div>
+              {/* <div className="col-lg-3"></div> */}
             </div>
           </div>
         </section>
