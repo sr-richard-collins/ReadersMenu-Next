@@ -1,99 +1,127 @@
-import BlogDetailComponent from '@/components/blogdetail/BlogDetailComponent';
-import RelatedPostsComponent from '@/components/blogdetail/RelatedPostsComponent';
-import Breadcrumb from '@/components/Breadcrumb';
-import Loader from '@/components/Loader';
-import Head from 'next/head';
-import CommentComponent from '@/components/blogdetail/CommentComponent';
+import BlogDetailsPage from '@/components/BlogDetailsPage';
+import { BASE_URL, IMAGE_BASE_URL } from '@/config';
+import { DEFAULT_FAVICON } from '@/config/constant';
 
 export async function generateStaticParams() {
   try {
-    // Fetch posts data
-    const response = await fetch(`http://tnreaders.in/api/user/allPostsSeo`);
+    const response = await fetch('http://tnreaders.in/api/user/allArticlePostsSeo');
     const posts = await response.json();
-
-    return posts.map((post) => {
-      // console.log(post.seo_slug);
-      return { title: post.seo_slug };
-    });
+    
+    return posts.map((post) => ({
+      title: post.seo_slug || 'defaultNewsDetail',
+    }));
   } catch (error) {
     console.error('Error fetching posts:', error);
     return [];
   }
 }
 
+
+export const dynamicParams = {
+  fallback: 'blocking',
+};
+
 export async function generateMetadata({ params }) {
   const { title } = params;
+
   try {
-    const response = await fetch(`http://tnreaders.in/api/user/seoPost?id=${title.toString()}`);
+    const response = await fetch(`http://tnreaders.in/api/user/seoPost?id=${title}`);
     const metadata = await response.json();
+    const imageUrl = metadata?.img ? `${IMAGE_BASE_URL}post/article-detail/${metadata.img}` : `${IMAGE_BASE_URL}post/news-detail/default-image.jpg`;
+
     return {
-      title: metadata?.seo_title || 'Default Title',
-      description: metadata?.seo_description || 'Default Description',
+      title: metadata?.seo_title || 'Readers Menu: Latest News and Jobs in Tamil | Tamil News & Jobs Online',
+      description:
+        metadata?.seo_description ||
+        'ReadersMenu.com is #1 Growing Tamil News Portal | Get latest, breaking and exclusive news from Tamilnadu Politics, Cinema, Astrology, Medicine And Culture, Tamil newspaper, Tamil daily newspaper, Tamilnadu Temples, Tamilnadu news, Online Trending and viral news from Tamilnadu',
+      alternates: {
+        canonical: `${BASE_URL}/article-detail/${title}`,
+        generator: 'ReadersMenu',
+        applicationName: 'ReadersMenu',
+        referrer: 'origin-when-cross-origin',
+        authors: [{ name: 'ReadersMenu', url: 'https://www.readersmenu.com/' }],
+      },
+      icons: {
+        icon: `${IMAGE_BASE_URL}setting/${DEFAULT_FAVICON}`,
+      },
       openGraph: {
-        title: metadata?.seo_title || 'Default Title',
-        description: metadata?.seo_description || 'Default Description',
-        keywords: metadata?.seo_keyword || 'Default Keywords',
+        title: metadata?.seo_title || 'Readers Menu: Latest News and Jobs in Tamil | Tamil News & Jobs Online',
+        description:
+          metadata?.seo_description ||
+          'ReadersMenu.com is #1 Growing Tamil News Portal | Get latest, breaking and exclusive news from Tamilnadu Politics, Cinema, Astrology, Medicine And Culture, Tamil newspaper, Tamil daily newspaper, Tamilnadu Temples, Tamilnadu news, Online Trending and viral news from Tamilnadu',
+        keywords: metadata?.seo_keyword || 'ReadersMenu, tamil daily, tamil news, tamil jobs, latest news in tamil, latest jobs, astrology, art and culture',
+        images: [
+          {
+            url: imageUrl,
+            width: 800,
+            height: 600,
+            alt: metadata?.seo_title || 'Readers Menu: Latest News and Jobs in Tamil | Tamil News & Jobs Online',
+          },
+        ],
+        url: `${BASE_URL}/article-detail/${title}`,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: metadata?.seo_title || 'Readers Menu: Latest News and Jobs in Tamil | Tamil News & Jobs Online',
+        description:
+          metadata?.seo_description ||
+          'ReadersMenu.com is #1 Growing Tamil News Portal | Get latest, breaking and exclusive news from Tamilnadu Politics, Cinema, Astrology, Medicine And Culture, Tamil newspaper, Tamil daily newspaper, Tamilnadu Temples, Tamilnadu news, Online Trending and viral news from Tamilnadu',
+        images: [
+          {
+            url: imageUrl,
+            alt: metadata?.seo_title || 'Readers Menu: Latest News and Jobs in Tamil | Tamil News & Jobs Online',
+          },
+        ],
       },
     };
   } catch (error) {
     console.error('Error fetching SEO data:', error);
     return {
-      title: 'Default Title',
-      description: 'Default Description',
+      title: 'Readers Menu: Latest News and Jobs in Tamil | Tamil News & Jobs Online',
+      description:
+        'ReadersMenu.com is #1 Growing Tamil News Portal | Get latest, breaking and exclusive news from Tamilnadu Politics, Cinema, Astrology, Medicine And Culture, Tamil newspaper, Tamil daily newspaper, Tamilnadu Temples, Tamilnadu news, Online Trending and viral news from Tamilnadu',
       openGraph: {
-        title: 'Default Title',
-        description: 'Default Description',
-        keywords: 'Default Keywords',
+        title: 'Readers Menu: Latest News and Jobs in Tamil | Tamil News & Jobs Online',
+        description:
+          'ReadersMenu.com is #1 Growing Tamil News Portal | Get latest, breaking and exclusive news from Tamilnadu Politics, Cinema, Astrology, Medicine And Culture, Tamil newspaper, Tamil daily newspaper, Tamilnadu Temples, Tamilnadu news, Online Trending and viral news from Tamilnadu',
+        keywords: 'ReadersMenu, tamil daily, tamil news, tamil jobs, latest news in tamil, latest jobs, astrology, art and culture',
+        images: [
+          {
+            url: `${IMAGE_BASE_URL}post/news-detail/default-image.jpg`,
+            width: 800,
+            height: 600,
+            alt: 'Readers Menu: Latest News and Jobs in Tamil | Tamil News & Jobs Online',
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: 'Readers Menu: Latest News and Jobs in Tamil | Tamil News & Jobs Online',
+        description:
+          'ReadersMenu.com is #1 Growing Tamil News Portal | Get latest, breaking and exclusive news from Tamilnadu Politics, Cinema, Astrology, Medicine And Culture, Tamil newspaper, Tamil daily newspaper, Tamilnadu Temples, Tamilnadu news, Online Trending and viral news from Tamilnadu',
+        images: [
+          {
+            url: `${IMAGE_BASE_URL}post/news-detail/default-image.jpg`,
+            alt: 'Readers Menu: Latest News and Jobs in Tamil | Tamil News & Jobs Online',
+          },
+        ],
       },
     };
   }
 }
 
-const fetchData = async (title) => {
-  try {
-    // Fetch post data
-    const postResponse = await fetch(`http://tnreaders.in/api/user/findPost?id=${title}`);
-    const post = await postResponse.json();
+const BlogDetails = ({ params }) => {
 
-    // Fetch related posts
-    const relatedRes = await fetch(`http://tnreaders.in/api/user/relatedPost?id=${title}`);
-    const relatedPosts = await relatedRes.json();
-    // console.log(relatedPosts.length);
-
-    // Fetch SEO metadata
-    // const metaResponse = await fetch(`http://tnreaders.in/api/user/seoPost?id=${post.id}`);
-    // const metadata = await metaResponse.json();
-
-    return { post, relatedPosts };
-  } catch (error) {
-    console.error('Error fetching data:', error);
-    return { post: null, relatedPosts: [] };
-  }
-};
-
-export default async function BlogDetails({ params }) {
   const { title } = params;
 
-  // Ensure data is fetched before rendering
   if (!title) {
     return <Loader />;
   }
 
-  const { post, relatedPosts } = await fetchData(title);
+  return <BlogDetailsPage title={title} />;
+};
 
-  return (
-    <>
-      <div className='spotlight-post-area pb-60'>
-        <Breadcrumb title={decodeURIComponent(title)} />
-        <div className='spotlight-post-inner-wrap'>
-          <div className='col-lg-9 col-md-12 mt-20'>
-            {post && <BlogDetailComponent post={post} />}
-            <CommentComponent post={post} />
-            {relatedPosts.length > 0 && <RelatedPostsComponent posts={relatedPosts} />}
-          </div>
-          <div className='col-lg-3'></div>
-        </div>
-      </div>
-    </>
-  );
-}
+// Use ISR to revalidate the page every 60 seconds
+export const revalidate = 0;
+
+export default BlogDetails;

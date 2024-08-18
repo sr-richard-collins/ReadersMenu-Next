@@ -27,13 +27,13 @@ const Breadcrumb = ({ title }) => {
               <nav aria-label='breadcrumb'>
                 <ol className='breadcrumb'>
                   <li className='breadcrumb-item'>
-                    <Link href='/'>
+                    <a href='/'>
                       Home
                       <span>
                         {' '}
                         <FontAwesomeIcon icon={faAngleRight} />
                       </span>
-                    </Link>
+                    </a>
                   </li>
                   <li className='breadcrumb-item active' aria-current='page'>
                     {categoryName}

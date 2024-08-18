@@ -9,18 +9,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faPhone, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import 'bootstrap'; // Import Bootstrap JavaScript
+// import 'bootstrap'; // Import Bootstrap JavaScript
 import Link from 'next/link';
 import { AuthContext } from '../../provider/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const SpotLightSection = () => {
   const dispatch = useDispatch();
-  const { setting } = useSelector((state) => state.setting);
   const { user } = useContext(AuthContext);
 
   const [spotlight, setSpotlight] = useState([]);
   const [clickedBlogArticleIconId, setClickedBlogArticleIconId] = useState([]);
   const [noPost, setNoPost] = useState(0);
+  const router = useRouter();
 
   useEffect(() => {
     const fetchTrendingPosts = async () => {
@@ -48,23 +49,39 @@ const SpotLightSection = () => {
     dispatch(fetchSelectCategory(name));
   };
 
-  const handleFacebookShare = (slug) => {
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+  const handleFacebookShare = (slug, title, img, subTitle, type) => {
+    if (typeof window !== 'undefined') {
+      const imgUrl = `https://tnreaders.in/images/post/${type === 'news' ? 'news-detail' : 'article-detail'}/${img}`;
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}&title=${encodeURIComponent(
+        title
+      )}&description=${encodeURIComponent(subTitle)}&picture=${encodeURIComponent(imgUrl)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
-  const handleTwitterShare = (slug) => {
-    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+  const handleTwitterShare = (slug, title, img, subTitle, type) => {
+    if (typeof window !== 'undefined') {
+      const imgUrl = `https://tnreaders.in/images/post/${type === 'news' ? 'news-detail' : 'article-detail'}/${img}`;
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}&text=${encodeURIComponent(
+        title
+      )}&image=${encodeURIComponent(imgUrl)}&description=${encodeURIComponent(subTitle)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
-  const handleWhatsAppShare = (slug) => {
-    const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+  const handleWhatsAppShare = (slug, title, img, subTitle, type) => {
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(
+        `${title}\n${subTitle}\n${window.location.origin}/${type === 'news' ? 'news-detail' : 'article-detail'}/${slug}\nhttps://tnreaders.in/images/post/${
+          type === 'news' ? 'news-detail' : 'article-detail'
+        }/${img}`
+      )}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleBlogArticleHeartClick = (linkId) => {
-    if (!user) window.location.href = '/login';
+    if (!user) router.push('/login');
     else {
       const fetchLikes = async () => {
         const response = await axios.post('/api/user/updateLikes', {
@@ -116,22 +133,29 @@ const SpotLightSection = () => {
             <div className='row' key={index}>
               <div className='spotlight-post big-post'>
                 <div className='spotlight-post-thumb'>
-                  <Link href={`/${item.category_type === 'news' ? 'news_detail' : 'article_detail'}/${item.seo_slug}`}>
-                    <img src={item.img ? IMAGE_BASE_URL + item.img : IMAGE_BASE_URL + DEFAULT_POST} alt={item.title} />
-                  </Link>
-                  <Link
-                    href={`/${item.category_type}/${item.category_data_query}`}
-                    className='post-tag'
-                    onClick={() => handleViewClick(item.category_name)}
-                    style={{ fontWeight: 'bold', marginTop: '20px' }}
-                  >
-                    {item.category_name}
+                  <Link href={`/${item.category_type === 'news' ? 'news-detail' : 'article-detail'}/${item.seo_slug}`}>
+                    <img
+                      src={
+                        item.img
+                          ? IMAGE_BASE_URL + 'post/' + (item.category.type2 === 'news' ? 'news-detail' : 'article-detail') + '/' + item.img
+                          : IMAGE_BASE_URL + 'post/' + (item.category.type2 === 'news' ? 'news-detail' : 'article-detail') + '/' + DEFAULT_POST
+                      }
+                      alt={item.title}
+                    />
                   </Link>
                 </div>
               </div>
               <div className='weekly-post-content mb-4' style={{ borderBottom: '1px solid #e4e4e4' }}>
+                <Link
+                  href={`/${item.category_type}/${item.category_data_query}`}
+                  className='post-tag'
+                  onClick={() => handleViewClick(item.category_name)}
+                  style={{ fontWeight: 'bold', marginTop: '20px' }}
+                >
+                  {item.category_name}
+                </Link>
                 <h2 className='post-title'>
-                  <Link href={`/${item.category_type === 'news' ? 'news_detail' : 'article_detail'}/${item.seo_slug}`}>{item.title}</Link>
+                  <Link href={`/${item.category_type === 'news' ? 'news-detail' : 'article-detail'}/${item.seo_slug}`}>{item.title}</Link>
                 </h2>
                 <p>{item.sub_title.length > 250 ? `${item.sub_title.slice(0, 250)}...` : item.sub_title}</p>
                 <div className='blog-post-meta'>
@@ -142,24 +166,24 @@ const SpotLightSection = () => {
                     </li>
                     <li className='col-3'>
                       <span className='homeblog-link-icon-phone'>
-                        <a onClick={() => handleWhatsAppShare(item.seo_slug)}>
+                        <a onClick={() => handleWhatsAppShare(post.seo_slug, post.title, post.img, post.sub_title, post.category.type2)}>
                           <FontAwesomeIcon icon={faPhone} />
                         </a>
                       </span>
                       <span className='homeblog-link-icon-facebook'>
-                        <a onClick={() => handleFacebookShare(item.seo_slug)}>
+                        <a onClick={() => handleFacebookShare(post.seo_slug, post.title, post.img, post.sub_title, post.category.type2)}>
                           <FontAwesomeIcon icon={faFacebookF} />
                         </a>
                       </span>
                       <span className='homeblog-link-icon-twitter'>
-                        <a onClick={() => handleTwitterShare(item.seo_slug)}>
+                        <a onClick={() => handleTwitterShare(post.seo_slug, post.title, post.img, post.sub_title, post.category.type2)}>
                           <FontAwesomeIcon icon={faTwitter} />
                         </a>
                       </span>
                     </li>
                     <li className='col-6'>
                       <div className='view-all-btn col-80'>
-                        <Link href={`/${item.category_type === 'news' ? 'news_detail' : 'article_detail'}/${item.seo_slug}`} className='homeblog-link-btn'>
+                        <Link href={`/${item.category_type === 'news' ? 'news-detail' : 'article-detail'}/${item.seo_slug}`} className='homeblog-link-btn'>
                           Read More
                           <span className='svg-icon'>
                             <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>
@@ -169,15 +193,14 @@ const SpotLightSection = () => {
                           </span>
                         </Link>
                       </div>
-                      <div className='col-20'>
-                        <Link
-                          href={'/'}
+                      {/* <div className='col-20'>
+                        <a
                           onClick={() => handleBlogArticleHeartClick(item.id)}
                           className={clickedBlogArticleIconId.includes(item.id) ? 'blog-article-icon-heart-clicked' : ''}
                         >
                           <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(item.id) ? faHeart : farHeart} className='blog-article-icon-heart' />
-                        </Link>
-                      </div>
+                        </a>
+                      </div> */}
                     </li>
                   </ul>
                 </div>

@@ -1,5 +1,5 @@
-// import { useEffect } from 'react';
 'use client';
+
 import React, { useState, useEffect } from 'react';
 import ReduxProvider from '../redux/ReduxProvider';
 import { Inter } from 'next/font/google';
@@ -16,30 +16,39 @@ const useMediaQuery = (query) => {
   const [matches, setMatches] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia(query);
+    if (typeof window !== 'undefined') {
+      const mediaQuery = window.matchMedia(query);
 
-    const handler = () => setMatches(mediaQuery.matches);
+      const handler = () => setMatches(mediaQuery.matches);
 
-    // Initial check
-    handler();
+      // Initial check
+      handler();
 
-    // Listen for changes in the media query
-    mediaQuery.addListener(handler);
+      // Listen for changes in the media query
+      mediaQuery.addListener(handler);
 
-    return () => {
-      mediaQuery.removeListener(handler);
-    };
+      return () => {
+        mediaQuery.removeListener(handler);
+      };
+    }
   }, [query]);
 
   return matches;
 };
 
 const RootLayout = ({ children }) => {
-  // const { setting } = useSelector((state) => state.setting);
   const isMobile = useMediaQuery('(max-width: 767.98px)');
 
   const handleTopScreen = () => {
-    window.scrollTo(0, 0);
+    if (typeof window !== 'undefined') {
+      try {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (error) {
+        console.error('Error scrolling to the top:', error);
+      }
+    } else {
+      console.warn('Window object is not available.');
+    }
   };
 
   return (
@@ -50,18 +59,15 @@ const RootLayout = ({ children }) => {
             <button className='scroll-top scroll-to-target' onClick={() => handleTopScreen()}>
               <FontAwesomeIcon icon={faAngleUp} />
             </button>
+            {/* Include the header */}
             <Header />
-            <section className='pt-70 pb-60 '>
+            <section className='pt-70 pb-60'>
               <Menu />
-              {isMobile ? (
-                <main className='fix'>
-                  {children}
-                </main>
-              ) : (
-                <main className='fix' style={{ marginLeft: '285px' }}>
-                  {children}
-                </main>
-              )}
+
+              <main className='fix' style={{ marginLeft: isMobile ? '0px' : '285px' }}>
+                {children}
+              </main>
+
             </section>
           </ReduxProvider>
         </AuthProvider>

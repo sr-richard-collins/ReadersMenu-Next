@@ -1,16 +1,17 @@
 import Blog from '@/components/Blog';
-import { use } from 'react';
-import Head from 'next/head';
+import Loader from '@/components/Loader';
+import { notFound } from 'next/navigation';
+import { BASE_URL, IMAGE_BASE_URL } from '@/config';
+import { DEFAULT_FAVICON } from '@/config/constant';
 
 export async function generateStaticParams() {
   try {
-    // Fetch categories data
     const response = await fetch('http://tnreaders.in/api/user/allCategories');
     const categories = await response.json();
 
     return categories.map((post) => ({
-      category_type: post.type2,
-      name: post.data_query,
+      category_type: post.type2 || 'defaultCategoryType', // Provide a default value
+      name: post.data_query || 'defaultName', // Provide a default value
     }));
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -18,15 +19,29 @@ export async function generateStaticParams() {
   }
 }
 
+export const dynamicParams = {
+  fallback: 'blocking',
+};
+
 export async function generateMetadata({ params }) {
-  const { name } = params;
+  const { category_type, name } = params;
   try {
     const response = await fetch(`http://tnreaders.in/api/user/seoCategory?id=${name}`);
     const metadata = await response.json();
 
     return {
-      title: metadata?.seo_title || 'Default Title',
+      title: metadata?.seo_title || 'ReadersMenu',
       description: metadata?.seo_description || 'Default Description',
+      alternates: {
+        canonical: `${BASE_URL}/${category_type}/${name}`,
+        generator: 'ReadersMenu',
+        applicationName: 'ReadersMenu',
+        referrer: 'origin-when-cross-origin',
+        authors: [{ name: 'ReadersMenu', url: 'https://www.readersmenu.com/' }],
+      },
+      icons: {
+        icon: `${IMAGE_BASE_URL}setting/${DEFAULT_FAVICON}`,
+      },
       openGraph: {
         title: metadata?.seo_title || 'Default Title',
         description: metadata?.seo_description || 'Default Description',
@@ -36,10 +51,10 @@ export async function generateMetadata({ params }) {
   } catch (error) {
     console.error('Error fetching SEO data:', error);
     return {
-      title: 'Default Title',
+      title: 'ReadersMenu',
       description: 'Default Description',
       openGraph: {
-        title: 'Default Title',
+        title: 'ReadersMenu',
         description: 'Default Description',
         keywords: 'Default Keywords',
       },
@@ -77,13 +92,23 @@ function findCategory(categories, name) {
 export default async function Category({ params }) {
   const { name } = params;
 
-  // Fetch categories and metadata
+  if (!name) {
+    return <Loader />;
+  }
+
   const categories = await fetchCategories();
   const selectCategory = findCategory(categories, name);
 
-  if (!name) {
-    return <p>Loading...</p>;
+  if (!selectCategory) {
+    return notFound(); // Automatically handle 404 for not found pages
   }
 
-  return <>{selectCategory ? <Blog title={selectCategory.name} isHomepage={0} /> : <p>Category not found</p>}</>;
+  return (
+    <>
+      <Blog title={selectCategory.name} isHomepage={0} />
+    </>
+  );
 }
+
+// Use ISR to revalidate the page every 60 seconds
+export const revalidate = 0;

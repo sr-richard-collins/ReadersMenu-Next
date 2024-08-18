@@ -8,6 +8,7 @@ import { IMAGE_BASE_URL, DEFAULT_POST } from '../config/index';
 import { fetchSelectCategory } from '../actions/categoryAction';
 import { useDispatch, useSelector } from 'react-redux';
 import { AuthContext } from '../provider/AuthContext';
+import { useRouter } from 'next/navigation';
 import axios from '../config';
 import Link from 'next/link';
 
@@ -19,6 +20,7 @@ const HomeBlog = ({ title }) => {
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState([]);
   const { setting } = useSelector((state) => state.setting);
+  const router = useRouter();
   const [clickedBlogArticleIconId, setClickedBlogArticleIconId] = useState([]);
 
   useEffect(() => {
@@ -53,7 +55,7 @@ const HomeBlog = ({ title }) => {
   };
 
   const handleBlogArticleHeartClick = (linkId) => {
-    if (!user) window.location.href = '/login';
+    if (!user) router.push('/login');
     else {
       const fetchLikes = async () => {
         const response = await axios.post('/api/user/updateLikes', {
@@ -70,137 +72,153 @@ const HomeBlog = ({ title }) => {
     }
   };
 
-  const handleFacebookShare = (slug) => {
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+  const handleFacebookShare = (slug, title, img, subTitle, type) => {
+    if (typeof window !== 'undefined') {
+      const imgUrl = `https://tnreaders.in/images/post/${type === 'news' ? 'news-detail' : 'article-detail'}/${img}`;
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}&title=${encodeURIComponent(
+        title
+      )}&description=${encodeURIComponent(subTitle)}&picture=${encodeURIComponent(imgUrl)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
-  const handleTwitterShare = (slug) => {
-    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+  const handleTwitterShare = (slug, title, img, subTitle, type) => {
+    if (typeof window !== 'undefined') {
+      const imgUrl = `https://tnreaders.in/images/post/${type === 'news' ? 'news-detail' : 'article-detail'}/${img}`;
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}&text=${encodeURIComponent(
+        title
+      )}&image=${encodeURIComponent(imgUrl)}&description=${encodeURIComponent(subTitle)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
-  const handleWhatsAppShare = (slug) => {
-    const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+  const handleWhatsAppShare = (slug, title, img, subTitle, type) => {
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(
+        `${title}\n${subTitle}\n${window.location.origin}/${type === 'news' ? 'news-detail' : 'article-detail'}/${slug}\nhttps://tnreaders.in/images/post/${
+          type === 'news' ? 'news-detail' : 'article-detail'
+        }/${img}`
+      )}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   return (
     <>
       {posts.length ? (
-        <section className='editor-post-area pt-50 pb-30'>
-          <div className='row'>
-            <div className='col-lg-12'>
-              <div className='section-title-wrap-three mb-20'>
-                <div className='section-title-three'>
-                  <h6 className='title'>
-                    {posts[0].category.name}
-                    <span className='section-title-svg'>
-                      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 246 40' fill='none' preserveAspectRatio='none'>
-                        <path
-                          d='M10.1448 2.85061C10.6524 1.15867 12.2097 0 13.9761 0H241.624C244.303 0 246.225 2.58294 245.455 5.14939L235.855 37.1494C235.348 38.8413 233.79 40 232.024 40H4.37612C1.69667 40 -0.225117 37.4171 0.544817 34.8506L10.1448 2.85061Z'
-                          fill='currentcolor'
-                        />
-                      </svg>
-                    </span>
-                  </h6>
-                  <div className='section-title-line-three'></div>
-                </div>
-                <div className='view-all-btn mb-4'>
-                  <Link
-                    href={`/${posts[0].category_type === 'news' ? 'news' : 'article'}/${posts[0].category.data_query}`}
-                    className='link-btn'
-                    onClick={() => handleViewClick('spotlight')}
-                  >
-                    View All
-                    <span className='svg-icon'>
-                      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>
-                        <path d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z' fill='currentColor' />
-                        <path d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z' fill='currentColor' />
-                      </svg>
-                    </span>
-                  </Link>
-                </div>
-              </div>
+        <div className='spotlight-post-item-wrap'>
+          <div className='section-title-wrap-three mb-20'>
+            <div className='section-title-three'>
+              <h6 className='title'>
+                {posts[0].category.name}
+                <span className='section-title-svg'>
+                  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 246 40' fill='none' preserveAspectRatio='none'>
+                    <path
+                      d='M10.1448 2.85061C10.6524 1.15867 12.2097 0 13.9761 0H241.624C244.303 0 246.225 2.58294 245.455 5.14939L235.855 37.1494C235.348 38.8413 233.79 40 232.024 40H4.37612C1.69667 40 -0.225117 37.4171 0.544817 34.8506L10.1448 2.85061Z'
+                      fill='currentcolor'
+                    />
+                  </svg>
+                </span>
+              </h6>
+              <div className='section-title-line-three'></div>
+            </div>
+            <div className='view-all-btn mb-4'>
+              <Link
+                href={`/${posts[0].category_type === 'news' ? 'news' : 'article'}/${posts[0].category.data_query}`}
+                className='link-btn'
+                onClick={() => handleViewClick('spotlight')}
+              >
+                View All
+                <span className='svg-icon'>
+                  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>
+                    <path d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z' fill='currentColor' />
+                    <path d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z' fill='currentColor' />
+                  </svg>
+                </span>
+              </Link>
             </div>
           </div>
           {[...Array(Math.ceil(posts.length / 1))].map((_, index) => (
-            <div className='editor-post-wrap' key={index}>
-              <div className='row editor-post-active'>
-                {posts.slice(index * 1, index * 1 + 1 < posts.length ? index * 1 + 1 : posts.length).map((post) => (
-                  <div className='col-lg-12 mb-4' key={post.id}>
-                    <div className='editor-post-item'>
-                      <div className='editor-post-thumb'>
-                        <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>
-                          <img src={post.img ? IMAGE_BASE_URL + post.img : IMAGE_BASE_URL + DEFAULT_POST} alt={post.title} />
-                        </Link>
-                      </div>
-                      <div className='editor-post-content' style={{ borderBottom: '1px solid #e4e4e4' }}>
-                        <h2 className='post-title mt-3'>
-                          <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>{post.title}</Link>
-                        </h2>
-                        <p>{post.sub_title.length > 250 ? `${post.sub_title.slice(0, 250)}...` : post.sub_title}</p>
-                        <div className='blog-post-meta '>
-                          <ul className='list-wrap mb-3'>
-                            <li className='col-3'>
-                              <FontAwesomeIcon icon={faCalendar} />
-                              {new Date(post.created_at).toLocaleDateString()}
-                            </li>
-                            <li className='col-3'>
-                              <span className='homeblog-link-icon-phone'>
-                                <a onClick={() => handleWhatsAppShare(post.seo_slug)}>
-                                  <FontAwesomeIcon icon={faPhone} />
-                                </a>
-                              </span>
-                              <span className='homeblog-link-icon-facebook'>
-                                <a onClick={() => handleFacebookShare(post.seo_slug)}>
-                                  <FontAwesomeIcon icon={faFacebookF} />
-                                </a>
-                              </span>
-                              <span className='homeblog-link-icon-twitter'>
-                                <a onClick={() => handleTwitterShare(post.seo_slug)}>
-                                  <FontAwesomeIcon icon={faTwitter} />
-                                </a>
-                              </span>
-                            </li>
-                            <li className='col-6'>
-                              <div className='col-80'>
-                                <div className='view-all-btn'>
-                                  <Link
-                                    href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}
-                                    className='homeblog-link-btn'
-                                  >
-                                    Read More
-                                    <span className='svg-icon'>
-                                      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>
-                                        <path d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z' fill='currentColor' />
-                                        <path d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z' fill='currentColor' />
-                                      </svg>
-                                    </span>
-                                  </Link>
-                                </div>
-                              </div>
-                              <div className='col-20'>
-                                <Link
-                                  href={'/'}
-                                  onClick={() => handleBlogArticleHeartClick(post.id)}
-                                  className={clickedBlogArticleIconId.includes(post.id) ? 'blog-article-icon-heart-clicked' : ''}
-                                >
-                                  <FontAwesomeIcon
-                                    icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart}
-                                    className='blog-article-icon-heart'
-                                  />
-                                </Link>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
+            <>
+              {posts.slice(index * 1, index * 1 + 1 < posts.length ? index * 1 + 1 : posts.length).map((post) => (
+                <div className='row' key={post.id}>
+                  <div className='spotlight-post big-post'>
+                    <div className='spotlight-post-thumb'>
+                      <Link href={`/${post.category_type === 'news' ? 'news-detail' : 'article-detail'}/${post.seo_slug}`}>
+                        <img
+                          src={
+                            post.img
+                              ? IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news-detail' : 'article-detail') + '/' + post.img
+                              : IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news-detail' : 'article-detail') + '/' + DEFAULT_POST
+                          }
+                          alt={post.title}
+                        />
+                      </Link>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
+                  <div className='weekly-post-content mb-4' style={{ borderBottom: '1px solid #e4e4e4' }}>
+                    {/* <Link
+                        href={`/${post.category_type}/${post.category_data_query}`}
+                        className="post-tag"
+                        onClick={() => handleViewClick(post.category_name)}
+                        style={{ fontWeight: "bold", marginTop: "20px" }}
+                      >
+                        {post.category_name}
+                      </Link> */}
+                    <h2 className='post-title'>
+                      <Link href={`/${post.category_type === 'news' ? 'news-detail' : 'article-detail'}/${post.seo_slug}`}>{post.title}</Link>
+                    </h2>
+                    <p>{post.sub_title.length > 250 ? `${post.sub_title.slice(0, 250)}...` : post.sub_title}</p>
+                    <div className='blog-post-meta'>
+                      <ul className='list-wrap mb-3'>
+                        <li className='col-3'>
+                          <FontAwesomeIcon icon={faCalendar} />
+                          {new Date(post.created_at).toLocaleDateString()}
+                        </li>
+                        <li className='col-3'>
+                          <span className='homeblog-link-icon-phone'>
+                            <a onClick={() => handleWhatsAppShare(post.seo_slug, post.title, post.img, post.sub_title, post.category.type2)}>
+                              <FontAwesomeIcon icon={faPhone} />
+                            </a>
+                          </span>
+                          <span className='homeblog-link-icon-facebook'>
+                            <a onClick={() => handleFacebookShare(post.seo_slug, post.title, post.img, post.sub_title, post.category.type2)}>
+                              <FontAwesomeIcon icon={faFacebookF} />
+                            </a>
+                          </span>
+                          <span className='homeblog-link-icon-twitter'>
+                            <a onClick={() => handleTwitterShare(post.seo_slug, post.title, post.img, post.sub_title, post.category.type2)}>
+                              <FontAwesomeIcon icon={faTwitter} />
+                            </a>
+                          </span>
+                        </li>
+                        <li className='col-6'>
+                          <div className='view-all-btn col-80'>
+                            <Link href={`/${post.category_type === 'news' ? 'news-detail' : 'article-detail'}/${post.seo_slug}`} className='homeblog-link-btn'>
+                              Read More
+                              <span className='svg-icon'>
+                                <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>
+                                  <path d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z' fill='currentColor' />
+                                  <path d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z' fill='currentColor' />
+                                </svg>
+                              </span>
+                            </Link>
+                          </div>
+                          {/* <div className='col-20'>
+                        <a
+                          onClick={() => handleBlogArticleHeartClick(item.id)}
+                          className={clickedBlogArticleIconId.includes(item.id) ? 'blog-article-icon-heart-clicked' : ''}
+                        >
+                          <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(item.id) ? faHeart : farHeart} className='blog-article-icon-heart' />
+                        </a>
+                      </div> */}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </>
           ))}
           <div className='view-all-btn my-2 d-flex justify-content-center'>
             <Link href={`/${posts[0].category_type === 'news' ? 'news' : 'article'}/${posts[0].category.data_query}`} className='link-btn'>
@@ -213,7 +231,7 @@ const HomeBlog = ({ title }) => {
               </span>
             </Link>
           </div>
-        </section>
+        </div>
       ) : (
         ''
       )}
