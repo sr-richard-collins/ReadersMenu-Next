@@ -95,7 +95,11 @@ const Menu = () => {
                   >
                     <img
                       className='img-icon-left-menu rounded-circle mx-2'
-                      src={category.image ? `${IMAGE_BASE_URL}${category.image}` : `${IMAGE_BASE_URL}${DEFAULT_CATEGORY}`}
+                      src={
+                        category.image
+                          ? IMAGE_BASE_URL + 'category/' + category.type2 + '/' + category.image
+                          : IMAGE_BASE_URL + 'category/' + category.type2 + '/' + DEFAULT_CATEGORY
+                      }
                     />
                     {category.name}
                   </Link>
@@ -109,7 +113,11 @@ const Menu = () => {
                       <div className='col-95'>
                         <img
                           className='img-icon-left-menu rounded-circle mx-2'
-                          src={category.image ? `${IMAGE_BASE_URL}${category.image}` : `${IMAGE_BASE_URL}${DEFAULT_CATEGORY}`}
+                          src={
+                            category.image
+                              ? IMAGE_BASE_URL + 'category/' + category.type2 + '/' + category.image
+                              : IMAGE_BASE_URL + 'category/' + category.type2 + '/' + DEFAULT_CATEGORY
+                          }
                         />
                         {category.name}
                       </div>

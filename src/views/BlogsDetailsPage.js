@@ -15,16 +15,27 @@ const BlogsDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetch = async () => {
-      const response = await axios.get(`/api/user/findPost?id=${title}`);
-      const relatedRes = await axios.get(`/api/user/relatedPost?id=${title}`);
-      setPost(response.data);
-      setRelatedPosts(relatedRes.data);
-      setLoading(false);
-    };
-    fetch();
+    const fetchPostAndRelatedPosts = async () => {
+      setLoading(true);
+      try {
+        const [postResponse, relatedResponse] = await Promise.all([
+          axios.get(`/api/user/findPost`, { params: { id: title } }),
+          axios.get(`/api/user/relatedPost`, { params: { id: title } }),
+        ]);
 
-    window.scrollTo(0, 0);
+        setPost(postResponse.data);
+        setRelatedPosts(relatedResponse.data);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      } finally {
+        setLoading(false);
+      }
+
+      // Smooth scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    fetchPostAndRelatedPosts();
   }, [title]);
 
   if (loading) return <Loader />;

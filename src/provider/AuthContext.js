@@ -1,5 +1,6 @@
 'use client';
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import { useRouter } from 'next/navigation';
 import axios from '../config';
 
 export const AuthContext = createContext();
@@ -41,10 +42,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    const router = useRouter();
     localStorage.removeItem('token');
     setUser(null);
     setIsAuthenticated(false);
-    window.location.href = '/login';
+    router.push('/login');
   };
 
   return <AuthContext.Provider value={{ user, isAuthenticated, login, logout, forgotPassword }}>{children}</AuthContext.Provider>;

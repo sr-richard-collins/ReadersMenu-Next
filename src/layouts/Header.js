@@ -26,7 +26,10 @@ const Header = () => {
   const [showToggleSubCategory, setShowToggleSubCategory] = useState(false);
   const [showToggleMenu, setShowToggleMenu] = useState(false);
   const mobileMenuRef = useRef(null);
-  const [activeCategory, setActiveCategory] = useState({ category: null, show: false });
+  const [activeCategory, setActiveCategory] = useState({
+    category: null,
+    show: false,
+  });
   const [mainCategories, setMainCategories] = useState([]);
   const [moreCategories, setMoreCategories] = useState([]);
 
@@ -64,6 +67,13 @@ const Header = () => {
     setActiveCategory({ category: null, show: false });
   };
 
+  const handleCategoryClick = () => {
+    setActiveCategory((prevActiveCategory) => ({
+      category: category.name,
+      show: prevActiveCategory.category !== category.name ? true : !prevActiveCategory.show,
+    }));
+  };
+
   const handleShowToggleSubMenu = () => {
     setShowToggleSubMenu(!showToggleSubMenu);
   };
@@ -77,10 +87,22 @@ const Header = () => {
       }
     };
 
-    document.addEventListener('click', handleOutsideClick);
+    const addOutsideClickListener = () => {
+      document.addEventListener('click', handleOutsideClick);
+    };
+
+    const removeOutsideClickListener = () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+
+    if (typeof document !== 'undefined') {
+      addOutsideClickListener();
+    }
 
     return () => {
-      document.removeEventListener('click', handleOutsideClick);
+      if (typeof document !== 'undefined') {
+        removeOutsideClickListener();
+      }
     };
   }, []);
 
@@ -93,9 +115,13 @@ const Header = () => {
               <div className='swiper-container ta-trending-slider'>
                 <div className='myswiper-wrapper'>
                   <div className='swiper-slide'>
-                    <Link href='/'>
-                      <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='mylogo-style' />
-                    </Link>
+                    <a href='/'>
+                      <img
+                        src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
+                        alt='logo'
+                        className='mylogo-style'
+                      />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -141,7 +167,7 @@ const Header = () => {
                   </span>
                 </li>
 
-                {user ? (
+                {/* {user ? (
                   <>
                     <span>{user.name}</span>
                     <button onClick={logout} className='btn'>
@@ -157,11 +183,11 @@ const Header = () => {
                       Register
                     </Link>
                   </>
-                )}
+                )} */}
               </ul>
             </div>
             <div className='mobile-nav-toggler'>
-              {user ? (
+              {/* {user ? (
                 <>
                   <span>{user.name}</span>
                   <button onClick={logout} className='btn'>
@@ -177,10 +203,10 @@ const Header = () => {
                     Register
                   </Link>
                 </>
-              )}
-              <Link href='#' onClick={handleMenuToggleOpenClick} className='nav-bar-link mx-1' id='mobileMenuToggleBtn'>
+              )} */}
+              <a onClick={handleMenuToggleOpenClick} className='nav-bar-link mx-1' id='mobileMenuToggleBtn'>
                 <FontAwesomeIcon icon={faBars} />
-              </Link>
+              </a>
             </div>
             {showToggleMenu && (
               <div ref={mobileMenuRef} className='mobile-menu' onMouseLeave={handleMenuToggleCloseClick}>
@@ -191,14 +217,18 @@ const Header = () => {
                         <div className='close-btn' onClick={handleMenuToggleCloseClick}>
                           <FontAwesomeIcon icon={faTimes} />
                         </div>
-                        <Link href='/'>
-                          <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' style={{ width: '70%' }} />
-                        </Link>
+                        <a href='/'>
+                          <img
+                            src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
+                            alt='logo'
+                            style={{ width: '70%' }}
+                          />
+                        </a>
                       </li>
                       <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
-                        <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link mx-3'>
+                        <a href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link mx-3'>
                           Home
-                        </Link>
+                        </a>
                       </li>
 
                       {mainCategories.map((category, index) => (
@@ -214,7 +244,7 @@ const Header = () => {
                             </Link>
                           ) : (
                             <>
-                              <Link
+                              <a
                                 onClick={() => {
                                   setActiveCategory((prevActiveCategory) => ({
                                     category: category.name,
@@ -229,9 +259,14 @@ const Header = () => {
                                     <FontAwesomeIcon icon={faChevronDown} />
                                   </div>
                                 </div>
-                              </Link>
+                              </a>
                               {activeCategory.category === category.name && (
-                                <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
+                                <ul
+                                  className='sub-menu'
+                                  style={{
+                                    display: activeCategory.show ? 'block' : 'none',
+                                  }}
+                                >
                                   {category.child.map((subCategory) => (
                                     <li key={subCategory.id} className={activeLink === subCategory.name ? 'active' : ''}>
                                       <Link
@@ -276,7 +311,7 @@ const Header = () => {
                                   </Link>
                                 ) : (
                                   <>
-                                    <Link
+                                    <a
                                       onClick={() => {
                                         setActiveCategory((prevActiveCategory) => ({
                                           category: category.name,
@@ -289,16 +324,18 @@ const Header = () => {
                                         <div className='col-95' style={{ fontSize: '12px' }}>
                                           {category.name}
                                         </div>
-                                        <div className='col-95' style={{ fontSize: '12px' }}>
-                                          {category.name}
-                                        </div>
                                         <div className='col-05'>
                                           <FontAwesomeIcon icon={faChevronDown} />
                                         </div>
                                       </div>
-                                    </Link>
+                                    </a>
                                     {activeCategory.category === category.name && (
-                                      <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
+                                      <ul
+                                        className='sub-menu'
+                                        style={{
+                                          display: activeCategory.show ? 'block' : 'none',
+                                        }}
+                                      >
                                         {category.child.map((subCategory) => (
                                           <li key={subCategory.id} className={activeLink === subCategory.name ? 'active' : ''}>
                                             <Link

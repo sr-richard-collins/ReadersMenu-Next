@@ -22,7 +22,10 @@ const HeaderLogin = () => {
   const [showToggleSubCategory, setShowToggleSubCategory] = useState(false);
   const [showToggleMenu, setShowToggleMenu] = useState(false);
   // const [activeCategory, setActiveCategory] = useState([[null, false],]);
-  const [activeCategory, setActiveCategory] = useState({ category: null, show: false });
+  const [activeCategory, setActiveCategory] = useState({
+    category: null,
+    show: false,
+  });
   const moreCategories = categories.filter((category) => category.position === 'more');
   const mainCategories = categories.filter((category) => category.position === 'main');
 
@@ -58,9 +61,13 @@ const HeaderLogin = () => {
               <div className='swiper-container ta-trending-slider'>
                 <div className='swiper-wrapper'>
                   <div className='swiper-slide'>
-                    <Link href='/'>
-                      <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' className='logo-style' />
-                    </Link>
+                    <a href='/'>
+                      <img
+                        src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
+                        alt='logo'
+                        className='logo-style'
+                      />
+                    </a>
                   </div>
                 </div>
               </div>
@@ -72,9 +79,9 @@ const HeaderLogin = () => {
               <ul className='list-wrap'>
                 <li>
                   <span>
-                    <Link href='/'>
+                    <a href='/'>
                       <FontAwesomeIcon icon='fa-solid fa-house' className='img-icon-left-menu rounded-circle mx-2' />
-                    </Link>
+                    </a>
                   </span>
                 </li>
               </ul>
@@ -93,14 +100,17 @@ const HeaderLogin = () => {
                         <div className='close-btn' onClick={handleMenuToggleCloseClick}>
                           <FontAwesomeIcon icon={faTimes} />
                         </div>
-                        <Link href='/'>
-                          <img src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO} alt='logo' />
-                        </Link>
+                        <a href='/'>
+                          <img
+                            src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
+                            alt='logo'
+                          />
+                        </a>
                       </li>
                       <li className={(selectCategory ? selectCategory : activeLink) === 'home' ? 'active' : ''}>
-                        <Link href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
+                        <a href='/' onClick={() => handleLinkClick('home')} className='nav-bar-link'>
                           Home
-                        </Link>
+                        </a>
                       </li>
 
                       {mainCategories.map((category, index) => (
@@ -128,7 +138,12 @@ const HeaderLogin = () => {
                                 {category.name} <FontAwesomeIcon icon='fa-solid fa-chevron-down' />
                               </Link>
                               {activeCategory.category === category.name && (
-                                <ul className='sub-menu' style={{ display: activeCategory.show ? 'block' : 'none' }}>
+                                <ul
+                                  className='sub-menu'
+                                  style={{
+                                    display: activeCategory.show ? 'block' : 'none',
+                                  }}
+                                >
                                   {category.child.map((subCategory) => (
                                     <li key={subCategory.id} className={activeLink === subCategory.name ? 'active' : ''}>
                                       <Link

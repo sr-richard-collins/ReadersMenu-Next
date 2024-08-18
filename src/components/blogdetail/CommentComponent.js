@@ -52,10 +52,14 @@ const CommentComponent = ({ post }) => {
   }, [isReplyClicked]); // Dependency array ensures useEffect runs when isReplyClicked changes
 
   const handleReplyClick = (id, parent_id) => {
-    setIsReplyClicked(true); // Set isReplyClicked to true when Reply is clicked
-    setParentComment(parent_id + '_' + id);
+    setIsReplyClicked(true);
+    setParentComment(`${parent_id}_${id}`);
     setClickedReplyId(id);
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+
+    // Ensure smooth scroll for textareaRef
+    if (textareaRef.current) {
+      textareaRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   const totalPages = Math.ceil(totalComments / commentsPerPage);
@@ -69,20 +73,33 @@ const CommentComponent = ({ post }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!user) router.push('/login');
+    const router = useRouter();
+
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+
     try {
       const response = await axios.post('/api/user/saveComment', {
-        parent_id: parentComment, // Assuming parentComment is passed as a prop
-        post_id: post.id, // Assuming post.id is passed as a prop
+        parent_id: parentComment,
+        post_id: post.id,
         user_id: user.id,
         comment: textareaRef.current.value,
       });
-      // console.log(response.data); // Handle success response
-      window.location.reload();
-      // Optionally, clear the textarea or perform any other action upon success
+
+
+      // Update the comments list without reloading the page
+      setComments((prevComments) => [
+        ...prevComments,
+        response.data.newComment, // Assuming your API returns the newly created comment
+      ]);
+
+      // Optionally, clear the textarea
+      textareaRef.current.value = '';
+
     } catch (error) {
       console.error('Error saving comment:', error);
-      // Handle error response
     }
   };
 
@@ -94,7 +111,7 @@ const CommentComponent = ({ post }) => {
             <li>
               <div className='comments-box'>
                 <div className='comments-avatar'>
-                  <img src={IMAGE_BASE_URL + comment.user.avatar} alt='img' />
+                  <img src={IMAGE_BASE_URL + 'profile/' + comment.user.avatar} alt='img' />
                 </div>
                 <div className='comments-text'>
                   <div className='avatar-name'>

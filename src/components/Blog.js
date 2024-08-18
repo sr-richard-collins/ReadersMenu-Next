@@ -12,11 +12,11 @@ import { fetchSelectCategory } from '../actions/categoryAction';
 import { useDispatch, useSelector } from 'react-redux';
 import NoPost from '../views/error/No_post';
 import { AuthContext } from '@/provider/AuthContext';
-import Menu from '../layouts/Menu';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar, faPhone, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons';
 import { faFacebookF, faTwitter } from '@fortawesome/free-brands-svg-icons';
+import { useRouter } from 'next/navigation';
 
 const Blog = ({ title, isHomepage }) => {
   const dispatch = useDispatch();
@@ -31,32 +31,46 @@ const Blog = ({ title, isHomepage }) => {
   const [clickedBlogArticleIconId, setClickedBlogArticleIconId] = useState([]);
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchPosts = async () => {
       setLoading(true);
-      let response;
-      if (isHomepage === 1) {
-        response = homePosts.find((post) => post.category === title);
-        if (response) setPosts(response.posts);
-      } else {
-        const response = await axios.get(`/api/user/pagenationPosts`, {
-          params: {
-            category: title,
-            currentPage: currentPage,
-            postsPerPage,
-          },
-        });
-        if (postsPerPage === 'all') {
-          setPosts(response.data);
-          setTotalPosts(response.data.length);
+
+      try {
+        let response;
+        if (isHomepage === 1) {
+          response = homePosts.find((post) => post.category === title);
+          if (response) {
+            setPosts(response.posts);
+          } else {
+            setPosts([]);
+          }
+          setTotalPosts(response ? response.posts.length : 0);
         } else {
-          setPosts(response.data.data);
-          setTotalPosts(response.data.total);
+          response = await axios.get(`/api/user/pagenationPosts`, {
+            params: {
+              category: title,
+              currentPage,
+              postsPerPage,
+            },
+          });
+          if (postsPerPage === 'all') {
+            setPosts(response.data);
+            setTotalPosts(response.data.length);
+          } else {
+            setPosts(response.data.data);
+            setTotalPosts(response.data.total);
+          }
         }
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
+
+      // Smooth scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     };
-    fetch();
-    window.scrollTo(0, 0);
+
+    fetchPosts();
   }, [title, currentPage, postsPerPage]);
 
   useEffect(() => {
@@ -86,7 +100,8 @@ const Blog = ({ title, isHomepage }) => {
   };
 
   const handleBlogArticleHeartClick = (linkId) => {
-    if (!user) window.location.href = '/login';
+    const router = useRouter();
+    if (!user) router.push('/login');
     else {
       const fetchLikes = async () => {
         await axios.post('/api/user/updateLikes', {
@@ -103,19 +118,35 @@ const Blog = ({ title, isHomepage }) => {
     }
   };
 
-  const handleFacebookShare = (slug) => {
-    const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+  const handleFacebookShare = (slug, title, img, subTitle, type) => {
+    if (typeof window !== 'undefined') {
+      const imgUrl = `https://tnreaders.in/images/post/${type === 'news' ? 'news-detail' : 'article-detail'}/${img}`;
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + '/' + slug)}&title=${encodeURIComponent(
+        title
+      )}&description=${encodeURIComponent(subTitle)}&picture=${encodeURIComponent(imgUrl)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
-  const handleTwitterShare = (slug) => {
-    const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+  const handleTwitterShare = (slug, title, img, subTitle, type) => {
+    if (typeof window !== 'undefined') {
+      const imgUrl = `https://tnreaders.in/images/post/${type === 'news' ? 'news-detail' : 'article-detail'}/${img}`;
+      const shareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + '/' + slug)}&text=${encodeURIComponent(
+        title
+      )}&image=${encodeURIComponent(imgUrl)}&description=${encodeURIComponent(subTitle)}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
-  const handleWhatsAppShare = (slug) => {
-    const shareUrl = `https://wa.me/?text=${encodeURIComponent(window.location.origin + '/' + slug)}`;
-    window.open(shareUrl, '_blank');
+  const handleWhatsAppShare = (slug, title, img, subTitle, type) => {
+    if (typeof window !== 'undefined') {
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(
+        `${title}\n${subTitle}\n${window.location.origin}/${type === 'news' ? 'news-detail' : 'article-detail'}/${slug}\nhttps://tnreaders.in/images/post/${
+          type === 'news' ? 'news-detail' : 'article-detail'
+        }/${img}`
+      )}`;
+      window.open(shareUrl, '_blank');
+    }
   };
 
   const handleViewClick = (name) => {
@@ -131,114 +162,108 @@ const Blog = ({ title, isHomepage }) => {
       {loading ? (
         <Loader />
       ) : (
-        <section className='pb-60'>
+        <section className='pb-60 col-lg-9 col-md-12 col-12'>
           {subCategory.length ? <SubCategoryBreadcrumb subCategories={subCategory} title={title} /> : ''}
           <Breadcrumb title={title} />
-          <div className='row'>
-            <div className='col-lg-9 col-md-12 col-12 mt-20'>
-              <div>
-                {posts.length ? (
-                  posts.map((post) => (
-                    <div className='col-md-12' key={post.id}>
-                      <div className='weekly-post-three'>
-                        <div className='weekly-post-thumb'>
-                          <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>
-                            <img src={post.img ? IMAGE_BASE_URL + post.img : IMAGE_BASE_URL + DEFAULT_POST} alt={post.seo_slug} />
+          {posts.length ? (
+            posts.map((post) => (
+              <div className='row' key={post.id}>
+                <div className='spotlight-post big-post'>
+                  <div className='spotlight-post-thumb'>
+                    <Link href={`/${post.category_type === 'news' ? 'news-detail' : 'article-detail'}/${post.seo_slug}`}>
+                      <img
+                        src={
+                          post.img
+                            ? IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news-detail' : 'article-detail') + '/' + post.img
+                            : IMAGE_BASE_URL + 'post/' + (post.category.type2 === 'news' ? 'news-detail' : 'article-detail') + '/' + DEFAULT_POST
+                        }
+                        alt={post.title}
+                      />
+                    </Link>
+                  </div>
+                </div>
+                <div className='weekly-post-content mb-4' style={{ borderBottom: '1px solid #e4e4e4' }}>
+                  {/* <Link
+                        href={`/${post.category_type}/${post.category_data_query}`}
+                        className="post-tag"
+                        onClick={() => handleViewClick(post.category_name)}
+                        style={{ fontWeight: "bold", marginTop: "20px" }}
+                      >
+                        {post.category_name}
+                      </Link> */}
+                  <h2 className='post-title'>
+                    <Link href={`/${post.category_type === 'news' ? 'news-detail' : 'article-detail'}/${post.seo_slug}`}>{post.title}</Link>
+                  </h2>
+                  <p>{post.sub_title.length > 250 ? `${post.sub_title.slice(0, 250)}...` : post.sub_title}</p>
+                  <div className='blog-post-meta'>
+                    <ul className='list-wrap mb-3'>
+                      <li className='col-3'>
+                        <FontAwesomeIcon icon={faCalendar} />
+                        {new Date(post.created_at).toLocaleDateString()}
+                      </li>
+                      <li className='col-3'>
+                        <span className='homeblog-link-icon-phone'>
+                          <a onClick={() => handleWhatsAppShare(post.seo_slug, post.title, post.img, post.sub_title, post.category.type2)}>
+                            <FontAwesomeIcon icon={faPhone} />
+                          </a>
+                        </span>
+                        <span className='homeblog-link-icon-facebook'>
+                          <a onClick={() => handleFacebookShare(post.seo_slug, post.title, post.img, post.sub_title, post.category.type2)}>
+                            <FontAwesomeIcon icon={faFacebookF} />
+                          </a>
+                        </span>
+                        <span className='homeblog-link-icon-twitter'>
+                          <a onClick={() => handleTwitterShare(post.seo_slug, post.title, post.img, post.sub_title, post.category.type2)}>
+                            <FontAwesomeIcon icon={faTwitter} />
+                          </a>
+                        </span>
+                      </li>
+                      <li className='col-6'>
+                        <div className='view-all-btn col-80'>
+                          <Link href={`/${post.category_type === 'news' ? 'news-detail' : 'article-detail'}/${post.seo_slug}`} className='homeblog-link-btn'>
+                            Read More
+                            <span className='svg-icon'>
+                              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>
+                                <path d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z' fill='currentColor' />
+                                <path d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z' fill='currentColor' />
+                              </svg>
+                            </span>
                           </Link>
                         </div>
-                        <div className='weekly-post-content' style={{ borderBottom: '1px solid #e4e4e4' }}>
-                          <h2 className='post-title'>
-                            <Link href={`/${post.category_type === 'news' ? 'news_detail' : 'article_detail'}/${post.seo_slug}`}>{post.title}</Link>
-                          </h2>
-                          <p>{post.sub_title.length > 250 ? `${post.sub_title.slice(0, 250)}...` : post.sub_title}</p>
-                          <div className='blog-post-meta'>
-                            <ul className='list-wrap mt-3'>
-                              <li className='col-3 '>
-                                <FontAwesomeIcon icon={faCalendar} />
-                                {new Date(post.created_at).toLocaleDateString()}
-                              </li>
-                              <li className='col-3'>
-                                <span className='homeblog-link-icon-phone'>
-                                  <a href='#' onClick={() => handleWhatsAppShare(post.seo_slug)}>
-                                    <FontAwesomeIcon icon={faPhone} />
-                                  </a>
-                                </span>
-                                <span className='homeblog-link-icon-facebook'>
-                                  <a href='#' onClick={() => handleFacebookShare(post.seo_slug)}>
-                                    <FontAwesomeIcon icon={faFacebookF} />
-                                  </a>
-                                </span>
-                                <span className='homeblog-link-icon-twitter'>
-                                  <a href='#' onClick={() => handleTwitterShare(post.seo_slug)}>
-                                    <FontAwesomeIcon icon={faTwitter} />
-                                  </a>
-                                </span>
-                              </li>
-                              <li className='col-6'>
-                                <div className='col-80'>
-                                  <div className='view-all-btn'>
-                                    <Link href={`/`} className='homeblog-link-btn' onClick={() => handleViewClick(post.title)}>
-                                      Read More
-                                      <span className='svg-icon'>
-                                        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10' fill='none'>
-                                          <path
-                                            d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z'
-                                            fill='currentColor'
-                                          />
-                                          <path
-                                            d='M1.07692 10L0 8.92308L7.38462 1.53846H0.769231V0H10V9.23077H8.46154V2.61538L1.07692 10Z'
-                                            fill='currentColor'
-                                          />
-                                        </svg>
-                                      </span>
-                                    </Link>
-                                  </div>
-                                </div>
-                                <div className='col-20'>
-                                  <a
-                                    href='#'
-                                    onClick={() => handleBlogArticleHeartClick(post.id)}
-                                    className={clickedBlogArticleIconId.includes(post.id) ? 'blog-article-icon-heart-clicked' : ''}
-                                  >
-                                    <FontAwesomeIcon
-                                      icon={clickedBlogArticleIconId.includes(post.id) ? faHeart : farHeart}
-                                      className='blog-article-icon-heart'
-                                    />
-                                  </a>
-                                </div>
-                              </li>
-                            </ul>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <NoPost />
-                )}
+                        {/* <div className='col-20'>
+                        <a
+                          onClick={() => handleBlogArticleHeartClick(item.id)}
+                          className={clickedBlogArticleIconId.includes(item.id) ? 'blog-article-icon-heart-clicked' : ''}
+                        >
+                          <FontAwesomeIcon icon={clickedBlogArticleIconId.includes(item.id) ? faHeart : farHeart} className='blog-article-icon-heart' />
+                        </a>
+                      </div> */}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
-              {isHomepage === 0 && (
-                <>
-                  <CustomPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-                  <form className='form-inline ml-3'>
-                    <label htmlFor='per_page' className='mr-2'>
-                      Show:
-                    </label>
-                    <select name='per_page' id='per_page' className='form-control' value={postsPerPage} onChange={handlePerPageChange}>
-                      <option value='10'>10/page</option>
-                      <option value='20'>20/page</option>
-                      <option value='50'>50/page</option>
-                      <option value='100'>100/page</option>
-                      <option value='all'>All</option>
-                    </select>
-                  </form>
-                </>
-              )}
-            </div>
-            {/* <div className='col-lg-3 col-md-12 col-12 mt-20'>
-              <Menu />
-            </div> */}
-          </div>
+            ))
+          ) : (
+            <NoPost />
+          )}
+          {isHomepage === 0 && (
+            <>
+              <CustomPagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+              <form className='form-inline ml-3'>
+                <label htmlFor='per_page' className='mr-2'>
+                  Show:
+                </label>
+                <select name='per_page' id='per_page' className='form-control' value={postsPerPage} onChange={handlePerPageChange}>
+                  <option value='10'>10/page</option>
+                  <option value='20'>20/page</option>
+                  <option value='50'>50/page</option>
+                  <option value='100'>100/page</option>
+                  <option value='all'>All</option>
+                </select>
+              </form>
+            </>
+          )}
         </section>
       )}
     </>

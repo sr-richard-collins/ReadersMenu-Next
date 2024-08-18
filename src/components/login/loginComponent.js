@@ -37,7 +37,7 @@ const LoginComponent = () => {
             <div className='col-md-9 col-lg-6 col-xl-5 mb-50'>
               <div className='brand_logo_container'>
                 <img
-                  src={setting.site_logo !== undefined ? IMAGE_BASE_URL + setting.site_logo : DEFAULT_LOGO}
+                  src={setting.site_logo !== undefined ? IMAGE_BASE_URL + 'setting/' + setting.site_logo : IMAGE_BASE_URL + 'setting/' + DEFAULT_LOGO}
                   alt='logo'
                   className='my-4'
                   style={{ height: '3rem', width: '12rem' }}
@@ -48,9 +48,9 @@ const LoginComponent = () => {
             </div>
             <div className='col-md-8 col-lg-6 col-xl-4 offset-xl-1'>
               <div className='justify-content-end d-flex mb-3'>
-                <Link href='/' className='nav-bar-link'>
+                <a href='/' className='nav-bar-link'>
                   <FontAwesomeIcon icon={faHome} className='img-icon-left-menu rounded-circle mx-2' />
-                </Link>
+                </a>
               </div>
               <div className='login-card'>
                 <form onSubmit={handleSubmit} className='mt-2'>
@@ -101,7 +101,7 @@ const LoginComponent = () => {
                       Log In
                     </button>
                     <p className='small fw-bold mt-2 pt-1 mb-0'>
-                      Don't have an account? <Link href='/register'>Register</Link> Or <Link href='/'>Home</Link>
+                      Don't have an account? <Link href='/register'>Register</Link> Or <a href='/'>Home</a>
                     </p>
                   </div>
                 </form>
