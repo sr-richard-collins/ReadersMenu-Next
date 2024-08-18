@@ -63,9 +63,11 @@ const RootLayout = ({ children }) => {
             <Header />
             <section className='pt-70 pb-60'>
               <Menu />
+
               <main className='fix' style={{ marginLeft: isMobile ? '0px' : '285px' }}>
                 {children}
               </main>
+
             </section>
           </ReduxProvider>
         </AuthProvider>
