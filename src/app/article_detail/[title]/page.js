@@ -6,7 +6,7 @@ export async function generateStaticParams() {
   try {
     const response = await fetch('http://tnreaders.in/api/user/allArticlePostsSeo');
     const posts = await response.json();
-
+    
     return posts.map((post) => ({
       title: post.seo_slug || 'defaultNewsDetail',
     }));
@@ -15,6 +15,7 @@ export async function generateStaticParams() {
     return [];
   }
 }
+
 
 export const dynamicParams = {
   fallback: 'blocking',
@@ -110,6 +111,7 @@ export async function generateMetadata({ params }) {
 }
 
 const BlogDetails = ({ params }) => {
+
   const { title } = params;
 
   if (!title) {

@@ -20,6 +20,7 @@ const BlogDetailComponent = ({ post }) => {
     );
   };
 
+
   const handleFacebookShare = (slug, title, img, subTitle, type) => {
     if (typeof window !== 'undefined') {
       const imgUrl = `https://tnreaders.in/images/post/${type === 'news' ? 'news-detail' : 'article-detail'}/${img}`;
@@ -29,6 +30,7 @@ const BlogDetailComponent = ({ post }) => {
       window.open(shareUrl, '_blank');
     }
   };
+
 
   const handleTwitterShare = (slug, title, img, subTitle, type) => {
     if (typeof window !== 'undefined') {
@@ -40,6 +42,7 @@ const BlogDetailComponent = ({ post }) => {
     }
   };
 
+
   const handleTelegramShare = (slug, title, img, subTitle, type) => {
     if (typeof window !== 'undefined') {
       const imgUrl = `https://tnreaders.in/images/post/${type === 'news' ? 'news-detail' : 'article-detail'}/${img}`;
@@ -49,6 +52,7 @@ const BlogDetailComponent = ({ post }) => {
       window.open(shareUrl, '_blank');
     }
   };
+
 
   const handleWhatsAppShare = (slug, title, img, subTitle, type) => {
     if (typeof window !== 'undefined') {

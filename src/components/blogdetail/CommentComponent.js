@@ -88,6 +88,7 @@ const CommentComponent = ({ post }) => {
         comment: textareaRef.current.value,
       });
 
+
       // Update the comments list without reloading the page
       setComments((prevComments) => [
         ...prevComments,
@@ -96,6 +97,7 @@ const CommentComponent = ({ post }) => {
 
       // Optionally, clear the textarea
       textareaRef.current.value = '';
+
     } catch (error) {
       console.error('Error saving comment:', error);
     }

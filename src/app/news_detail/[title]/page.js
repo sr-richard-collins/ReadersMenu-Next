@@ -4,17 +4,20 @@ import { DEFAULT_FAVICON } from '@/config/constant';
 
 export async function generateStaticParams() {
   try {
+
     const response = await fetch('http://tnreaders.in/api/user/allNewsPostsSeo');
     const posts = await response.json();
 
     return posts.map((post) => ({
       title: post.seo_slug || 'defaultNewsDetail',
     }));
+
   } catch (error) {
     console.error('Error fetching posts:', error);
     return [];
   }
 }
+
 
 export const dynamicParams = {
   fallback: 'blocking',
@@ -108,6 +111,7 @@ export async function generateMetadata({ params }) {
     };
   }
 }
+
 
 const BlogDetails = ({ params }) => {
   const { title } = params;

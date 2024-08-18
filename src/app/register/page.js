@@ -1,5 +1,4 @@
-import RegisterComponent from '@/components/register/registerComponent';
-
+import RegisterComponent from "@/components/register/registerComponent";
 const Register = () => {
   return (
     <html lang='en'>

@@ -56,6 +56,7 @@ const Home = () => {
     <>
       <Head>{<link rel='icon' href={`${IMAGE_BASE_URL}setting/${DEFAULT_FAVICON}`} type='image/png' />}</Head>
       {message && <div className='alert success-message'>{message}</div>}
+
       <div className='col-lg-9 col-md-12 col-12'>
         <section className='spotlight-post-area pt-20 pb-60'>
           <div className='spotlight-post-inner-wrap'>
