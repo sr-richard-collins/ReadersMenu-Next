@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react';
 import Error from '../../components/Error';
 
 const NoPost = () => {
